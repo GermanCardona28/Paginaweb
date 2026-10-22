@@ -153,7 +153,7 @@
     });
 
     // Parallax suave del retrato y de la sección oscura
-    gsap.to('.portrait', { yPercent: -8, ease: 'none',
+    gsap.to('.reel', { yPercent: -3, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     gsap.to('#net', { yPercent: 12, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
@@ -259,6 +259,28 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
   document.querySelectorAll(".finding").forEach(el => io.observe(el));
 
+  /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
+  document.querySelectorAll('[data-more]').forEach(btn => {
+    const panel = document.getElementById(btn.dataset.more);
+    if (!panel) return;
+    const label = btn.textContent;
+    btn.addEventListener('click', () => {
+      const open = !panel.classList.contains('open');
+      panel.classList.toggle('open', open);
+      if (open) panel.removeAttribute('inert'); else panel.setAttribute('inert', '');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Ver menos' : label;
+      btn.classList.toggle('is-open', open);
+      if (!open) {
+        const top = btn.closest('section').getBoundingClientRect().top;
+        if (top < 0) window.scrollBy({ top: top - 80, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    });
+    panel.addEventListener('transitionend', e => {
+      if (e.target === panel && hasGsap) ScrollTrigger.refresh();
+    });
+  });
+
   /* ---- Formulario (solo validación en el navegador; aún no envía datos a ningún servidor) ---- */
   const form = document.getElementById('form');
   const msg = document.getElementById('form-msg');
@@ -271,7 +293,7 @@
     });
     msg.textContent = ok
       ? 'Recibido. Esta es una versión de prueba: aún no se guardan datos.'
-      : 'Revisa los campos marcados y acepta el tratamiento de datos.';
+      : 'Revise los campos marcados y acepte el tratamiento de datos.';
     if (ok) form.reset();
   });
 })();
