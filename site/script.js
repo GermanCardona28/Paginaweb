@@ -153,7 +153,7 @@
     });
 
     // Parallax suave del retrato y de la sección oscura
-    gsap.to('.reel', { yPercent: -3, ease: 'none',
+    gsap.to('.portrait:not(.playing)', { yPercent: -3, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     gsap.to('#net', { yPercent: 12, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
@@ -258,6 +258,18 @@
 
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
   document.querySelectorAll(".finding").forEach(el => io.observe(el));
+
+  /* ---- Portada: un clic en el centro inicia el video ---- */
+  const cover = document.getElementById("cover");
+  const playBtn = cover && cover.querySelector(".play");
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      if (cover.vanillaTilt) cover.vanillaTilt.destroy();
+      cover.classList.add("playing");
+      cover.innerHTML = '<iframe src="https://www.instagram.com/reel/Dc8h8a-MBb4/embed/?autoplay=1" title="Video de Omar Lengerke en Instagram" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><a class="reel-link" href="https://www.instagram.com/reel/Dc8h8a-MBb4/" target="_blank" rel="noopener">Ver en Instagram ↗</a>';
+      if (hasGsap) setTimeout(() => ScrollTrigger.refresh(), 100);
+    });
+  }
 
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
   document.querySelectorAll('[data-more]').forEach(btn => {
