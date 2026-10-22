@@ -178,6 +178,7 @@
     pin.setAttribute("aria-label", pin.dataset.t + ": " + pin.dataset.d);
     const mun = [...document.querySelectorAll("#map .mun[data-k]")].find(m => m.dataset.n === (pin.dataset.t === "El Socorro" ? "Socorro" : pin.dataset.t));
     const go = () => show(pin.dataset.t, pin.dataset.d, pin, mun);
+    pin.addEventListener("mousedown", e => e.preventDefault());
     pin.addEventListener("click", go);
     pin.addEventListener("mouseenter", go);
     pin.addEventListener("focus", go);
@@ -257,7 +258,7 @@
   }
 
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
-  document.querySelectorAll(".finding").forEach(el => io.observe(el));
+  document.querySelectorAll(".finding, .card").forEach(el => io.observe(el));
 
   /* ---- Portada: un clic en el centro inicia el video ---- */
   const cover = document.getElementById("cover");

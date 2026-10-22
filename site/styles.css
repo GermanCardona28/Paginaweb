@@ -384,7 +384,7 @@ body { overflow-x: clip; }
 .line-detail { display: flex; gap: 22px; align-items: center; }
 .line-detail .hint { width: 100%; text-align: center; }
 .finding .r-ico { background: rgba(255,255,255,.2); }
-.finding .r-ico svg { stroke: #fff; stroke-dasharray: 230; stroke-dashoffset: 230; }
+.finding .r-ico svg { stroke: #fff; stroke-dasharray: 600; stroke-dashoffset: 600; }
 .finding.in .r-ico svg { animation: draw 1.6s ease forwards; }
 .finding h4 { margin: 0; font: 800 21px/1.2 var(--serif); }
 .finding b { color: var(--cobre-claro); }
@@ -538,3 +538,25 @@ body { overflow-x: clip; }
 
 /* pie de la portada legible */
 .portrait figcaption { color: #fff; font: 700 15px var(--sans); letter-spacing: .03em; text-shadow: 0 1px 6px rgba(0,40,20,.7); padding: 46px 16px 14px; text-align: center; background: linear-gradient(transparent, rgba(0,70,35,.88)); pointer-events: none; z-index: 1; }
+
+/* sin cajas de foco ni selección al hacer clic en las animaciones */
+* { -webkit-tap-highlight-color: transparent; }
+.card, .center, .pin, .mun, .line-card, .chip, .play, .portrait, .edu-card, .finding, .net, .step, .award, .place, .stat, #net, #map, .btn, .btn-more, .social a {
+  -webkit-user-select: none; user-select: none; -webkit-user-drag: none;
+}
+:focus:not(:focus-visible) { outline: none; }
+svg *:focus, svg:focus, .pin:focus, .mun:focus { outline: none; }
+.pin:focus-visible .dot { stroke: var(--azul-2); stroke-width: 4; }
+.portrait iframe, .portrait { outline: none; }
+.js-tilt-glare, .js-tilt-glare-inner { outline: none; border: 0; }
+
+/* los íconos de Logros siempre se ven; el trazo animado solo si hay JS */
+.card .ico svg, .finding .r-ico svg { stroke-dasharray: none; stroke-dashoffset: 0; }
+.js .card:not(.in) .ico svg, .js .finding:not(.in) .r-ico svg { stroke-dasharray: 600; stroke-dashoffset: 600; }
+.js .card.in .ico svg, .js .finding.in .r-ico svg { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 1.4s ease forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* íconos de Logros más grandes y nítidos */
+.card .ico { width: 70px; height: 70px; background: rgba(255,255,255,.22); }
+.card .ico svg { width: 42px; height: 42px; stroke: #fff; stroke-width: 2.4; }
+.js .card.in .ico svg, .js .finding.in .r-ico svg { animation-duration: .9s; }
