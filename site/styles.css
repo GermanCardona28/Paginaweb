@@ -888,3 +888,12 @@ body.subpage .preloader .clear-loading { z-index: 2; }
   --w: max(142.2cqw, 326px);
   width: var(--w); height: calc(var(--w) * 1.25 + 260px); left: calc(var(--w) * -0.1484); top: -54px;
 }
+
+/* ===== portada con video propio: horizontal en computador, vertical en celular ===== */
+#cover .ig-crop video.vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; display: none; }
+#cover .ig-crop video.vid-v { display: block; }
+@media (min-width: 961px) {
+  #cover.portrait.ig-only { aspect-ratio: 16 / 9; width: 100%; height: auto; }
+  #cover .ig-crop video.vid-v { display: none; }
+  #cover .ig-crop video.vid-h { display: block; }
+}
