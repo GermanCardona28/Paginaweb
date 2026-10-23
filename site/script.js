@@ -48,6 +48,7 @@
   addEventListener('scroll', prog, { passive: true }); prog();
 
   /* ---- Red de nodos del hero (canvas) ---- */
+  if (document.getElementById("net")) {
   const cv = document.getElementById('net');
   const ctx = cv.getContext('2d');
   let W, H, pts = [], mouse = { x: -999, y: -999 };
@@ -103,6 +104,8 @@
   };
   draw();
 
+  }
+
   /* ---- Tilt (vanilla-tilt) ---- */
   if (!reduce && typeof VanillaTilt !== 'undefined' && matchMedia('(hover: hover)').matches) {
     VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { speed: 600, scale: 1.02 });
@@ -110,7 +113,7 @@
 
   /* ---- Contadores ---- */
   const counters = document.querySelectorAll('[data-count]');
-  const setCount = (el, v) => { el.textContent = (el.dataset.prefix || '') + Math.round(v); };
+  const setCount = (el, v) => { const n = Math.round(v); el.textContent = (el.dataset.prefix || '') + (el.dataset.fmt ? n.toLocaleString('es-CO') : n) + (el.dataset.suffix || ''); };
   if (reduce || !hasGsap) {
     counters.forEach(el => setCount(el, +el.dataset.count));
   }
@@ -294,6 +297,7 @@
     });
   });
 
+  if (document.getElementById("form")) {
   /* ---- Formulario (solo validación en el navegador; aún no envía datos a ningún servidor) ---- */
   const form = document.getElementById('form');
   const msg = document.getElementById('form-msg');
@@ -309,4 +313,5 @@
       : 'Revise los campos marcados y acepte el tratamiento de datos.';
     if (ok) form.reset();
   });
+  }
 })();

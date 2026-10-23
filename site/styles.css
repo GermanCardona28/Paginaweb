@@ -560,3 +560,54 @@ svg *:focus, svg:focus, .pin:focus, .mun:focus { outline: none; }
 .card .ico { width: 70px; height: 70px; background: rgba(255,255,255,.22); }
 .card .ico svg { width: 42px; height: 42px; stroke: #fff; stroke-width: 2.4; }
 .js .card.in .ico svg, .js .finding.in .r-ico svg { animation-duration: .9s; }
+
+/* ===== Subpáginas (Sobre Lengerke y Logros UTS): mismo fondo, tipo y tamaños ===== */
+a.btn-more { text-decoration: none; }
+a.btn-more::after { transform: rotate(-45deg); }
+a.btn-more:hover::after { transform: rotate(-45deg) translateX(2px); }
+.subpage .page { padding-top: 110px; }
+.back { display: inline-block; margin-bottom: 14px; font-weight: 700; color: var(--azul-2); text-decoration: none; }
+.back:hover { text-decoration: underline; }
+.page-head { max-width: 900px; margin: 0 auto 36px; text-align: center; }
+.page-title { font-size: clamp(34px, 5vw, 60px); letter-spacing: -.02em; text-align: center; margin: 0 auto 20px; }
+.page-title.sm { font-size: clamp(28px, 3.6vw, 44px); margin: 64px auto 22px; }
+.lead.mid { text-align: center; margin-inline: auto; max-width: 72ch; }
+.lead.wide { max-width: 86ch; }
+.page-photo { margin: 0 auto 56px; max-width: 560px; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,60,30,.18); }
+.page-photo img { width: 100%; height: auto; display: block; }
+.mini-title { font: 800 clamp(24px, 3vw, 34px) var(--serif); text-align: center; margin: 56px 0 26px; }
+.subpage .timeline { margin-top: 10px; }
+.band { margin: 80px 0 56px; padding: clamp(32px, 5vw, 56px) clamp(16px, 4vw, 40px); background: #fff; border-radius: 22px; box-shadow: 0 14px 50px rgba(0,60,30,.1); text-align: center; }
+.kicker { font: 700 13px var(--sans); letter-spacing: .18em; color: #00702F; margin: 0 0 12px; }
+.kpi-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+.kpi-box { background: var(--azul); color: #fff; border-radius: var(--r); padding: 30px 20px; text-align: center; }
+.kpi-n { display: block; font: 900 clamp(46px, 6vw, 74px)/1 var(--serif); }
+.kpi-box h3 { font-size: 24px; margin: 12px 0 6px; }
+.kpi-box p { margin: 0; opacity: .95; }
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 8px 0 44px; }
+.kpi-row.three { grid-template-columns: repeat(3, 1fr); }
+.kpi { text-align: center; padding: 26px 16px; background: #fff; border-radius: var(--r); border-top: 5px solid var(--cobre); box-shadow: 0 10px 36px rgba(0,60,30,.08); }
+.kpi .kpi-n { color: var(--azul-2); }
+.kpi span { display: block; font-weight: 700; margin-top: 10px; }
+.group-title { font: 800 clamp(21px, 2.5vw, 28px) var(--serif); text-align: center; margin: 44px 0 20px; }
+.honor { display: flex; justify-content: center; align-items: center; gap: 18px; max-width: 780px; margin: 26px auto 0; padding: 22px 28px; background: #E6F3EB; border-radius: var(--r); }
+.honor-ico svg { width: 54px; height: 54px; fill: none; stroke: var(--cobre); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.honor p { margin: 0; font-weight: 700; font-size: 19px; }
+.page-centers { grid-template-columns: repeat(4, 1fr); }
+.page .center { background: #fff; color: var(--grafito); box-shadow: 0 10px 36px rgba(0,60,30,.08); }
+.page .center > span { opacity: 1; color: #4a545c; font-weight: 600; }
+.books { display: grid; gap: 20px; }
+.book { display: grid; grid-template-columns: 190px 1fr; gap: 30px; padding: 26px; background: #fff; border-radius: var(--r); box-shadow: 0 10px 36px rgba(0,60,30,.08); align-items: start; }
+.book img { width: 100%; max-width: 170px; height: auto; border-radius: 6px; box-shadow: 0 8px 22px rgba(0,0,0,.25); justify-self: center; }
+.book h3 { font-size: clamp(20px, 2.2vw, 26px); margin-bottom: 6px; }
+.book .tags { color: var(--azul-2); font-weight: 600; font-size: 15px; margin: 0 0 12px; }
+.book p { margin: 0 0 10px; }
+@media (max-width: 960px) {
+  .kpi-row, .page-centers { grid-template-columns: repeat(2, 1fr); }
+  .kpi-boxes, .kpi-row.three { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .kpi-row, .page-centers { grid-template-columns: 1fr; }
+  .book { grid-template-columns: 1fr; }
+  .honor { flex-direction: column; text-align: center; }
+}
