@@ -748,3 +748,14 @@ html.is-loading { overflow: hidden; }
 /* banner de atrás al 55 % y fondo de encima al 80 % */
 .hero::before { opacity: .55; }
 .hero::after { opacity: .8; }
+
+/* transición suave entre el fondo del primer panel y el siguiente */
+.hero { background-color: transparent; }
+.hero::before, .hero::after, .hero #net {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 62%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 62%, transparent 100%);
+}
+
+/* la sombra de la portada ya no se corta en el borde inferior del primer panel */
+.hero { overflow: visible; }
+.hero > .hero-grid { position: relative; }
