@@ -176,6 +176,17 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .lead { font-size: 19px; color: var(--ink-muted); margin: 0; }
 .dark .lead { color: rgba(247,242,234,.8); }
 
+/* Sobre Lengerke + Investigación, en una sola sección dividida a la mitad */
+.split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; align-items: stretch; }
+.split-col { position: relative; padding-top: 4px; display: flex; flex-direction: column; justify-content: center; }
+.split-col + .split-col::before { content: ""; position: absolute; top: 0; bottom: 0; left: -32px; width: 1px; background: var(--arena); }
+.split-col .edu, .split-col .r-badges { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 960px) {
+  .split-section { grid-template-columns: 1fr; gap: 56px 0; }
+  .split-col { display: block; }
+  .split-col + .split-col::before { display: none; }
+}
+
 /* timeline */
 .timeline { position: relative; display: grid; gap: 40px; padding-block: 10px; }
 .tl-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--arena); transform: translateX(-50%); }
@@ -509,7 +520,7 @@ body { overflow-x: clip; }
 .videos-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
 .videos .section-head { margin-bottom: 0; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; margin-top: 26px; }
-.ig-frame { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 20px 60px rgba(0,60,30,.14); border: 1px solid var(--arena); }
+.ig-frame { margin-top: 16px; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 20px 60px rgba(0,60,30,.14); border: 1px solid var(--arena); }
 .ig-frame iframe { width: 100%; height: 520px; border: 0; display: block; }
 
 /* «Ver más» */
@@ -1026,3 +1037,18 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 :root[data-theme="dark"] .line-card:not(.on) .r-ico { background: rgba(111,227,165,.14); }
 :root[data-theme="dark"] .line-card:not(.on) .r-ico svg, :root[data-theme="dark"] .net .r-ico svg, :root[data-theme="dark"] .r-ico svg { stroke: #6FE3A5; }
 :root[data-theme="dark"] .line-card.on .r-ico svg, :root[data-theme="dark"] .finding .r-ico svg, :root[data-theme="dark"] .net:hover .r-ico svg { stroke: #fff; }
+
+/* ===== portada con video propio: horizontal en computador, vertical en celular ===== */
+#cover .ig-crop video.vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; display: none; }
+#cover .ig-crop video.vid-v { display: block; }
+@media (min-width: 961px) {
+  #cover.portrait.ig-only { aspect-ratio: 16 / 9; width: 100%; height: auto; }
+  #cover .ig-crop video.vid-v { display: none; }
+  #cover .ig-crop video.vid-h { display: block; }
+}
+
+/* contraste del botón principal y del acento del título (modo claro) */
+.btn { background: #007A38; }
+.btn:hover { background: #006B30; }
+.btn-sm, .menu .btn { color: #fff; }
+.hero-title em { color: #00702F; }

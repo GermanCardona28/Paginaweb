@@ -309,20 +309,15 @@
   /* ---- Portada: el reel está debajo de la foto; un solo clic en el centro lo reproduce ---- */
   const cover = document.getElementById("cover");
   if (cover) {
-    const frame = cover.querySelector("iframe");
-    let started = false;
-    const start = () => {
-      if (started) return;
-      started = true;
-      cover.classList.add("started");
-      clearInterval(timer);
-      window.removeEventListener("blur", check);
-    };
-    // El clic dentro del iframe de Instagram no llega a la página: se detecta porque el foco pasa al iframe.
-    const check = () => { setTimeout(() => { if (document.activeElement === frame) start(); }, 0); };
-    const timer = setInterval(() => { if (document.activeElement === frame) start(); }, 150);
-    window.addEventListener("blur", check);
-    setTimeout(() => clearInterval(timer), 10 * 60 * 1000);
+    const vids = cover.querySelectorAll("video");
+    const start = () => cover.classList.add("started");
+    // El video horizontal o vertical (según la pantalla) está debajo de la foto; al reproducirse, la foto se oculta.
+    vids.forEach(v => {
+      v.addEventListener("play", () => {
+        start();
+        vids.forEach(o => { if (o !== v) o.pause(); });
+      });
+    });
   }
 
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
