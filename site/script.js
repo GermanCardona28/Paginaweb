@@ -3,6 +3,27 @@
   const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
   if (!reduce && hasGsap) document.documentElement.classList.add('js');
 
+  /* ---- Pantalla de carga: se cierra cuando la tipografía y las imágenes clave están listas ---- */
+  const pre = document.getElementById('preloader');
+  const imgReady = src => new Promise(res => {
+    const i = new Image();
+    i.onload = i.onerror = () => res();
+    i.src = src;
+    if (i.decode) i.decode().then(res, res);
+  });
+  const key = [...document.querySelectorAll('link[rel="preload"][as="image"]')].map(l => imgReady(l.href));
+  const minWait = new Promise(r => setTimeout(r, 800));
+  const maxWait = new Promise(r => setTimeout(r, 6000));
+  const fontsReady = (document.fonts && document.fonts.ready) || Promise.resolve();
+  const appReady = Promise.race([Promise.all([minWait, fontsReady, ...key]), maxWait]).then(() => {
+    document.documentElement.classList.remove('is-loading');
+    if (pre) { pre.classList.add('done'); setTimeout(() => pre.remove(), 700); }
+    // los videos de Instagram se cargan después, para no competir con el banner y las fotos
+    document.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; });
+    document.dispatchEvent(new Event('app:ready'));
+  });
+
+
   /* ---- Nav ---- */
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');
@@ -125,8 +146,9 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // Nombre del hero, línea por línea
-    gsap.from('.hero-name .split', { yPercent: 115, rotate: 4, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .15 });
-    gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .6 });
+    const heroA = gsap.from('.hero-name .split', { yPercent: 115, rotate: 4, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .1, paused: true });
+    const heroB = gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .45, paused: true });
+    appReady.then(() => { heroA.play(); heroB.play(); });
 
     // Revelado genérico
     gsap.utils.toArray('.reveal-up').forEach(el => {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="is-loading">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,9 +12,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="img/banner.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="img/omar.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Pantalla de carga -->
+  <div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Cargando">
+    <div class="clear-loading loading-effect-2"><span></span><b class="pre-mark">OLP</b></div>
+  </div>
   <div class="progress" aria-hidden="true"><span></span></div>
   <a class="skip" href="#contenido">Saltar al contenido</a>
 
@@ -64,11 +70,11 @@
         </div>
         <figure class="portrait ig-only reveal-up" id="cover">
           <div class="ig-crop">
-            <iframe scrolling="no" src="https://www.instagram.com/reel/Dc8h8a-MBb4/embed/" title="Video de Omar Lengerke en Instagram: toque para reproducir" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+            <iframe scrolling="no" data-src="https://www.instagram.com/reel/Dc8h8a-MBb4/embed/" title="Video de Omar Lengerke en Instagram: toque para reproducir" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
           </div>
           <picture class="cover-art" aria-hidden="true">
             <source srcset="img/omar.webp" type="image/webp">
-            <img src="img/omar.jpg" width="1200" height="1645" alt="">
+            <img src="img/omar.jpg" width="1200" height="1645" alt="" decoding="async" fetchpriority="high">
           </picture>
           <span class="play" aria-hidden="true">
             <span class="play-ring"><svg viewBox="0 0 24 24"><path d="M8 5.500v13l11-6.500z"/></svg></span>
@@ -93,7 +99,7 @@
           </div>
         </div>
         <div class="ig-frame reveal-up">
-          <iframe src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="yes"></iframe>
+          <iframe data-src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="yes"></iframe>
         </div>
       </div>
     </section>
