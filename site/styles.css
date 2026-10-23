@@ -8,9 +8,9 @@
   --grafito: #14201A;
   --arena: #DCE6DF;
   --cian: #9FCBE2;
-  --serif: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --mono: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --serif: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --sans: "Barlow", system-ui, sans-serif;
+  --mono: "Barlow", system-ui, sans-serif;
   --r: 14px;
 }
 *, *::before, *::after { box-sizing: border-box; }
@@ -611,3 +611,70 @@ a.btn-more:hover::after { transform: rotate(-45deg) translateX(2px); }
   .book { grid-template-columns: 1fr; }
   .honor { flex-direction: column; text-align: center; }
 }
+
+/* video de la portada: solo se ve el video */
+.portrait.own-video { background: #000; width: min(100%, 340px); height: min(76svh, 604px); }
+.portrait.own-video video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.portrait.ig-only { background: #000; width: min(100%, 340px); height: min(70svh, 560px); }
+.ig-crop { position: absolute; inset: 0; overflow: hidden; }
+.ig-crop iframe { position: absolute; left: 0; top: -58px; width: 100%; height: calc(100% + 58px + 170px); border: 0; background: #000; }
+.portrait.ig-only .reel-link { z-index: 2; }
+
+.ig-crop iframe { width: calc(100% + 18px); }
+
+/* ===== portada en formato 9:16 (foto y video llenan el cuadro) ===== */
+.portrait, .portrait.playing, .portrait.own-video, .portrait.ig-only {
+  aspect-ratio: 9 / 16; height: auto;
+  width: min(100%, 340px, calc((100svh - 150px) * 9 / 16));
+}
+.portrait img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: 50% 30%; }
+.portrait picture { display: block; width: 100%; height: 100%; }
+.portrait.own-video video { width: 100%; height: 100%; object-fit: cover; }
+/* el reel de Instagram se amplía para que su imagen 9:16 ocupe todo el cuadro */
+.ig-crop { container-type: size; background: #000; }
+.ig-crop iframe { width: 142.2cqw; height: calc(142.2cqw * 1.25 + 260px); left: -21.1cqw; top: -54px; max-width: none; }
+@media (max-width: 960px) { .portrait, .portrait.playing, .portrait.own-video, .portrait.ig-only { width: min(100%, 320px, calc((100svh - 130px) * 9 / 16)); } }
+.portrait.playing .ig-crop iframe { position: absolute; width: 142.2cqw; height: calc(142.2cqw * 1.25 + 260px); left: -21.1cqw; top: -54px; max-width: none; border: 0; }
+
+.back.light { color: #fff; }
+.page .map-wrap { margin-bottom: 8px; }
+.page .places { margin-top: 36px; }
+
+/* ===== Tipografía opción 2: Barlow Condensed (títulos y cifras) + Barlow (texto) ===== */
+body { font-weight: 400; }
+h1, h2, h3, h4 { font-weight: 700; }
+.btn, .btn-more, .menu a, .chip, .link { font-family: var(--sans); font-weight: 600; }
+.hero-name { font-size: clamp(40px, min(6.4vw, 8.6svh), 76px); line-height: .92; text-transform: uppercase; letter-spacing: .01em; font-weight: 700; }
+.hero-name .accent { font-weight: 700; letter-spacing: .005em; }
+.hero-title { font-weight: 600; font-size: clamp(23px, 2.6vw, 32px); line-height: 1.15; }
+.hero-sub { font-size: clamp(15.5px, 1.4vw, 18px); }
+.brand-name, .foot-grid b { text-transform: uppercase; letter-spacing: .02em; font-weight: 700; }
+.brand-name { font-size: 19px; }
+.foot-grid b { font-size: 26px; }
+.section-head h2, .page-title { font-size: clamp(40px, 5.8vw, 70px); line-height: 1; letter-spacing: .005em; }
+.page-title.sm { font-size: clamp(34px, 4.4vw, 52px); }
+.join-box h2 { font-size: clamp(40px, 5.2vw, 64px); }
+.lead { font-size: 20px; line-height: 1.5; }
+.sub { font-size: clamp(30px, 4vw, 44px); }
+.mini-title { font-size: clamp(28px, 3.4vw, 38px); }
+.group-title { font-size: clamp(25px, 2.9vw, 32px); }
+.card h3, .tl-item h3 { font-size: 26px; }
+.finding h4 { font-size: 25px; }
+.line-card b { font-size: 21px; }
+.pub h4 { font-size: 21px; }
+.award h3 { font-size: 22px; }
+.award time { font-size: 36px; }
+.pub time { font-size: 26px; }
+.net b { font-size: 26px; }
+.step h3 { font-size: 30px; }
+.place b { font-size: 24px; }
+.book h3 { font-size: clamp(24px, 2.6vw, 30px); }
+.kpi-box h3 { font-size: 28px; }
+.line-detail h4 { font-size: 28px; }
+.map-note b { font-size: 34px; }
+.r-badges b { font-size: 23px; }
+.edu-card b { font-size: 21px; }
+.center b { font-size: 40px; }
+.stat b { font-size: clamp(54px, 6.5vw, 84px); }
+.kpi-n { font-size: clamp(54px, 7vw, 88px); }
+.eyebrow, .kicker, .tl-tag { font-family: var(--sans); font-weight: 600; }

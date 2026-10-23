@@ -11,7 +11,7 @@
   <meta name="theme-color" content="#138A4C">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -144,57 +144,7 @@
         <div><b>Desde 2007</b><span>Artículos, capítulos y ponencias</span></div>
       </div>
 
-      <div class="more-bar"><button class="btn-more" type="button" aria-expanded="false" aria-controls="more-inv" data-more="more-inv">Ver más sobre su investigación</button></div>
-      <div class="more" id="more-inv" inert><div class="more-in">
-        <h3 class="sub">¿En qué ha investigado?</h3>
-        <div class="lines" id="lines" role="tablist" aria-label="Líneas de investigación"></div>
-        <div class="line-detail" id="line-detail" aria-live="polite"></div>
-
-        <h3 class="sub">Lo que han logrado sus trabajos, en palabras sencillas</h3>
-        <div class="findings">
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="9" cy="40" r="4"/><path d="M12 37l13-15 11 7"/><circle cx="25" cy="22" r="3"/><circle cx="36" cy="29" r="3"/><path d="M39 29l5-3M39 31l5 3"/></svg></span>
-            <h4>Un brazo robot que llega justo donde debe</h4>
-            <p>Diseñó una forma de calcular cómo debe moverse cada articulación de un brazo robótico para alcanzar exactamente el punto que se necesita.</p>
-            <small>IEEE Latin America Transactions · 2014</small>
-          </article>
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="9" cy="38" r="4"/><circle cx="39" cy="10" r="4"/><path d="M13 38c14 0 6-13 14-13s3-15 8-15" stroke-dasharray="3 4"/></svg></span>
-            <h4>Robots que no se pierden</h4>
-            <p>Usó una técnica matemática para que robots que se desplazan y brazos mecánicos sigan el camino que se les marca.</p>
-            <small>IEEE Latin America Transactions · 2011</small>
-          </article>
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="12" r="5"/><path d="M24 2v2M24 20v2M14 12h-2M36 12h-2M17 5l-1.500-1.500M33 5l1.500-1.500M17 19l-1.500 1.500M33 19l1.500 1.500"/><path d="M9 44l5-14h20l5 14z"/><path d="M13 37h22M21 30l-2 14M27 30l2 14"/></svg></span>
-            <h4>Agua dulce con ayuda del sol</h4>
-            <p>Probó un concentrador solar hecho a mano y un equipo pequeño que usa el calor del sol para obtener agua dulce.</p>
-            <small>Revista PEN · 2021 · Sustainability · 2026</small>
-          </article>
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M5 24L24 7l19 17"/><path d="M11 21v21h26V21"/><path d="M20 42V30h8v12"/><path d="M31 11V7h4v8"/></svg></span>
-            <h4>Casas más frescas sin aire acondicionado</h4>
-            <p>Estudió cómo los materiales y el diseño de una vivienda pueden mantenerla fresca en climas calientes, sin gastar energía.</p>
-            <small>Sustainable Engineering and Innovation · 2023</small>
-          </article>
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M3 26h9l4-11 6 22 5-15 3 4h15"/><circle cx="9" cy="13" r="2.500"/><circle cx="39" cy="13" r="2.500"/></svg></span>
-            <h4>Entender cómo se mueve la mano</h4>
-            <p>Mostró que la fuerza de los movimientos de la muñeca puede explicarse con un solo modelo matemático.</p>
-            <small>Heritage and Sustainable Development · 2024</small>
-          </article>
-          <article class="finding">
-            <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 5c11 6 15 17 8 30-6 8-15 8-19 2C8 27 12 12 24 5z"/><path d="M24 9v30"/><path d="M24 17l-6-3M24 24l8-4M24 31l-7-3"/></svg></span>
-            <h4>Cacao más eficiente y más limpio</h4>
-            <p>Analizó qué etapas de la producción de cacao en Santander gastan más energía y cuánto impacto ambiental dejan.</p>
-            <small>Revista PEN · 2023 · Heritage and Sustainable Development · 2026</small>
-          </article>
-        </div>
-
-        <h3 class="sub">Algunas de sus publicaciones</h3>
-        <div class="chips" id="chips" role="group" aria-label="Filtrar por tema"></div>
-        <ol class="pubs" id="pubs"></ol>
-        <p class="r-note">Resumen en lenguaje sencillo de cada trabajo; debajo, el título científico original (con enlace cuando está disponible). Lista basada en registros bibliográficos públicos (OpenAlex), ordenada por número de citas. Los proyectos y grupos de investigación se completarán con el CvLAC de MinCiencias.</p>
-      </div></div>
+      <div class="more-bar"><a class="btn-more" href="investigacion.html">Ver más sobre su investigación</a></div>
     </section>
 
     <!-- LOGROS -->
@@ -377,16 +327,7 @@
           </ul>
         </aside>
       </div>
-      <div class="more-bar"><button class="btn-more" type="button" aria-expanded="false" aria-controls="more-terr" data-more="more-terr">Ver más sobre cada municipio</button></div>
-      <div class="more" id="more-terr" inert><div class="more-in">
-        <div class="places">
-          <article class="place"><b>Bucaramanga</b><p>Sede principal de las UTS, ampliada durante la rectoría de Omar Lengerke. Es el corazón académico de la institución.</p></article>
-          <article class="place"><b>Barrancabermeja</b><p>Allí se inició la construcción de una sede moderna, con la que la educación superior pública llega al Magdalena Medio.</p></article>
-          <article class="place"><b>Piedecuesta</b><p>Seccional creada durante su gestión. El municipio también le otorgó dos condecoraciones, en 2020 y 2023.</p></article>
-          <article class="place"><b>Vélez</b><p>Seccional creada durante su gestión. El municipio lo reconoció con la Orden «Ciudadanía de Vélez» (2018) y la Medalla al Mérito Cívico (2021).</p></article>
-          <article class="place natal"><b>El Socorro</b><p>Su tierra natal. Allí fue reconocido como hijo ilustre con la Orden «Juan Manuel Ortiz» (2018).</p></article>
-        </div>
-      </div></div>
+      <div class="more-bar"><a class="btn-more" href="territorio.html">Ver más sobre cada municipio</a></div>
     </section>
 
     <!-- RECONOCIMIENTOS -->
@@ -403,20 +344,7 @@
           <li class="award"><time>2024</time><div><h3>Orden «Carlos Gutiérrez» · Floridablanca</h3><p>La máxima distinción del Concejo Municipal.</p></div></li>
           <li class="award"><time>2024</time><div><h3>Colegio Nacional de Periodistas</h3><p>Por su servicio a la sociedad y su trato con la prensa.</p></div></li>
         </ol>
-        <div class="more-bar"><button class="btn-more light" type="button" aria-expanded="false" aria-controls="more-rec" data-more="more-rec">Ver los ocho reconocimientos restantes</button></div>
-        <div class="more" id="more-rec" inert><div class="more-in">
-          <ol class="awards">
-            <li class="award"><time>2023</time><div><h3>Orden «Victoriano de Diego y Paredes» · Piedecuesta</h3><p>En grado Gran Cruz.</p></div></li>
-            <li class="award"><time>2022</time><div><h3>Orden «Francisco Mantilla de los Ríos» · Girón</h3><p>En grado Gran Comendador, del Concejo de Girón.</p></div></li>
-            <li class="award"><time>2022</time><div><h3>Orden «Ciudad de Bucaramanga»</h3><p>Al Mérito Educativo y Cultural, del Concejo de Bucaramanga.</p></div></li>
-            <li class="award"><time>2021</time><div><h3>Medalla al Mérito Cívico · Vélez</h3><p>Del Concejo Municipal de Vélez.</p></div></li>
-            <li class="award"><time>2020</time><div><h3>Condecoración «General José María Mantilla» · Piedecuesta</h3><p>En la categoría «Ciudadano Excelencia».</p></div></li>
-            <li class="award"><time>2018</time><div><h3>Orden «Ciudadanía de Vélez»</h3><p>Del municipio de Vélez.</p></div></li>
-            <li class="award"><time>2018</time><div><h3>Orden «Juan Manuel Ortiz» · El Socorro</h3><p>Reconocido como hijo ilustre de su municipio natal.</p></div></li>
-            <li class="award"><time>2015</time><div><h3>Condecoración «Luis Carlos Galán Sarmiento»</h3><p>La máxima condecoración de la Asamblea de Santander.</p></div></li>
-          </ol>
-          <p class="note">Fuente: perfil oficial del rector en el sitio de las UTS.</p>
-        </div></div>
+        <div class="more-bar"><a class="btn-more light" href="reconocimientos.html">Ver los doce reconocimientos</a></div>
       </div>
     </section>
 

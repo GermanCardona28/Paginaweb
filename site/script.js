@@ -7,7 +7,7 @@
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');
   const menu = document.getElementById('menu');
-  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 60);
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 60 || document.body.hasAttribute('data-solid-nav'));
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
   burger.addEventListener('click', () => {
@@ -263,15 +263,31 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
   document.querySelectorAll(".finding, .card").forEach(el => io.observe(el));
 
-  /* ---- Portada: un clic en el centro inicia el video ---- */
+  /* ---- Portada: un clic en la foto deja solo el video ---- */
   const cover = document.getElementById("cover");
   const playBtn = cover && cover.querySelector(".play");
   if (playBtn) {
+    const REEL = "https://www.instagram.com/reel/Dc8h8a-MBb4/";
+    const LOCAL_VIDEO = "video/reel.mp4";
+    const done = () => { if (cover.vanillaTilt) cover.vanillaTilt.destroy(); if (hasGsap) setTimeout(() => ScrollTrigger.refresh(), 150); };
+    // Reproductor propio: arranca solo y se ve únicamente el video (requiere el archivo video/reel.mp4)
+    const playLocal = () => {
+      cover.classList.add("playing", "own-video");
+      cover.innerHTML = '<video src="' + LOCAL_VIDEO + '" autoplay playsinline controls controlsList="nodownload" preload="auto"></video>';
+      const v = cover.querySelector("video");
+      v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+      done();
+    };
+    // Alternativa: el reel incrustado de Instagram, recortado para mostrar solo el video
+    const playEmbed = () => {
+      cover.classList.add("playing", "ig-only");
+      cover.innerHTML = '<div class="ig-crop"><iframe scrolling="no" src="' + REEL + 'embed/?autoplay=1" title="Video de Omar Lengerke en Instagram" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="reel-link" href="' + REEL + '" target="_blank" rel="noopener">Abrir en Instagram ↗</a>';
+      done();
+    };
     playBtn.addEventListener("click", () => {
-      if (cover.vanillaTilt) cover.vanillaTilt.destroy();
-      cover.classList.add("playing");
-      cover.innerHTML = '<iframe src="https://www.instagram.com/reel/Dc8h8a-MBb4/embed/?autoplay=1" title="Video de Omar Lengerke en Instagram" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><a class="reel-link" href="https://www.instagram.com/reel/Dc8h8a-MBb4/" target="_blank" rel="noopener">Ver en Instagram ↗</a>';
-      if (hasGsap) setTimeout(() => ScrollTrigger.refresh(), 100);
+      fetch(LOCAL_VIDEO, { method: "HEAD" })
+        .then(r => (r.ok && /video|octet/.test(r.headers.get("content-type") || "")) ? playLocal() : playEmbed())
+        .catch(playEmbed);
     });
   }
 
