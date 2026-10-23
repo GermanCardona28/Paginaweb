@@ -320,6 +320,20 @@
     });
   }
 
+  /* ---- Portada: clic en el centro inicia el video (el botón de play cubre la portada hasta que empieza) ---- */
+  const coverEl = document.getElementById("cover");
+  const playCover = coverEl && coverEl.querySelector(".play");
+  if (coverEl && playCover) {
+    const pick = () => { const all = [...coverEl.querySelectorAll("video")]; return all.find(x => getComputedStyle(x).display !== "none") || all[0]; };
+    const go = () => { const v = pick(); if (v) v.play().catch(() => {}); };
+    playCover.removeAttribute("aria-hidden");
+    playCover.setAttribute("role", "button");
+    playCover.setAttribute("tabindex", "0");
+    playCover.setAttribute("aria-label", "Reproducir el video de Omar Lengerke");
+    playCover.addEventListener("click", go);
+    playCover.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  }
+
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
   document.querySelectorAll('[data-more]').forEach(btn => {
     const panel = document.getElementById(btn.dataset.more);

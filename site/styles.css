@@ -1052,3 +1052,16 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 .btn:hover { background: #006B30; }
 .btn-sm, .menu .btn { color: #fff; }
 .hero-title em { color: #00702F; }
+
+/* portada: vuelve a la proporción 9:16 y al tamaño de antes en todas las pantallas (se usa el video vertical) */
+#cover.portrait.ig-only { aspect-ratio: 9 / 16; height: auto; width: min(100%, 340px, max(230px, calc((100svh - 150px) * 9 / 16))); }
+@media (min-width: 961px) {
+  #cover .ig-crop video.vid-h { display: none; }
+  #cover .ig-crop video.vid-v { display: block; }
+}
+@media (max-width: 960px) { #cover.portrait.ig-only { width: min(100%, 320px, max(230px, calc((100svh - 130px) * 9 / 16))); } }
+
+/* el botón de play de la portada recibe el clic y arranca el video; al empezar deja pasar los clics a los controles */
+#cover .play { pointer-events: auto; cursor: pointer; }
+#cover.started .play { pointer-events: none; }
+#cover .play:focus-visible .play-ring { outline: 3px solid var(--cian); outline-offset: 4px; }
