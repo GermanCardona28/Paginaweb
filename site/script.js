@@ -293,6 +293,13 @@
     const vids = cover.querySelectorAll("video");
     const start = () => cover.classList.add("started");
     // El video horizontal o vertical (según la pantalla) está debajo de la foto; al reproducirse, la foto se oculta.
+    const visible = () => [...vids].find(v => getComputedStyle(v).display !== "none");
+    // Un toque en la portada (foto o botón) reproduce el video que corresponde a la pantalla.
+    cover.addEventListener("click", e => {
+      const v = visible();
+      if (!v || e.target.closest("video") && !v.paused) return;
+      if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+    });
     vids.forEach(v => {
       v.addEventListener("play", () => {
         start();

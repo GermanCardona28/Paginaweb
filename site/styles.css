@@ -146,16 +146,6 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .lead { font-size: 19px; color: var(--ink-muted); margin: 0; }
 .dark .lead { color: rgba(247,242,234,.8); }
 
-/* Sobre Lengerke + Investigación, en una sola sección dividida a la mitad */
-.split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; align-items: start; }
-.split-col { position: relative; padding-top: 4px; }
-.split-col + .split-col::before { content: ""; position: absolute; top: 0; bottom: 0; left: -32px; width: 1px; background: var(--arena); }
-.split-col .edu, .split-col .r-badges { grid-template-columns: repeat(2, 1fr); }
-@media (max-width: 960px) {
-  .split-section { grid-template-columns: 1fr; gap: 56px 0; }
-  .split-col + .split-col::before { display: none; }
-}
-
 /* timeline */
 .timeline { position: relative; display: grid; gap: 40px; padding-block: 10px; }
 .tl-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--arena); transform: translateX(-50%); }
@@ -897,3 +887,7 @@ body.subpage .preloader .clear-loading { z-index: 2; }
   #cover .ig-crop video.vid-v { display: none; }
   #cover .ig-crop video.vid-h { display: block; }
 }
+
+/* el toque en la foto o en el botón reproduce el video (la foto está encima del video) */
+#cover .cover-art, #cover .play { pointer-events: auto; cursor: pointer; }
+#cover.started .cover-art, #cover.started .play, #cover.started figcaption { pointer-events: none; }
