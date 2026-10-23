@@ -17,6 +17,7 @@
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
+  <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
   <!-- Pantalla de carga -->
@@ -31,6 +32,15 @@
       <img class="brand-logo brand-logo--color" src="img/logo-interfaz.webp" alt="Omar Lengerke Pérez" width="900" height="229">
       <img class="brand-logo brand-logo--neg" src="img/logo-interfaz-negativo.webp" alt="" aria-hidden="true" width="900" height="229">
     </a>
+    <div class="settings">
+      <button class="settings-btn" type="button" aria-label="Configuración de apariencia" aria-haspopup="true" aria-expanded="false" aria-controls="theme-pop"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.700 1.700 0 0 0 .3 1.800l.1.1a2 2 0 1 1-2.800 2.800l-.1-.1a1.700 1.700 0 0 0-1.800-.3 1.700 1.700 0 0 0-1 1.500V21a2 2 0 1 1-4 0v-.1a1.700 1.700 0 0 0-1.100-1.500 1.700 1.700 0 0 0-1.800.3l-.1.1a2 2 0 1 1-2.800-2.800l.1-.1a1.700 1.700 0 0 0 .3-1.800 1.700 1.700 0 0 0-1.500-1H3a2 2 0 1 1 0-4h.1a1.700 1.700 0 0 0 1.500-1.100 1.700 1.700 0 0 0-.3-1.800l-.1-.1a2 2 0 1 1 2.800-2.800l.1.1a1.700 1.700 0 0 0 1.800.3H9a1.700 1.700 0 0 0 1-1.500V3a2 2 0 1 1 4 0v.1a1.700 1.700 0 0 0 1 1.500 1.700 1.700 0 0 0 1.800-.3l.1-.1a2 2 0 1 1 2.800 2.800l-.1.1a1.700 1.700 0 0 0-.3 1.800V9a1.700 1.700 0 0 0 1.500 1H21a2 2 0 1 1 0 4h-.1a1.700 1.700 0 0 0-1.500 1z"/></svg></button>
+      <div class="theme-pop" id="theme-pop" role="group" aria-label="Apariencia">
+        <p>Apariencia</p>
+        <button type="button" data-tema="auto" aria-pressed="false">Automático</button>
+        <button type="button" data-tema="light" aria-pressed="false">Claro</button>
+        <button type="button" data-tema="dark" aria-pressed="false">Oscuro</button>
+      </div>
+    </div>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
       <a href="videos.html">Videos</a>
@@ -60,7 +70,7 @@
           <p class="hero-sub reveal-up">Santandereano, ingeniero e investigador MinCiencias. Pasó casi doce años en la Universitaria Tecnológica de Santander haciendo posible que la educación llegara a más gente, a más municipios y con la mejor calidad. Deslice y conozca más sobre él.</p>
           <div class="hero-cta reveal-up">
             <a href="#unete" class="btn">Hablemos</a>
-            <a href="#sobre" class="link">Conozca su trayectoria <span aria-hidden="true">→</span></a>
+            <a href="sobre-lengerke.html" class="link">Conozca su trayectoria <span aria-hidden="true">→</span></a>
           </div>
           <ul class="social social-hero reveal-up" aria-label="Redes sociales de Omar Lengerke">
             <li><a href="https://www.instagram.com/olengerke/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7"/></svg></a></li>
@@ -85,7 +95,7 @@
           <figcaption>Rector de las UTS · 2015–2026</figcaption>
         </figure>
       </div>
-      <a class="scroll-hint" href="#videos" aria-label="Bajar"><span></span></a>
+      <a class="scroll-arrow" href="#videos" aria-label="Bajar a la siguiente sección"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.500l6 6 6-6"/></svg></a>
     </section>
 
     <!-- VIDEOS -->
@@ -101,7 +111,8 @@
           </div>
         </div>
         <div class="ig-frame reveal-up">
-          <iframe data-src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="yes"></iframe>
+          <iframe data-src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="no"></iframe>
+          <span class="ig-regrid" aria-hidden="true"></span><span class="ig-regrid ig-avatar" aria-hidden="true"></span>
         </div>
       </div>
     </section>
