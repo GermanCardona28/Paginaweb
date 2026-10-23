@@ -21,7 +21,9 @@
     // los videos de Instagram se cargan después, para no competir con el banner y las fotos
     document.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; });
     document.dispatchEvent(new Event('app:ready'));
+    if (hasGsap) ScrollTrigger.refresh();
   });
+  window.addEventListener('load', () => { if (hasGsap) ScrollTrigger.refresh(); });
 
 
   /* ---- Nav ---- */
@@ -265,7 +267,7 @@
       const L = LINES.find(l => l.id === current);
       detailEl.innerHTML = L
         ? `<span class="r-ico big" aria-hidden="true">${ICONS[L.id]}</span><div><h4>${esc(L.name)}</h4><p>${esc(L.desc)}</p><ul>${L.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`
-        : `<p class="hint">Toca una línea para ver de qué trata y filtrar sus publicaciones.</p>`;
+        : '';
       pubsEl.innerHTML = PUBS.filter(p => current === 'all' || p.l === current).map(p => {
         const orig = p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener">${esc(p.t)}</a>` : esc(p.t);
         return `<li class="pub"><time>${p.y}</time><div><h4>${esc(p.s)}</h4><p class="orig">${orig}</p><p>${esc(p.v)} · <em>${esc(lineName(p.l))}</em></p></div><span class="cites" title="Citas según OpenAlex">${p.c ? p.c + ' citas' : 'Reciente'}</span></li>`;
