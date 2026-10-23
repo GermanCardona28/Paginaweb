@@ -9,19 +9,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
+  <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="subpage">
   <!-- Pantalla de carga -->
   <div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Cargando">
-    <div class="clear-loading loading-effect-2"><span></span><b class="pre-mark">OLP</b></div>
+    <div class="clear-loading loading-effect-2"><span></span><img class="pre-logo" src="img/logo-imagen.webp" alt="" width="420" height="420"></div>
   </div>
   <div class="progress" aria-hidden="true"><span></span></div>
   <a class="skip" href="#contenido">Saltar al contenido</a>
   <header class="nav" id="nav">
     <a class="brand" href="index.html" aria-label="Omar Lengerke Pérez, inicio">
-      <span class="brand-mark">OLP</span>
-      <span class="brand-name">Omar Lengerke Pérez</span>
+      <img class="brand-logo brand-logo--color" src="img/logo-interfaz.webp" alt="Omar Lengerke Pérez" width="900" height="229">
+      <img class="brand-logo brand-logo--neg" src="img/logo-interfaz-negativo.webp" alt="" aria-hidden="true" width="900" height="229">
     </a>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
@@ -58,7 +60,7 @@
 
   <footer class="footer">
     <div class="wrap foot-grid">
-      <div><b>Omar Lengerke Pérez</b><p>Ingeniero, doctor, santandereano.</p>
+      <div><img class="foot-logo" src="img/logo-interfaz-negativo.webp" alt="Omar Lengerke Pérez" width="900" height="229"><p>Ingeniero, doctor, santandereano.</p>
         <ul class="social social-foot" aria-label="Redes sociales">
           <li><a href="https://www.instagram.com/olengerke/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7"/></svg></a></li>
           <li><a href="https://www.facebook.com/omlengerke" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14.500 8H17V4h-3.200A4.300 4.300 0 0 0 9.500 8.300V11H7v4h2.500v6h4v-6H16l.6-4h-3.100V8.700c0-.4.4-.7 1-.7z"/></svg></a></li>
