@@ -204,7 +204,7 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 
 /* logros */
 .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
-.card { background: rgba(255,255,255,.06); border: 1px solid rgba(247,242,234,.14); border-radius: var(--r); padding: 28px 24px; transform-style: preserve-3d; transition: background .3s, border-color .3s; }
+.card { display: block; background: rgba(255,255,255,.06); border: 1px solid rgba(247,242,234,.14); border-radius: var(--r); padding: 28px 24px; transform-style: preserve-3d; transition: background .3s, border-color .3s; text-decoration: none; cursor: pointer; }
 .card:hover { background: rgba(255,255,255,.1); border-color: var(--cobre-claro); }
 .card .ico { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 16px; background: rgba(0,135,58,.18); margin-bottom: 20px; transform: translateZ(30px); }
 .card .ico svg { width: 36px; height: 36px; fill: none; stroke: var(--cobre-claro); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 220; stroke-dashoffset: 220; }
@@ -543,6 +543,15 @@ body { overflow-x: clip; }
 .place.natal { border-top-color: #CD2428; }
 .place b { display: block; font: 800 20px var(--serif); margin-bottom: 6px; }
 .place p { margin: 0; font-size: 15px; color: var(--ink-muted); }
+
+.hitos { grid-template-columns: repeat(2, 1fr); margin-bottom: 36px; }
+.hito { scroll-margin-top: 120px; display: grid; gap: 10px; }
+.hito .r-ico { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: rgba(0,135,58,.12); }
+.hito .r-ico svg { width: 30px; height: 30px; fill: none; stroke: var(--cobre); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hito b { font-size: 21px; }
+.hito p { margin: 0; }
+.hito .so { font-size: 15px; padding-left: 12px; border-left: 3px solid var(--cobre); color: var(--ink); }
+@media (max-width: 760px) { .hitos { grid-template-columns: 1fr; } }
 
 /* tarjetas 1-2-3-4 con foto de fondo */
 .edu-card { overflow: hidden; isolation: isolate; background: var(--surface); }
