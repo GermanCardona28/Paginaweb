@@ -1056,6 +1056,9 @@ body.subpage .preloader .clear-loading { z-index: 2; }
   #cover .ig-crop video.vid-h { display: block; }
 }
 
+/* el toque en la foto o en el botón reproduce el video (la foto está encima del video) */
+#cover .cover-art, #cover .play { pointer-events: auto; cursor: pointer; }
+#cover.started .cover-art, #cover.started .play, #cover.started figcaption { pointer-events: none; }
 /* contraste del botón principal y del acento del título (modo claro) */
 .btn { background: #007A38; }
 .btn:hover { background: #006B30; }
