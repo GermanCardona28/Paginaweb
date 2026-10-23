@@ -26,6 +26,25 @@
   window.addEventListener('load', () => { if (hasGsap) ScrollTrigger.refresh(); });
 
 
+  /* ---- Apariencia (tema): automático, claro u oscuro ---- */
+  const themeBtn = document.querySelector('.settings-btn');
+  const themePop = document.getElementById('theme-pop');
+  if (themeBtn && themePop) {
+    const root = document.documentElement;
+    const saved = () => { try { return localStorage.getItem('tema') || 'auto'; } catch (e) { return 'auto'; } };
+    const apply = t => {
+      if (t === 'dark' || t === 'light') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
+      try { if (t === 'auto') localStorage.removeItem('tema'); else localStorage.setItem('tema', t); } catch (e) {}
+      themePop.querySelectorAll('[data-tema]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tema === t)));
+    };
+    apply(saved());
+    const toggle = open => { themePop.classList.toggle('open', open); themeBtn.setAttribute('aria-expanded', String(open)); };
+    themeBtn.addEventListener('click', e => { e.stopPropagation(); toggle(!themePop.classList.contains('open')); });
+    themePop.addEventListener('click', e => { const b = e.target.closest('[data-tema]'); if (b) { apply(b.dataset.tema); toggle(false); } });
+    document.addEventListener('click', e => { if (!e.target.closest('.settings')) toggle(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+  }
+
   /* ---- Nav ---- */
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');
@@ -306,6 +325,20 @@
         vids.forEach(o => { if (o !== v) o.pause(); });
       });
     });
+  }
+
+  /* ---- Portada: clic en el centro inicia el video (el botón de play cubre la portada hasta que empieza) ---- */
+  const coverEl = document.getElementById("cover");
+  const playCover = coverEl && coverEl.querySelector(".play");
+  if (coverEl && playCover) {
+    const pick = () => { const all = [...coverEl.querySelectorAll("video")]; return all.find(x => getComputedStyle(x).display !== "none") || all[0]; };
+    const go = () => { const v = pick(); if (v) v.play().catch(() => {}); };
+    playCover.removeAttribute("aria-hidden");
+    playCover.setAttribute("role", "button");
+    playCover.setAttribute("tabindex", "0");
+    playCover.setAttribute("aria-label", "Reproducir el video de Omar Lengerke");
+    playCover.addEventListener("click", go);
+    playCover.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
   }
 
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
