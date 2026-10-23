@@ -4,8 +4,8 @@
     {
       "name": "sitio-lengerke",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "serve", "site", "-l", "5173"],
-      "port": 5173
+      "runtimeArgs": ["--yes", "serve", "site", "-l", "4590"],
+      "port": 4590
     }
   ]
 }
