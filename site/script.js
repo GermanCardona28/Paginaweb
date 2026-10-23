@@ -21,7 +21,9 @@
     // los videos de Instagram se cargan después, para no competir con el banner y las fotos
     document.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; });
     document.dispatchEvent(new Event('app:ready'));
+    if (hasGsap) ScrollTrigger.refresh();
   });
+  window.addEventListener('load', () => { if (hasGsap) ScrollTrigger.refresh(); });
 
 
   /* ---- Nav ---- */
