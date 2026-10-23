@@ -13,6 +13,7 @@
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="preload" as="image" href="img/banner.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
+  <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body class="subpage">
   <!-- Pantalla de carga -->
@@ -26,6 +27,15 @@
       <img class="brand-logo brand-logo--color" src="img/logo-interfaz.webp" alt="Omar Lengerke Pérez" width="900" height="229">
       <img class="brand-logo brand-logo--neg" src="img/logo-interfaz-negativo.webp" alt="" aria-hidden="true" width="900" height="229">
     </a>
+    <div class="settings">
+      <button class="settings-btn" type="button" aria-label="Configuración de apariencia" aria-haspopup="true" aria-expanded="false" aria-controls="theme-pop"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.700 1.700 0 0 0 .3 1.800l.1.1a2 2 0 1 1-2.800 2.800l-.1-.1a1.700 1.700 0 0 0-1.800-.3 1.700 1.700 0 0 0-1 1.500V21a2 2 0 1 1-4 0v-.1a1.700 1.700 0 0 0-1.100-1.500 1.700 1.700 0 0 0-1.800.3l-.1.1a2 2 0 1 1-2.800-2.800l.1-.1a1.700 1.700 0 0 0 .3-1.800 1.700 1.700 0 0 0-1.500-1H3a2 2 0 1 1 0-4h.1a1.700 1.700 0 0 0 1.500-1.100 1.700 1.700 0 0 0-.3-1.800l-.1-.1a2 2 0 1 1 2.800-2.800l.1.1a1.700 1.700 0 0 0 1.800.3H9a1.700 1.700 0 0 0 1-1.500V3a2 2 0 1 1 4 0v.1a1.700 1.700 0 0 0 1 1.500 1.700 1.700 0 0 0 1.800-.3l.1-.1a2 2 0 1 1 2.800 2.800l-.1.1a1.700 1.700 0 0 0-.3 1.800V9a1.700 1.700 0 0 0 1.500 1H21a2 2 0 1 1 0 4h-.1a1.700 1.700 0 0 0-1.500 1z"/></svg></button>
+      <div class="theme-pop" id="theme-pop" role="group" aria-label="Apariencia">
+        <p>Apariencia</p>
+        <button type="button" data-tema="auto" aria-pressed="false">Automático</button>
+        <button type="button" data-tema="light" aria-pressed="false">Claro</button>
+        <button type="button" data-tema="dark" aria-pressed="false">Oscuro</button>
+      </div>
+    </div>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
       <a href="videos.html">Videos</a>
@@ -53,7 +63,8 @@
         </div>
       </header>
       <div class="ig-frame reveal-up">
-        <iframe data-src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="yes"></iframe>
+        <iframe data-src="https://www.instagram.com/olengerke/embed/" title="Últimas publicaciones de Instagram de Omar Lengerke" scrolling="no"></iframe>
+          <span class="ig-regrid" aria-hidden="true"></span><span class="ig-regrid ig-avatar" aria-hidden="true"></span>
       </div>
     </section>
   </main>

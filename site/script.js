@@ -26,6 +26,25 @@
   window.addEventListener('load', () => { if (hasGsap) ScrollTrigger.refresh(); });
 
 
+  /* ---- Apariencia (tema): automático, claro u oscuro ---- */
+  const themeBtn = document.querySelector('.settings-btn');
+  const themePop = document.getElementById('theme-pop');
+  if (themeBtn && themePop) {
+    const root = document.documentElement;
+    const saved = () => { try { return localStorage.getItem('tema') || 'auto'; } catch (e) { return 'auto'; } };
+    const apply = t => {
+      if (t === 'dark' || t === 'light') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
+      try { if (t === 'auto') localStorage.removeItem('tema'); else localStorage.setItem('tema', t); } catch (e) {}
+      themePop.querySelectorAll('[data-tema]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tema === t)));
+    };
+    apply(saved());
+    const toggle = open => { themePop.classList.toggle('open', open); themeBtn.setAttribute('aria-expanded', String(open)); };
+    themeBtn.addEventListener('click', e => { e.stopPropagation(); toggle(!themePop.classList.contains('open')); });
+    themePop.addEventListener('click', e => { const b = e.target.closest('[data-tema]'); if (b) { apply(b.dataset.tema); toggle(false); } });
+    document.addEventListener('click', e => { if (!e.target.closest('.settings')) toggle(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
+  }
+
   /* ---- Nav ---- */
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');
