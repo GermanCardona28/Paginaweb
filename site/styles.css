@@ -850,3 +850,31 @@ body.subpage .preloader::after {
   opacity: .8;
 }
 body.subpage .preloader .clear-loading { z-index: 2; }
+
+/* ===== portada con zoom alto o ventanas bajas: nada se superpone ===== */
+/* tamaño mínimo: con mucho zoom el panel puede ser más alto que la pantalla, pero la portada no se encoge */
+.portrait, .portrait.playing, .portrait.own-video, .portrait.ig-only {
+  width: min(100%, 340px, max(230px, calc((100svh - 150px) * 9 / 16)));
+}
+@media (max-width: 960px) {
+  .portrait, .portrait.playing, .portrait.own-video, .portrait.ig-only {
+    width: min(100%, 320px, max(230px, calc((100svh - 130px) * 9 / 16)));
+  }
+}
+/* el ícono, la etiqueta y el pie se escalan con el ancho de la portada */
+#cover { container-type: inline-size; container-name: portada; }
+#cover .play { gap: clamp(6px, 3cqw, 12px); }
+#cover .play-ring { width: clamp(46px, 24cqw, 84px); height: clamp(46px, 24cqw, 84px); }
+#cover .play-ring svg { width: 46%; height: 46%; margin-left: 4%; }
+#cover .play-label { font-size: clamp(11px, 4.4cqw, 14px); padding: .35em 1.1em; }
+#cover figcaption { font-size: clamp(11px, 4.6cqw, 15px); line-height: 1.25; padding: clamp(24px, 12cqw, 46px) 10px clamp(8px, 4cqw, 14px); }
+@container portada (max-width: 170px) { #cover .play-label { display: none; } }
+/* la flecha de «bajar» no se monta sobre la portada */
+.hero { padding-bottom: 76px; }
+@media (max-height: 560px) { .hero .scroll-hint { display: none; } .hero { padding-bottom: 40px; } }
+
+/* el reel de Instagram no se desalinea aunque la portada sea muy pequeña (su ancho mínimo es 326 px) */
+#cover .ig-crop iframe, .portrait.playing .ig-crop iframe {
+  --w: max(142.2cqw, 326px);
+  width: var(--w); height: calc(var(--w) * 1.25 + 260px); left: calc(var(--w) * -0.1484); top: -54px;
+}
