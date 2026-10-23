@@ -263,32 +263,23 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
   document.querySelectorAll(".finding, .card").forEach(el => io.observe(el));
 
-  /* ---- Portada: un clic en la foto deja solo el video ---- */
+  /* ---- Portada: el reel está debajo de la foto; un solo clic en el centro lo reproduce ---- */
   const cover = document.getElementById("cover");
-  const playBtn = cover && cover.querySelector(".play");
-  if (playBtn) {
-    const REEL = "https://www.instagram.com/reel/Dc8h8a-MBb4/";
-    const LOCAL_VIDEO = "video/reel.mp4";
-    const done = () => { if (cover.vanillaTilt) cover.vanillaTilt.destroy(); if (hasGsap) setTimeout(() => ScrollTrigger.refresh(), 150); };
-    // Reproductor propio: arranca solo y se ve únicamente el video (requiere el archivo video/reel.mp4)
-    const playLocal = () => {
-      cover.classList.add("playing", "own-video");
-      cover.innerHTML = '<video src="' + LOCAL_VIDEO + '" autoplay playsinline controls controlsList="nodownload" preload="auto"></video>';
-      const v = cover.querySelector("video");
-      v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
-      done();
+  if (cover) {
+    const frame = cover.querySelector("iframe");
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      cover.classList.add("started");
+      clearInterval(timer);
+      window.removeEventListener("blur", check);
     };
-    // Alternativa: el reel incrustado de Instagram, recortado para mostrar solo el video
-    const playEmbed = () => {
-      cover.classList.add("playing", "ig-only");
-      cover.innerHTML = '<div class="ig-crop"><iframe scrolling="no" src="' + REEL + 'embed/?autoplay=1" title="Video de Omar Lengerke en Instagram" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><a class="reel-link" href="' + REEL + '" target="_blank" rel="noopener">Abrir en Instagram ↗</a>';
-      done();
-    };
-    playBtn.addEventListener("click", () => {
-      fetch(LOCAL_VIDEO, { method: "HEAD" })
-        .then(r => (r.ok && /video|octet/.test(r.headers.get("content-type") || "")) ? playLocal() : playEmbed())
-        .catch(playEmbed);
-    });
+    // El clic dentro del iframe de Instagram no llega a la página: se detecta porque el foco pasa al iframe.
+    const check = () => { setTimeout(() => { if (document.activeElement === frame) start(); }, 0); };
+    const timer = setInterval(() => { if (document.activeElement === frame) start(); }, 150);
+    window.addEventListener("blur", check);
+    setTimeout(() => clearInterval(timer), 10 * 60 * 1000);
   }
 
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */

@@ -678,3 +678,14 @@ h1, h2, h3, h4 { font-weight: 700; }
 .stat b { font-size: clamp(54px, 6.5vw, 84px); }
 .kpi-n { font-size: clamp(54px, 7vw, 88px); }
 .eyebrow, .kicker, .tl-tag { font-family: var(--sans); font-weight: 600; }
+
+/* ===== portada: el reel queda debajo de la foto y recibe el clic (un solo toque) ===== */
+#cover { position: relative; overflow: hidden; background: #000; }
+#cover .ig-crop { position: absolute; inset: 0; }
+#cover .cover-art, #cover .play, #cover figcaption { pointer-events: none; transition: opacity .45s ease, visibility 0s linear .45s; }
+#cover .cover-art { position: absolute; inset: 0; z-index: 2; display: block; }
+#cover .cover-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+#cover .play { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 12px; background: none; }
+#cover figcaption { z-index: 4; }
+#cover.started .cover-art, #cover.started .play, #cover.started figcaption { opacity: 0; visibility: hidden; }
+#cover .ig-crop iframe { position: absolute; width: 142.2cqw; height: calc(142.2cqw * 1.25 + 260px); left: -21.1cqw; top: -54px; max-width: none; border: 0; background: #000; }
