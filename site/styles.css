@@ -276,9 +276,9 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .centers-slide { position: relative; overflow: hidden; isolation: isolate; min-height: 180px; background: var(--azul); border-top: 0; }
 .centers-slide::before { content: ""; position: absolute; inset: 0; z-index: -2; background-repeat: no-repeat; background-size: cover; background-position: center; }
 .centers-slide::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(200deg, rgba(5,12,10,.35) 20%, rgba(4,10,8,.88) 100%); }
-.centers-slide.ph-cedera::before { background-image: url(img/centro-cedera.png); }
+.centers-slide.ph-cedera::before { background-image: url(img/centro-cedera.webp); }
 .centers-slide.ph-lcc::before { background-image: url(img/centro-lcc.webp); }
-.centers-slide.ph-cip::before { background-image: url(img/centro-cip.png); }
+.centers-slide.ph-cip::before { background-image: url(img/centro-cip.webp); }
 .centers-slide.ph-cafe::before { background-image: url(img/centro-cafe.webp); }
 .centers-slide b, .centers-slide > span, .centers-slide p { position: relative; }
 .centers-slide b { text-shadow: 0 2px 10px rgba(0,0,0,.4); }
@@ -437,7 +437,7 @@ input.err { border-color: #ff8a65 !important; }
 .r-badges > div::before { content: ""; position: absolute; inset: 0; z-index: -2; background-repeat: no-repeat; background-size: cover; background-position: center; opacity: .3; filter: saturate(.9); transition: opacity .35s, transform .6s, filter 1.3s ease; }
 .r-badges > div:hover::before { opacity: .42; transform: scale(1.05); }
 .r-badges > div::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(200deg, rgba(5,12,35,.15) 30%, rgba(6,14,38,.7) 100%); pointer-events: none; }
-.r-badges > div.r1::before { background-image: url(img/investigacion-1.png); }
+.r-badges > div.r1::before { background-image: url(img/investigacion-1.webp); }
 .r-badges > div.r2::before { background-image: url(img/investigacion-2.webp); }
 .r-badges b { display: block; position: relative; font: 800 25px/1.2 var(--serif); color: #fff; letter-spacing: -.01em; margin-bottom: 6px; text-shadow: 0 1px 10px rgba(0,0,0,.35); }
 .r-badges span { position: relative; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,.88); text-shadow: 0 1px 8px rgba(0,0,0,.35); }
