@@ -61,8 +61,11 @@
   });
 
   /* ---- Scroll suave (Lenis) ---- */
+  // En el home (con secciones ancladas) el avance es del carrusel por secciones, no de Lenis: Lenis se queda apagado ahí
+  // para que no compita por el control del scroll.
+  const hasSnap = !!document.querySelector('[data-snap]');
   let lenis = null;
-  if (!reduce && typeof Lenis !== 'undefined') {
+  if (!reduce && typeof Lenis !== 'undefined' && !hasSnap) {
     lenis = new Lenis({ duration: 1.1, smoothWheel: true });
     if (hasGsap) {
       lenis.on('scroll', ScrollTrigger.update);
@@ -72,14 +75,17 @@
       const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
       requestAnimationFrame(raf);
     }
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const id = a.getAttribute('href');
-        const t = id.length > 1 && document.querySelector(id);
-        if (t) { e.preventDefault(); lenis.scrollTo(t, { offset: -50 }); }
-      });
-    });
   }
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      const t = id.length > 1 && document.querySelector(id);
+      if (!t) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(t, { offset: -50 });
+      else t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
 
   /* ---- Barra de progreso ---- */
   const bar = document.querySelector('.progress span');
@@ -170,6 +176,16 @@
     const heroA = gsap.from('.hero-name .split', { yPercent: 115, rotate: 4, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .1, paused: true });
     const heroB = gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .45, paused: true });
     appReady.then(() => { heroA.play(); heroB.play(); });
+
+    // Paralaje del hero: la foto y la red de fondo se mueven a otro ritmo que el texto
+    if (document.querySelector('.portrait')) {
+      gsap.to('.portrait', { yPercent: 14, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    }
+    if (document.getElementById('net')) {
+      gsap.to('#net', { yPercent: 22, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    }
 
     // Revelado genérico
     gsap.utils.toArray('.reveal-up').forEach(el => {
@@ -373,4 +389,32 @@
     if (ok) form.reset();
   });
   }
+
+  /* ---- Logros UTS: carrusel estilo "una idea por pantalla", navegado con scroll/swipe o los puntos (sin avance automático) ---- */
+  const lcViewport = document.getElementById('lcViewport');
+  if (lcViewport) {
+    const slides = [...document.querySelectorAll('#lcTrack .lc-slide')];
+    const dots = [...document.querySelectorAll('#lcDots .lc-dot')];
+
+    const goTo = i => {
+      const target = (i + slides.length) % slides.length;
+      // Solo se mueve el carrusel (scroll horizontal de lcViewport); nunca la página
+      lcViewport.scrollTo({ left: slides[target].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    const setActive = i => dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
+    dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.i))));
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && e.intersectionRatio > 0.6) setActive(slides.indexOf(e.target));
+      });
+    }, { root: lcViewport, threshold: [0, 0.6, 1] });
+    slides.forEach(s => io.observe(s));
+
+    // Evita que el navegador convierta el scroll vertical del mouse en scroll horizontal del carrusel
+    lcViewport.addEventListener('wheel', e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.preventDefault();
+    }, { passive: false });
+  }
+
 })();
