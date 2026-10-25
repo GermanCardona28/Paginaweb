@@ -1112,3 +1112,33 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 #cover .play { pointer-events: auto; cursor: pointer; }
 #cover.started .play { pointer-events: none; }
 #cover .play:focus-visible .play-ring { outline: 3px solid var(--cian); outline-offset: 4px; }
+
+/* ===== transiciones suaves entre fondos ===== */
+/* la barra de títulos sube sobre el borde inferior del primer panel y deja ver su desvanecido */
+.hero { padding-bottom: 100px; }
+.marquee { position: relative; z-index: 3; margin-top: -48px; }
+.scroll-arrow { top: calc(100svh - 108px); }
+/* las secciones de color se funden con el fondo de la página en vez de cortarse en rectángulo */
+.section.dark {
+  background: linear-gradient(180deg, transparent 0, var(--azul) 110px, var(--azul) calc(100% - 110px), transparent 100%);
+  padding-block: clamp(110px, 12vw, 160px);
+}
+.subpage .section.dark.page {
+  background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 110px), transparent 100%);
+  padding-top: clamp(96px, 10vw, 120px);
+  padding-bottom: clamp(110px, 12vw, 160px);
+}
+
+.scroll-arrow { right: max(12px, calc((100% - 1160px) / 2 - 56px)); }
+
+.hero .eyebrow { color: #00702F; }
+
+/* transición más sutil: degradado largo y suavizado (curva smoothstep) de 180px */
+.section.dark { background: linear-gradient(180deg, color-mix(in srgb, var(--azul) 0%, transparent) 0px, color-mix(in srgb, var(--azul) 3%, transparent) 18px, color-mix(in srgb, var(--azul) 10%, transparent) 36px, color-mix(in srgb, var(--azul) 22%, transparent) 54px, color-mix(in srgb, var(--azul) 35%, transparent) 72px, color-mix(in srgb, var(--azul) 50%, transparent) 90px, color-mix(in srgb, var(--azul) 65%, transparent) 108px, color-mix(in srgb, var(--azul) 78%, transparent) 126px, color-mix(in srgb, var(--azul) 90%, transparent) 144px, color-mix(in srgb, var(--azul) 97%, transparent) 162px, color-mix(in srgb, var(--azul) 100%, transparent) 180px, color-mix(in srgb, var(--azul) 100%, transparent) calc(100% - 180px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 162px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 144px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 126px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 90px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 54px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 18px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-block: clamp(150px, 14vw, 200px); }
+.subpage .section.dark.page { background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 180px), var(--azul) 100%, transparent) calc(100% - 180px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 162px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 144px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 126px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 90px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 54px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 18px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-top: clamp(96px, 10vw, 120px); padding-bottom: clamp(150px, 14vw, 200px); }
+.marquee { margin-top: -44px; }
+
+/* transición más corta: 120px (antes 180px), misma curva suavizada */
+.section.dark { background: linear-gradient(180deg, color-mix(in srgb, var(--azul) 0%, transparent) 0px, color-mix(in srgb, var(--azul) 3%, transparent) 12px, color-mix(in srgb, var(--azul) 10%, transparent) 24px, color-mix(in srgb, var(--azul) 22%, transparent) 36px, color-mix(in srgb, var(--azul) 35%, transparent) 48px, color-mix(in srgb, var(--azul) 50%, transparent) 60px, color-mix(in srgb, var(--azul) 65%, transparent) 72px, color-mix(in srgb, var(--azul) 78%, transparent) 84px, color-mix(in srgb, var(--azul) 90%, transparent) 96px, color-mix(in srgb, var(--azul) 97%, transparent) 108px, color-mix(in srgb, var(--azul) 100%, transparent) 120px, color-mix(in srgb, var(--azul) 100%, transparent) calc(100% - 120px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 96px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 84px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 60px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 48px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 24px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 12px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-block: clamp(120px, 12vw, 160px); }
+.subpage .section.dark.page { background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 120px), var(--azul) 100%, transparent) calc(100% - 120px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 96px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 84px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 60px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 48px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 24px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 12px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-top: clamp(96px, 10vw, 120px); padding-bottom: clamp(120px, 12vw, 160px); }
+.marquee { margin-top: -44px; }
