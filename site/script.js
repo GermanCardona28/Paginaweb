@@ -177,14 +177,21 @@
     const heroB = gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .45, paused: true });
     appReady.then(() => { heroA.play(); heroB.play(); });
 
-    // Paralaje del hero: la foto y la red de fondo se mueven a otro ritmo que el texto
+    // Paralaje del hero: la foto y la red de fondo se mueven a otro ritmo que el texto,
+    // y el nombre se encoge mientras se hace scroll, como una intro cinematográfica.
+    // Sin pin (probado y descartado: generaba parpadeos al combinarse con el scroll
+    // suave de Lenis) — el scroll nunca se retiene ni se bloquea.
     if (document.querySelector('.portrait')) {
-      gsap.to('.portrait', { yPercent: 14, ease: 'none',
-        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to('.portrait', { yPercent: 14, scale: .82, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: '70% top', scrub: true } });
     }
     if (document.getElementById('net')) {
       gsap.to('#net', { yPercent: 22, ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    }
+    if (document.querySelector('.hero-name')) {
+      gsap.to('.hero-name', { scale: .68, yPercent: -20, opacity: .3, transformOrigin: 'left top', ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: '70% top', scrub: true } });
     }
 
     // Revelado genérico
@@ -213,12 +220,6 @@
       gsap.from(item, { opacity: 0, x: from, duration: .9, ease: 'power3.out',
         scrollTrigger: { trigger: item, start: 'top 85%', once: true } });
     });
-
-    // Parallax suave del retrato y de la sección oscura
-    gsap.to('.portrait:not(.playing)', { yPercent: -3, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('#net', { yPercent: 12, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
     // Mapa: los pines aparecen después del mapa
     gsap.from("#map .pin", { opacity: 0, duration: .7, stagger: .15, ease: "power2.out",
