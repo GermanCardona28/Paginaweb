@@ -286,12 +286,14 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .step p { margin: 0; color: var(--ink-muted); }
 .hablemos-cta { margin: 40px 0 0; }
 
-/* premios */
-.awards { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-.award { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 22px; padding: 22px 26px; border-radius: var(--r); background: rgba(255,255,255,.06); border: 1px solid rgba(247,242,234,.12); transition: transform .3s, border-color .3s; }
+/* premios, agrupados por año (un solo año por grupo, no repetido en cada tarjeta) */
+.awards-group { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: start; margin-bottom: 22px; }
+.awards-group:last-child { margin-bottom: 0; }
+.awards-year { margin: 6px 0 0; font: 800 26px var(--serif); color: var(--cobre-claro); }
+.awards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.award { padding: 18px 24px; border-radius: var(--r); background: rgba(255,255,255,.06); border: 1px solid rgba(247,242,234,.12); transition: transform .3s, border-color .3s; }
 .award:hover { transform: translateX(10px); border-color: var(--cobre-claro); }
-.award time { font: 800 38px var(--serif); color: var(--cobre-claro); }
-.award h3 { font-size: 22px; margin-bottom: 4px; }
+.award h3 { font-size: 20px; margin-bottom: 4px; }
 .award p { margin: 0; opacity: .75; font-size: 15px; }
 .note { margin-top: 30px; opacity: .7; font-size: 15px; }
 .gallery { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
@@ -346,7 +348,8 @@ input.err { border-color: #ff8a65 !important; }
   .tl-line { left: 12px; }
   .tl-item { width: calc(100% - 44px); justify-self: end !important; }
   .tl-item .tl-dot { left: -41px !important; right: auto !important; }
-  .award { grid-template-columns: 1fr; gap: 6px; }
+  .awards-group { grid-template-columns: 1fr; gap: 8px; }
+  .awards-year { font-size: 20px; }
   .accordion details p { margin-left: 0; }
 }
 @media (max-width: 560px) {
@@ -502,13 +505,10 @@ body { overflow-x: clip; }
 .pub .orig a { color: var(--azul-2); }
 .pub h4 { font: 700 18px/1.3 var(--serif); }
 
-/* reconocimientos en dos columnas */
-.awards { grid-template-columns: 1fr 1fr; }
-.award { grid-template-columns: 78px 1fr; padding: 18px 22px; gap: 16px; align-items: start; }
-.award time { font-size: 30px; }
+.award { padding: 18px 22px; }
 .award h3 { font-size: 18px; }
 
-@media (max-width: 960px) { .edu { grid-template-columns: 1fr 1fr; } .hero-grid { grid-template-columns: 1fr; } .awards { grid-template-columns: 1fr; } .portrait { max-width: 360px; } }
+@media (max-width: 960px) { .edu { grid-template-columns: 1fr 1fr; } .hero-grid { grid-template-columns: 1fr; } .portrait { max-width: 360px; } }
 @media (max-width: 560px) { .edu { grid-template-columns: 1fr; } }
 
 /* ===== v3: hero compacto con video, «Ver más», fotos en tarjetas, redes ===== */
@@ -787,7 +787,7 @@ h1, h2, h3, h4 { font-weight: 700; }
 .line-card b { font-size: 21px; }
 .pub h4 { font-size: 21px; }
 .award h3 { font-size: 22px; }
-.award time { font-size: 36px; }
+.awards-year { font-size: 30px; }
 .pub time { font-size: 26px; }
 .net b { font-size: 26px; }
 .step h3 { font-size: 30px; }
