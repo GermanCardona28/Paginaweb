@@ -390,16 +390,17 @@
   });
   }
 
-  /* ---- Logros UTS: carrusel estilo "una idea por pantalla", navegado con scroll/swipe o los puntos (sin avance automático) ---- */
-  const lcViewport = document.getElementById('lcViewport');
-  if (lcViewport) {
-    const slides = [...document.querySelectorAll('#lcTrack .lc-slide')];
-    const dots = [...document.querySelectorAll('#lcDots .lc-dot')];
+  /* ---- Mini-carruseles "una idea a la vez": navegados con scroll/swipe o los puntos, sin avance automático ---- */
+  const initMiniCarousel = (viewportId, slideSelector, dotsId) => {
+    const viewport = document.getElementById(viewportId);
+    if (!viewport) return;
+    const slides = [...viewport.querySelectorAll(slideSelector)];
+    const dots = [...document.querySelectorAll(`#${dotsId} [data-i]`)];
 
     const goTo = i => {
       const target = (i + slides.length) % slides.length;
-      // Solo se mueve el carrusel (scroll horizontal de lcViewport); nunca la página
-      lcViewport.scrollTo({ left: slides[target].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+      // Solo se mueve el carrusel (scroll horizontal del propio viewport); nunca la página
+      viewport.scrollTo({ left: slides[target].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
     };
     const setActive = i => dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
     dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.i))));
@@ -408,13 +409,15 @@
       entries.forEach(e => {
         if (e.isIntersecting && e.intersectionRatio > 0.6) setActive(slides.indexOf(e.target));
       });
-    }, { root: lcViewport, threshold: [0, 0.6, 1] });
+    }, { root: viewport, threshold: [0, 0.6, 1] });
     slides.forEach(s => io.observe(s));
 
     // Evita que el navegador convierta el scroll vertical del mouse en scroll horizontal del carrusel
-    lcViewport.addEventListener('wheel', e => {
+    viewport.addEventListener('wheel', e => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.preventDefault();
     }, { passive: false });
-  }
+  };
+  initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
+  initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
 
 })();

@@ -16,7 +16,7 @@
   <link rel="preload" as="image" href="img/omar.webp" type="image/webp">
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
@@ -161,14 +161,22 @@
         <div class="section-head">
           <p class="eyebrow">Sobre Lengerke</p>
           <h2 class="reveal-up">Del Socorro al mundo, y del mundo de vuelta a Santander.</h2>
-          <p class="lead reveal-up">Omar Lengerke nació en El Socorro, Santander, en 1975. Es ingeniero de sistemas, hizo una maestría en México y un doctorado en ingeniería mecánica en Brasil, y se especializó en robótica. Aunque su formación lo llevó lejos de casa, decidió regresar con una convicción: todo lo aprendido debía servir también para mejorar la tierra donde nació.</p>
+          <p class="lead reveal-up">Nació en El Socorro, Santander. Estudió sistemas, hizo maestría en México y doctorado en Brasil, especializándose en robótica. Volvió a poner ese conocimiento al servicio de su tierra.</p>
         </div>
 
-        <div class="edu">
-          <article class="edu-card c1 reveal-up"><span class="edu-n">1</span><b>Ingeniero de Sistemas Computacionales</b><p>Universidad Autónoma de Bucaramanga (UNAB), Colombia.</p></article>
-          <article class="edu-card c2 reveal-up"><span class="edu-n">2</span><b>Maestría en Control y Automatización de Sistemas Flexibles de Manufactura</b><p>Tecnológico de Monterrey (ITESM), México.</p></article>
-          <article class="edu-card c3 reveal-up"><span class="edu-n">3</span><b>Doctorado en Ciencias en Ingeniería Mecánica</b><p>Universidad Federal de Río de Janeiro (COPPE/UFRJ), Brasil.</p></article>
-          <article class="edu-card c4 reveal-up"><span class="edu-n">4</span><b>Posdoctorado en Robótica y Diseño de Máquinas Mecatrónicas</b><p>Universidad Federal de Río de Janeiro (UFRJ), Brasil.</p></article>
+        <div class="edu-viewport" id="eduViewport">
+          <div class="edu-track" id="eduTrack">
+            <article class="edu-card c1 edu-slide"><b>Ingeniero de Sistemas Computacionales</b><p>Universidad Autónoma de Bucaramanga (UNAB), Colombia.</p></article>
+            <article class="edu-card c2 edu-slide"><b>Maestría en Control y Automatización de Sistemas Flexibles de Manufactura</b><p>Tecnológico de Monterrey (ITESM), México.</p></article>
+            <article class="edu-card c3 edu-slide"><b>Doctorado en Ciencias en Ingeniería Mecánica</b><p>Universidad Federal de Río de Janeiro (COPPE/UFRJ), Brasil.</p></article>
+            <article class="edu-card c4 edu-slide"><b>Posdoctorado en Robótica y Diseño de Máquinas Mecatrónicas</b><p>Universidad Federal de Río de Janeiro (UFRJ), Brasil.</p></article>
+          </div>
+        </div>
+        <div class="edu-dots" id="eduDots" role="tablist" aria-label="Formación académica">
+          <button type="button" class="edu-dot" data-i="0" role="tab" aria-selected="true" aria-label="Formación 1 de 4"></button>
+          <button type="button" class="edu-dot" data-i="1" role="tab" aria-selected="false" aria-label="Formación 2 de 4"></button>
+          <button type="button" class="edu-dot" data-i="2" role="tab" aria-selected="false" aria-label="Formación 3 de 4"></button>
+          <button type="button" class="edu-dot" data-i="3" role="tab" aria-selected="false" aria-label="Formación 4 de 4"></button>
         </div>
 
         <div class="more-bar"><a class="btn-more" href="sobre-lengerke.html">Ver más sobre Lengerke</a></div>
@@ -248,6 +256,6 @@
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/vanilla-tilt.min.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>
