@@ -28,8 +28,8 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #081A11; }
   :root:not([data-theme="light"]) .nav.solid { background: rgba(6,26,17,.95) !important; }
-  :root:not([data-theme="light"]) .section.dark.logros-carousel { background: #0E2B1C !important; }
-  :root:not([data-theme="light"]) .section.dark.prensa { background: #061A13 !important; }
+  :root:not([data-theme="light"]) .logros-carousel { --azul: #0E2B1C; }
+  :root:not([data-theme="light"]) .prensa { --azul: #061A13; }
   :root:not([data-theme="light"]) .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
   :root:not([data-theme="light"]) .footer { background: #03100A !important; }
   :root:not([data-theme="light"]) .hero::after {
@@ -59,8 +59,8 @@
 /* modo oscuro elegido a mano con el botón de configuración */
 :root[data-theme="dark"] { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #081A11; }
 :root[data-theme="dark"] .nav.solid { background: rgba(6,26,17,.95) !important; }
-:root[data-theme="dark"] .section.dark.logros-carousel { background: #0E2B1C !important; }
-:root[data-theme="dark"] .section.dark.prensa { background: #061A13 !important; }
+:root[data-theme="dark"] .logros-carousel { --azul: #0E2B1C; }
+:root[data-theme="dark"] .prensa { --azul: #061A13; }
 :root[data-theme="dark"] .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
 :root[data-theme="dark"] .footer { background: #03100A !important; }
 :root[data-theme="dark"] .hero::after {
@@ -1179,3 +1179,33 @@ body.subpage .preloader .clear-loading { z-index: 2; }
   .wa-float { right: 14px; bottom: 14px; }
   .wa-float.is-collapsed { transform: translateX(calc(100% - 54px)); }
 }
+
+/* ===== transiciones suaves entre fondos ===== */
+/* la barra de títulos sube sobre el borde inferior del primer panel y deja ver su desvanecido */
+.hero { padding-bottom: 100px; }
+.marquee { position: relative; z-index: 3; margin-top: -48px; }
+.scroll-arrow { top: calc(100svh - 108px); }
+/* las secciones de color se funden con el fondo de la página en vez de cortarse en rectángulo */
+.section.dark {
+  background: linear-gradient(180deg, transparent 0, var(--azul) 110px, var(--azul) calc(100% - 110px), transparent 100%);
+  padding-block: clamp(110px, 12vw, 160px);
+}
+.subpage .section.dark.page {
+  background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 110px), transparent 100%);
+  padding-top: clamp(96px, 10vw, 120px);
+  padding-bottom: clamp(110px, 12vw, 160px);
+}
+
+.scroll-arrow { right: max(12px, calc((100% - 1160px) / 2 - 56px)); }
+
+.hero .eyebrow { color: #00702F; }
+
+/* transición más sutil: degradado largo y suavizado (curva smoothstep) de 180px */
+.section.dark { background: linear-gradient(180deg, color-mix(in srgb, var(--azul) 0%, transparent) 0px, color-mix(in srgb, var(--azul) 3%, transparent) 18px, color-mix(in srgb, var(--azul) 10%, transparent) 36px, color-mix(in srgb, var(--azul) 22%, transparent) 54px, color-mix(in srgb, var(--azul) 35%, transparent) 72px, color-mix(in srgb, var(--azul) 50%, transparent) 90px, color-mix(in srgb, var(--azul) 65%, transparent) 108px, color-mix(in srgb, var(--azul) 78%, transparent) 126px, color-mix(in srgb, var(--azul) 90%, transparent) 144px, color-mix(in srgb, var(--azul) 97%, transparent) 162px, color-mix(in srgb, var(--azul) 100%, transparent) 180px, color-mix(in srgb, var(--azul) 100%, transparent) calc(100% - 180px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 162px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 144px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 126px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 90px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 54px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 18px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-block: clamp(150px, 14vw, 200px); }
+.subpage .section.dark.page { background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 180px), var(--azul) 100%, transparent) calc(100% - 180px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 162px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 144px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 126px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 90px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 54px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 18px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-top: clamp(96px, 10vw, 120px); padding-bottom: clamp(150px, 14vw, 200px); }
+.marquee { margin-top: -44px; }
+
+/* transición más corta: 120px (antes 180px), misma curva suavizada */
+.section.dark { background: linear-gradient(180deg, color-mix(in srgb, var(--azul) 0%, transparent) 0px, color-mix(in srgb, var(--azul) 3%, transparent) 12px, color-mix(in srgb, var(--azul) 10%, transparent) 24px, color-mix(in srgb, var(--azul) 22%, transparent) 36px, color-mix(in srgb, var(--azul) 35%, transparent) 48px, color-mix(in srgb, var(--azul) 50%, transparent) 60px, color-mix(in srgb, var(--azul) 65%, transparent) 72px, color-mix(in srgb, var(--azul) 78%, transparent) 84px, color-mix(in srgb, var(--azul) 90%, transparent) 96px, color-mix(in srgb, var(--azul) 97%, transparent) 108px, color-mix(in srgb, var(--azul) 100%, transparent) 120px, color-mix(in srgb, var(--azul) 100%, transparent) calc(100% - 120px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 96px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 84px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 60px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 48px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 24px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 12px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-block: clamp(120px, 12vw, 160px); }
+.subpage .section.dark.page { background: linear-gradient(180deg, var(--azul) 0, var(--azul) calc(100% - 120px), var(--azul) 100%, transparent) calc(100% - 120px), color-mix(in srgb, var(--azul) 97%, transparent) calc(100% - 108px), color-mix(in srgb, var(--azul) 90%, transparent) calc(100% - 96px), color-mix(in srgb, var(--azul) 78%, transparent) calc(100% - 84px), color-mix(in srgb, var(--azul) 65%, transparent) calc(100% - 72px), color-mix(in srgb, var(--azul) 50%, transparent) calc(100% - 60px), color-mix(in srgb, var(--azul) 35%, transparent) calc(100% - 48px), color-mix(in srgb, var(--azul) 22%, transparent) calc(100% - 36px), color-mix(in srgb, var(--azul) 10%, transparent) calc(100% - 24px), color-mix(in srgb, var(--azul) 3%, transparent) calc(100% - 12px), color-mix(in srgb, var(--azul) 0%, transparent) calc(100% - 0px)); padding-top: clamp(96px, 10vw, 120px); padding-bottom: clamp(120px, 12vw, 160px); }
+.marquee { margin-top: -44px; }
