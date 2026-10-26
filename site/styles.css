@@ -1615,3 +1615,31 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .edu-viewport .edu-card.p2::before { background-position: 52% 14% !important; }
 .blog-topics .edu-card.t1::before { background-position: 52% 18% !important; }
 .blog-topics .edu-card.t4::before { background-position: 40% 20% !important; }
+
+/* Formación (inicio): tarjetas con fotos de cada universidad que pasan como un video de 8 s */
+.uni-carousel { position: relative; }
+.uni-carousel .uni-arrow { top: 50%; display: grid; }
+.uni-carousel .uni-arrow.prev { left: 12px; }
+.uni-carousel .uni-arrow.next { right: 12px; }
+#eduTrack .edu-card { min-height: clamp(300px, 34vw, 420px); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px 72px 28px; background: #0B1A12; }
+#eduTrack .edu-card::before { opacity: 0 !important; }
+.uni-show::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(4,12,8,.88) 0%, rgba(4,12,8,.45) 42%, rgba(4,12,8,.05) 78%); }
+.uni-show { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.uni-show i { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transform: scale(1.14); transform-origin: 40% 50%; filter: brightness(.9); transition: opacity 1.2s ease, filter .7s ease, transform var(--kb, 4s) linear; }
+.uni-show i:nth-child(2) { transform-origin: 65% 40%; }
+.uni-show i:nth-child(3) { transform-origin: 50% 70%; }
+.uni-show i.on { opacity: 1; transform: scale(1.02); }
+.edu-card:not(.playing) .uni-show i.on { transform: scale(1.06); transition: opacity 1.2s ease, filter .7s ease; }
+.edu-card.fading .uni-show i.on { opacity: .35; filter: brightness(.35) blur(3px); }
+#eduTrack .edu-card b { color: #fff !important; font-size: clamp(20px, 2.4vw, 27px); text-shadow: 0 2px 14px rgba(0,0,0,.5); }
+#eduTrack .edu-card p { color: rgba(255,255,255,.88) !important; font-size: 15.5px; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
+#eduTrack .edu-card b, #eduTrack .edu-card p { opacity: .0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+#eduTrack .edu-card.is-active b, #eduTrack .edu-card.is-active p { opacity: 1; transform: none; }
+#eduTrack .edu-card.is-active p { transition-delay: .15s; }
+/* barra de 8 s: muestra cuánto falta para la siguiente formación */
+#eduTrack .edu-card::after { top: auto; height: 3px; opacity: 1; background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; transition: none; }
+#eduTrack .edu-card.playing::after { animation: uniBar 8s linear forwards; }
+@keyframes uniBar { to { transform: scaleX(1); } }
+#eduTrack .edu-card:hover { transform: none; }
+@media (max-width: 600px) { #eduTrack .edu-card { padding: 24px 22px 26px; min-height: 340px; } .uni-carousel .uni-arrow { display: none; } }
+@media (prefers-reduced-motion: reduce) { .uni-show i { transition: opacity .3s; transform: none !important; } #eduTrack .edu-card b, #eduTrack .edu-card p { opacity: 1; transform: none; transition: none; } }
