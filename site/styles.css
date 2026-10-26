@@ -1878,3 +1878,42 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 }
 .jc-form .check input { accent-color: #00873A; width: 18px; height: 18px; }
 :root .join-clean .eyebrow { color: #00873A !important; }
+
+/* Inicio por pantallas: cada sección ocupa una pantalla. En computador las secciones de texto largo pasan a dos
+   columnas (título a la izquierda, contenido a la derecha) para caber sin cortar nada */
+.home-sobre.snap-section, .home-inv.snap-section, .prensa.snap-section { padding-block: 92px 52px; }
+@media (min-width: 961px) {
+  .home-sobre .split-col, .home-inv .split-col { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(40px, 5vw, 80px); align-items: center; }
+  .home-sobre .section-head, .home-inv .section-head { grid-column: 1; grid-row: 1 / span 3; margin: 0; }
+  .home-sobre .uni-carousel, .home-sobre .uni-nav, .home-sobre .more-bar,
+  .home-inv .r-badges, .home-inv .more-bar { grid-column: 2; }
+  .home-sobre .more-bar, .home-inv .more-bar { justify-content: flex-start; margin-top: 18px; }
+  .home-sobre .section-head h2, .home-inv .section-head h2 { font-size: clamp(36px, 3.6vw, 52px); }
+  /* Reconocimientos: título y botón a la izquierda, las cuatro distinciones en cuadrícula de 2 × 2 a la derecha */
+  .prensa .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(40px, 5vw, 80px); align-items: center; }
+  .prensa .section-head { grid-column: 1; grid-row: 1; margin: 0; }
+  .prensa .section-head h2 { font-size: clamp(36px, 3.6vw, 52px); }
+  .prensa .awards-group { grid-column: 2; grid-row: 1 / span 2; grid-template-columns: 1fr; margin: 0; gap: 12px; }
+  .prensa .awards-year { flex-direction: row; justify-content: flex-start; gap: 2px; font-size: 18px; letter-spacing: .1em; }
+  .prensa .awards { grid-template-columns: 1fr 1fr; }
+  .prensa .award { height: 100%; }
+  .prensa .more-bar { grid-column: 1; grid-row: 2; justify-content: flex-start; margin-top: 20px; }
+}
+@media (min-width: 961px) { .home-inv .r-badges > div { min-height: 190px; display: flex; flex-direction: column; justify-content: flex-end; } }
+/* el scroll avanza de una sección completa a la siguiente (en celular solo ayuda a encajar, sin forzar) */
+html:has(main[data-snap]) { scroll-snap-type: y mandatory; }
+main[data-snap] > section { scroll-snap-align: start; scroll-snap-stop: always; }
+html:has(main[data-snap]) .footer { scroll-snap-align: end; }
+@media (max-width: 760px) { html:has(main[data-snap]) { scroll-snap-type: y proximity; } main[data-snap] > section { scroll-snap-stop: normal; } }
+@media (prefers-reduced-motion: reduce) { html:has(main[data-snap]) { scroll-snap-type: y proximity; } }
+@media (max-height: 720px) and (min-width: 861px) { .logros-carousel.lc-cinema { padding-block: 80px 28px; } .lc-cinema .lc-slide { min-height: min(30vh, 260px); } .lc-timeline { margin-top: 10px; } }
+@media (max-width: 760px) {
+  .home-sobre.snap-section, .home-inv.snap-section, .prensa.snap-section { padding-block: 84px 36px; }
+  .home-sobre .section-head h2, .home-inv .section-head h2, .prensa .section-head h2 { font-size: 32px; }
+  .home-sobre .section-head .lead, .home-inv .section-head .lead, .prensa .section-head .lead { font-size: 16px; }
+  .prensa .awards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .prensa .award { padding: 14px; }
+  .prensa .award h3 { font-size: 15px; line-height: 1.25; }
+  .prensa .award p { font-size: 12.5px; }
+  .prensa .awards-group { margin-bottom: 20px; }
+}
