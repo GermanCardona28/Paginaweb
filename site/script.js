@@ -219,10 +219,12 @@
   } else {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Nombre del hero, línea por línea
-    const heroA = gsap.from('.hero-name .split', { yPercent: 115, rotate: 4, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .1, paused: true });
-    const heroB = gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .45, paused: true });
-    appReady.then(() => { heroA.play(); heroB.play(); });
+    // Nombre del hero, línea por línea (la portada «retrato al centro» anima su entrada con CSS)
+    if (document.querySelector('.hero-name')) {
+      const heroA = gsap.from('.hero-name .split', { yPercent: 115, rotate: 4, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .1, paused: true });
+      const heroB = gsap.to('.hero .reveal-up', { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .45, paused: true });
+      appReady.then(() => { heroA.play(); heroB.play(); });
+    }
 
     // Paralaje del hero: la foto y la red de fondo se mueven a otro ritmo que el texto,
     // y el nombre se encoge mientras se hace scroll, como una intro cinematográfica.
@@ -456,32 +458,26 @@
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .3 });
   document.querySelectorAll(".finding, .card").forEach(el => io.observe(el));
 
-  /* ---- Portada: el reel está debajo de la foto; un solo clic en el centro lo reproduce ---- */
-  const cover = document.getElementById("cover");
-  if (cover) {
-    const vids = cover.querySelectorAll("video");
-    const start = () => cover.classList.add("started");
-    // El video horizontal o vertical (según la pantalla) está debajo de la foto; al reproducirse, la foto se oculta.
-    vids.forEach(v => {
-      v.addEventListener("play", () => {
-        start();
-        vids.forEach(o => { if (o !== v) o.pause(); });
-      });
+  /* ---- Portada: el video se reproduce dentro del arco; al pausarlo o al terminar vuelve la foto ---- */
+  const hrFrame = document.getElementById('hrFrame');
+  if (hrFrame) {
+    const hrVid = document.getElementById('hrVid');
+    const hrPlay = document.getElementById('hrPlay');
+    const showPhoto = () => {
+      hrFrame.classList.remove('playing');
+      hrVid.controls = false;
+      hrPlay.focus();
+    };
+    hrPlay.addEventListener('click', () => {
+      hrVid.controls = true;
+      hrFrame.classList.add('playing');
+      const p = hrVid.play();
+      if (p && p.catch) p.catch(showPhoto);
+      hrVid.focus();
     });
-  }
-
-  /* ---- Portada: clic en el centro inicia el video (el botón de play cubre la portada hasta que empieza) ---- */
-  const coverEl = document.getElementById("cover");
-  const playCover = coverEl && coverEl.querySelector(".play");
-  if (coverEl && playCover) {
-    const pick = () => { const all = [...coverEl.querySelectorAll("video")]; return all.find(x => getComputedStyle(x).display !== "none") || all[0]; };
-    const go = () => { const v = pick(); if (v) v.play().catch(() => {}); };
-    playCover.removeAttribute("aria-hidden");
-    playCover.setAttribute("role", "button");
-    playCover.setAttribute("tabindex", "0");
-    playCover.setAttribute("aria-label", "Reproducir el video de Omar Lengerke");
-    playCover.addEventListener("click", go);
-    playCover.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    // al pausar se conserva el punto: «Ver video» sigue desde ahí
+    hrVid.addEventListener('pause', () => { if (!hrVid.seeking && !hrVid.ended) showPhoto(); });
+    hrVid.addEventListener('ended', () => { hrVid.currentTime = 0; showPhoto(); });
   }
 
   /* ---- «Ver más»: despliega el contenido completo de cada apartado ---- */
