@@ -551,6 +551,50 @@
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
+  /* ---- Logros UTS (inicio): mini mapa de Santander que enciende el municipio de cada logro,
+     y entrada animada del ícono y el texto al cambiar de logro ---- */
+  const lcVp = document.getElementById('lcViewport');
+  const lcMap = document.getElementById('lcMap');
+  if (lcVp && lcMap) {
+    const slides = [...lcVp.querySelectorAll('.lc-slide')];
+    // centro aproximado de cada municipio en las coordenadas del mapa (img/mapa-santander.svg)
+    // [x, y, nombre, posición de la etiqueta respecto al punto]
+    const PINS = { bga: [404, 293, 'Bucaramanga', 'top'], barranca: [221, 328, 'Barrancabermeja', 'top'], piedecuesta: [430, 341, 'Piedecuesta', 'right'], velez: [251, 516, 'Vélez', 'left'] };
+    const LABEL = { top: [0, -22, 'middle'], left: [-16, 8, 'end'], right: [16, 8, 'start'] };
+    let svg = null, current = -1;
+    const light = () => {
+      if (!svg || current < 0) return;
+      const on = (slides[current].dataset.m || '').split(' ');
+      Object.keys(PINS).forEach(k => {
+        const hit = on.includes(k);
+        svg.querySelector('#m-' + k)?.classList.toggle('on', hit);
+        svg.querySelector('.pin-' + k)?.classList.toggle('on', hit);
+      });
+    };
+    fetch('img/mapa-santander.svg').then(r => r.text()).then(txt => {
+      lcMap.innerHTML = txt;
+      svg = lcMap.querySelector('svg');
+      const NS = 'http://www.w3.org/2000/svg';
+      Object.entries(PINS).forEach(([k, [x, y, name, side]]) => {
+        const g = document.createElementNS(NS, 'g');
+        g.setAttribute('class', 'lc-pin pin-' + k);
+        const [dx, dy, anchor] = LABEL[side];
+        g.innerHTML = `<circle class="ring" cx="${x}" cy="${y}" r="10"/><circle class="dot" cx="${x}" cy="${y}" r="7"/><text x="${x + dx}" y="${y + dy}" text-anchor="${anchor}">${name}</text>`;
+        svg.appendChild(g);
+      });
+      light();
+    }).catch(() => lcMap.remove());
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting || e.intersectionRatio < .6) return;
+      const i = slides.indexOf(e.target);
+      if (i === current) return;
+      current = i;
+      slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
+      light();
+    }), { root: lcVp, threshold: [.6] });
+    slides.forEach(s => io.observe(s));
+  }
+
   /* ---- Formación (inicio): cada tarjeta muestra fotos de su universidad como un video de 8 s.
      Las fotos se cruzan con un acercamiento lento; al final de la vuelta se oscurece y el carrusel pasa
      solo a la siguiente formación, hasta que la persona lo toque (entonces solo avanza a mano). ---- */

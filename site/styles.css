@@ -1641,3 +1641,32 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .uni-nav .uni-arrow { position: static; display: grid; width: 34px; height: 34px; margin: 0; }
 .uni-nav .uni-arrow svg { width: 18px; height: 18px; }
 @media (prefers-reduced-motion: reduce) { .uni-show i { transition: opacity .3s; transform: none !important; } #eduTrack .edu-card b, #eduTrack .edu-card p { opacity: 1; transform: none; transition: none; } }
+
+/* Logros UTS (inicio): mini mapa de Santander al lado del carrusel; se enciende el municipio de cada logro */
+.lc-stage { display: grid; grid-template-columns: minmax(200px, 300px) minmax(0, 1fr); align-items: center; gap: 24px; }
+.lc-map { margin: 0; aspect-ratio: 532 / 633; max-height: min(52vh, 440px); justify-self: center; width: 100%; }
+.lc-map svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.lc-map path { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.16); stroke-width: 1.2; stroke-linejoin: round; transition: fill .6s ease, stroke .6s ease; }
+.lc-map path.on { fill: color-mix(in srgb, var(--cobre-claro) 55%, transparent); stroke: var(--cobre-claro); stroke-width: 2; }
+.lc-pin { opacity: 0; transform: translateY(-10px); transform-box: fill-box; transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
+.lc-pin.on { opacity: 1; transform: none; }
+.lc-pin .dot { fill: #fff; stroke: var(--cobre-claro); stroke-width: 3; }
+.lc-pin .ring { fill: none; stroke: var(--cobre-claro); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
+.lc-pin.on .ring { animation: lcPing 1.8s ease-out infinite; }
+.lc-pin text { font: 700 26px var(--sans); fill: #fff; paint-order: stroke; stroke: rgba(4,20,12,.85); stroke-width: 6px; stroke-linejoin: round; }
+@keyframes lcPing { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3.2); opacity: 0; } }
+/* entrada del logro: el ícono se dibuja y el texto sube */
+.lc-slide.is-active .lc-ico svg * { stroke-dasharray: 220; animation: lcDraw 1.3s ease both; }
+.lc-slide.is-active .lc-ico { animation: lcPop .6s cubic-bezier(.2,.7,.2,1) both; }
+.lc-slide.is-active h3 { animation: lcRise .7s .15s cubic-bezier(.2,.7,.2,1) both; }
+.lc-slide.is-active p { animation: lcRise .7s .3s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes lcDraw { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 0; } }
+@keyframes lcPop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
+@keyframes lcRise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .lc-stage { grid-template-columns: 1fr; gap: 4px; }
+  .lc-map { max-height: 230px; width: auto; height: 230px; }
+  .lc-pin text { font-size: 40px; stroke-width: 9px; }
+  .lc-pin .dot { r: 10; }
+}
+@media (prefers-reduced-motion: reduce) { .lc-pin, .lc-map path { transition: none; } .lc-pin.on .ring, .lc-slide.is-active *, .lc-slide.is-active .lc-ico { animation: none !important; } }
