@@ -45,6 +45,16 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
   }
 
+  /* ---- Desplegable del nav: Sobre Lengerke / Logros UTS ---- */
+  const navDropBtn = document.querySelector('.nav-drop-btn');
+  const navDropMenu = document.querySelector('.nav-drop-menu');
+  if (navDropBtn && navDropMenu) {
+    const toggleDrop = open => { navDropMenu.classList.toggle('open', open); navDropBtn.setAttribute('aria-expanded', String(open)); };
+    navDropBtn.addEventListener('click', e => { e.stopPropagation(); toggleDrop(!navDropMenu.classList.contains('open')); });
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-drop')) toggleDrop(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleDrop(false); });
+  }
+
   /* ---- Nav ---- */
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');
@@ -172,6 +182,26 @@
       use.setAttribute('href', '#gp-icon');
       svg.appendChild(use);
       growthPeople.appendChild(svg);
+    }
+  }
+
+  /* ---- Botón flotante de WhatsApp: a la vista en el inicio, se repliega a un lado en el resto y vuelve al acercarse ---- */
+  const waFloat = document.querySelector('.wa-float');
+  if (waFloat) {
+    const waTarget = document.querySelector('#inicio') || document.querySelector('.page-head') || document.querySelector('main');
+    if (waTarget) {
+      // Se revisa en cada frame (en vez de escuchar "scroll") porque Lenis anima el
+      // desplazamiento por su cuenta y no siempre dispara el evento nativo del navegador.
+      let waLastState = null;
+      const waLoop = () => {
+        const r = waTarget.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0));
+        const ratio = r.height > 0 ? visible / Math.min(r.height, innerHeight) : 0;
+        const collapsed = ratio < 0.35;
+        if (collapsed !== waLastState) { waFloat.classList.toggle('is-collapsed', collapsed); waLastState = collapsed; }
+        requestAnimationFrame(waLoop);
+      };
+      waLoop();
     }
   }
 
@@ -439,14 +469,10 @@
       });
     }, { root: viewport, threshold: [0, 0.6, 1] });
     slides.forEach(s => io.observe(s));
-
-    // Evita que el navegador convierta el scroll vertical del mouse en scroll horizontal del carrusel
-    viewport.addEventListener('wheel', e => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.preventDefault();
-    }, { passive: false });
   };
   initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
+  initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
 })();

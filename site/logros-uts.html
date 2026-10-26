@@ -12,7 +12,7 @@
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="preload" as="image" href="img/banner.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=5">
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body class="subpage">
@@ -38,15 +38,25 @@
     </div>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
-      <a href="videos.html">Videos</a>
-      <a href="logros-uts.html">Logros UTS</a>
-      <a href="sobre-lengerke.html">Sobre Lengerke</a>
+      <div class="nav-drop">
+        <a href="sobre-lengerke.html" class="nav-drop-link">Sobre Lengerke</a>
+        <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" aria-controls="sobreMenu" aria-label="Más sobre Lengerke"></button>
+        <div class="nav-drop-menu" id="sobreMenu" role="menu">
+          <a href="logros-uts.html" role="menuitem">Logros UTS</a>
+        </div>
+      </div>
       <a href="investigacion.html">Investigación</a>
       <a href="territorio.html">Territorio</a>
       <a href="reconocimientos.html">Reconocimientos</a>
-      <a href="redes.html">Redes</a>
       <a href="blog.html">Blog</a>
-      <a href="index.html#unete" class="btn btn-sm">Hablemos</a>
+      <ul class="social nav-social" aria-label="Redes sociales">
+        <li><a href="https://www.instagram.com/olengerke/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7"/></svg></a></li>
+        <li><a href="https://www.facebook.com/omlengerke" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14.5 8H17V4h-3.2A4.3 4.3 0 0 0 9.5 8.3V11H7v4h2.5v6h4v-6H16l.6-4h-3.1V8.7c0-.4.4-.7 1-.7z"/></svg></a></li>
+        <li><a href="https://twitter.com/olengerke" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M5 4h3.5L19 20h-3.5z"/><path d="M5 20l6.5-7M19 4l-6.5 7"/></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/omar-lengerke-90175451/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V16M8 7.6v.1M12 16v-5.5M12 13c0-1.6 1-2.7 2.5-2.7S17 11.4 17 13v3"/></svg></a></li>
+        <li><a href="https://www.youtube.com/@olengerke/videos" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></a></li>
+      </ul>
+      <a href="index.html#unete" class="btn btn-sm">Súmate</a>
     </nav>
   </header>
 
@@ -60,19 +70,19 @@
 
       <div class="kpi-row reveal-up">
         <div class="kpi"><b class="kpi-n" data-count="26500" data-fmt="es" data-suffix="+">0</b><span>Estudiantes en las UTS</span></div>
-        <div class="kpi"><b class="kpi-n" data-count="98" data-suffix=" %">0</b><span>Estudiantes de estratos 1, 2 y 3, según la biografía suministrada</span></div>
+        <div class="kpi"><b class="kpi-n" data-count="98" data-suffix=" %">0</b><span>Estudiantes de estratos 1, 2 y 3</span></div>
         <div class="kpi"><b class="kpi-n" data-count="87">0</b><span>Municipios conectados</span></div>
         <div class="kpi"><b class="kpi-n" data-count="2015" data-plain="1">0</b><span>Inicio de su rectoría.</span></div>
       </div>
 
-      <p class="lead mid wide reveal-up">Desde marzo de 2015, Omar Lengerke Pérez se desempeña como rector de las Unidades Tecnológicas de Santander (UTS). Durante su gestión, ha liderado una institución que cuenta con más de 26.500 estudiantes, de los cuales cerca del 98 % pertenecen a los estratos socioeconómicos 1, 2 y 3. Su trayectoria en la educación superior está vinculada al fortalecimiento de la formación técnica y tecnológica y a la generación de oportunidades educativas.</p>
+      <p class="lead mid wide reveal-up">Desde marzo de 2015, Omar Lengerke Pérez se desempeñó como rector de las Unidades Tecnológicas de Santander (UTS). Su gestión estuvo vinculada al fortalecimiento de la formación técnica y tecnológica y a la generación de oportunidades educativas.</p>
 
       <h3 class="group-title">Hitos principales de su gestión</h3>
       <div class="places hitos">
         <article class="hito" id="acreditacion">
           <span class="r-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 6l20 10-20 10L4 16 24 6z"/><path d="M12 22v10c0 3 6 7 12 7s12-4 12-7V22"/><path d="M44 16v12"/></svg></span>
           <b>Acreditación de alta calidad, lograda en su gestión</b>
-          <p>Durante su gestión, Omar Lengerke logró la acreditación institucional de alta calidad para las UTS.</p>
+          <p>Se logró la acreditación institucional de alta calidad para las UTS.</p>
           <p class="so">Un joven puede estudiar en una institución pública con calidad certificada por el Estado, sin irse de Santander.</p>
         </article>
         <article class="hito" id="bucaramanga">
@@ -99,30 +109,38 @@
 
       <h3 class="group-title">Calidad y oportunidades educativas</h3>
       <div class="kpi-row three">
-        <div class="kpi"><b class="kpi-n" data-count="7">0</b><span>Programas profesionales abiertos</span></div>
-        <div class="kpi"><b class="kpi-n" data-count="6">0</b><span>Programas virtuales abiertos</span></div>
-        <div class="kpi"><b class="kpi-n" data-count="6">0</b><span>Programas académicos acreditados en alta calidad</span></div>
+        <div class="kpi kpi-photo ph-profesionales"><b class="kpi-n" data-count="7">0</b><span>Programas profesionales abiertos</span></div>
+        <div class="kpi kpi-photo ph-virtuales"><b class="kpi-n" data-count="6">0</b><span>Programas virtuales abiertos</span></div>
+        <div class="kpi kpi-photo ph-acreditados"><b class="kpi-n" data-count="6">0</b><span>Programas acreditados en alta calidad</span></div>
       </div>
       <h2 class="page-title sm">Investigación e innovación</h2>
 
       <h3 class="group-title">Nuevos centros especializados</h3>
-      <div class="centers page-centers">
-        <article class="center" style="--c:#00873A">
-          <b>CEDERA</b><span>CEDERA UTS</span>
-          <p>Centro para el Desarrollo de los Recursos Ambientales</p>
-        </article>
-        <article class="center" style="--c:#9A6A00">
-          <b>LCC</b><span>LCC UTS</span>
-          <p>Laboratorio de Cultura Ciudadana</p>
-        </article>
-        <article class="center" style="--c:#2E8FA3">
-          <b>CIP</b><span>CIP UTS</span>
-          <p>Centro de Innovación y Productividad</p>
-        </article>
-        <article class="center" style="--c:#D2543F">
-          <b>CAFE</b><span>CAFE UTS</span>
-          <p>Centro Académico para el Fomento del Emprendimiento</p>
-        </article>
+      <div class="centers-viewport" id="centersViewport" data-lenis-prevent>
+        <div class="centers-track" id="centersTrack">
+          <article class="center centers-slide ph-cedera" style="--c:#4CD98A">
+            <b>CEDERA</b><span>CEDERA UTS</span>
+            <p>Centro para el Desarrollo de los Recursos Ambientales</p>
+          </article>
+          <article class="center centers-slide ph-lcc" style="--c:#F5C84C">
+            <b>LCC</b><span>LCC UTS</span>
+            <p>Laboratorio de Cultura Ciudadana</p>
+          </article>
+          <article class="center centers-slide ph-cip" style="--c:#4CC9E3">
+            <b>CIP</b><span>CIP UTS</span>
+            <p>Centro de Innovación y Productividad</p>
+          </article>
+          <article class="center centers-slide ph-cafe" style="--c:#F28C6B">
+            <b>CAFE</b><span>CAFE UTS</span>
+            <p>Centro Académico para el Fomento del Emprendimiento</p>
+          </article>
+        </div>
+      </div>
+      <div class="centers-dots" id="centersDots" role="tablist" aria-label="Nuevos centros especializados">
+        <button type="button" class="centers-dot" data-i="0" role="tab" aria-selected="true" aria-label="Centro 1 de 4"></button>
+        <button type="button" class="centers-dot" data-i="1" role="tab" aria-selected="false" aria-label="Centro 2 de 4"></button>
+        <button type="button" class="centers-dot" data-i="2" role="tab" aria-selected="false" aria-label="Centro 3 de 4"></button>
+        <button type="button" class="centers-dot" data-i="3" role="tab" aria-selected="false" aria-label="Centro 4 de 4"></button>
       </div>
 
       <h3 class="group-title">Fortalecimiento de la investigación</h3>
@@ -132,7 +150,7 @@
 
   <footer class="footer">
     <div class="wrap foot-grid">
-      <div><img class="foot-logo" src="img/logo-interfaz-negativo.webp" alt="Omar Lengerke Pérez" width="900" height="229"><p>Ingeniero, doctor, santandereano.</p>
+      <div><img class="foot-logo" src="img/logo-interfaz-negativo.webp" alt="Omar Lengerke Pérez" width="900" height="229" loading="lazy" decoding="async"><p>Ingeniero, doctor, santandereano.</p>
         <ul class="social social-foot" aria-label="Redes sociales">
           <li><a href="https://www.instagram.com/olengerke/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7"/></svg></a></li>
           <li><a href="https://www.facebook.com/omlengerke" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14.500 8H17V4h-3.200A4.300 4.300 0 0 0 9.500 8.300V11H7v4h2.500v6h4v-6H16l.6-4h-3.100V8.700c0-.4.4-.7 1-.7z"/></svg></a></li>
@@ -146,10 +164,18 @@
     </div>
   </footer>
 
+  <!-- Botón flotante de WhatsApp: el número aún no está conectado (href="#" a propósito), falta solo poner el enlace wa.me real -->
+  <a class="wa-float" id="waFloat" href="#" aria-label="Escríbenos por WhatsApp" data-whatsapp-pending="true">
+    <span class="wa-float-ico" aria-hidden="true">
+      <img src="img/whatsapp-logo.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+    </span>
+    <span class="wa-float-text">¿Tienes preguntas?<br><b>¡Escríbeme!</b></span>
+  </a>
+
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/vanilla-tilt.min.js"></script>
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
