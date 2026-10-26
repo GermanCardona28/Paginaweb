@@ -608,13 +608,41 @@
       if (i === current) return;
       current = i;
       slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
-      if (steps) {
-        steps.style.setProperty('--lc-progress', slides.length > 1 ? i / (slides.length - 1) : 1);
-        steps.querySelectorAll('.lc-step').forEach((b, j) => b.classList.toggle('done', j <= i));
-      }
+      if (steps) steps.querySelectorAll('.lc-step').forEach((b, j) => b.classList.toggle('done', j <= i));
+      progress();
       light();
     }), { root: lcVp, threshold: [.6] });
     slides.forEach(s => io.observe(s));
+
+    /* Avance automático: la línea de tiempo es el reloj. El tramo hasta el siguiente logro se llena como barra
+       de progreso y al completarse pasa solo. Se pausa con el mouse encima y se detiene si la persona lo toca. */
+    const DWELL = 7000, last = slides.length - 1;
+    let auto = !reduce, onScreen = false, hover = false, timer = 0;
+    const span = i => (last ? i / last : 1);
+    function progress() {
+      clearTimeout(timer);
+      if (!steps || current < 0) return;
+      steps.classList.remove('timing');
+      steps.style.setProperty('--lc-progress', span(current));
+      if (!auto || hover || !onScreen || document.hidden) return;
+      // tras llegar al punto actual, el tramo siguiente se llena durante el tiempo que dura el logro
+      timer = setTimeout(() => {
+        steps.style.setProperty('--lc-dur', (DWELL - 900) / 1000 + 's');
+        steps.classList.add('timing');
+        steps.style.setProperty('--lc-progress', current === last ? 1 : span(current + 1));
+        timer = setTimeout(() => {
+          const next = current === last ? 0 : current + 1;
+          lcVp.scrollTo({ left: slides[next].offsetLeft - slides[0].offsetLeft, behavior: 'smooth' });
+        }, DWELL - 900);
+      }, 900);
+    }
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; progress(); }, { threshold: .4 }).observe(lcVp);
+    document.addEventListener('visibilitychange', progress);
+    const stopAuto = () => { if (auto) { auto = false; progress(); } };
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(ev => lcVp.addEventListener(ev, stopAuto, { passive: true }));
+    steps?.addEventListener('click', stopAuto);
+    lcVp.closest('section')?.addEventListener('mouseenter', () => { hover = true; progress(); });
+    lcVp.closest('section')?.addEventListener('mouseleave', () => { hover = false; progress(); });
   }
 
   /* ---- Formación (inicio): cada tarjeta muestra fotos de su universidad como un video de 8 s.

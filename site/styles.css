@@ -1671,7 +1671,7 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 /* en celular el mapa ocupa el lugar del ícono (que se oculta) para que el logro quepa en una pantalla; sin nombres, que ya dice el título */
 @media (max-width: 860px) {
   .lc-stage { grid-template-columns: 1fr; }
-  .lc-map { justify-self: center; margin: 0 0 4px; height: min(22vh, 180px); }
+  .lc-map { justify-self: center; margin: 0 0 4px; height: min(19vh, 160px); }
   .lc-stage .lc-ico { display: none; }
   .lc-stage .lc-slide { align-items: center; text-align: center; padding: 0 20px; min-height: 0; gap: 10px; }
   .lc-stage .lc-slide h3 { font-size: clamp(24px, 6.6vw, 30px); }
@@ -1719,3 +1719,20 @@ img[src*="entrevista"] { object-position: 78% 15%; }
   .lc-stage { grid-template-columns: 1fr; max-width: none; }
   .lc-map { margin: 0 0 4px; }
 }
+
+/* Logros UTS (inicio): ajustes de jerarquía, reloj de la línea de tiempo, enlace por logro y halo del mapa */
+.logros-carousel .lc-head h2 { font-size: clamp(30px, 4.2vw, 52px); line-height: 1.05; margin: 6px 0 0; }
+.lc-stage .lc-slide h3 { font-size: clamp(22px, 2.4vw, 30px); }
+.lc-steps.timing .lc-fill { transition: transform var(--lc-dur, 6s) linear; }
+.lc-more { display: inline-flex; align-items: center; gap: 6px; font: 700 14px var(--sans); letter-spacing: .02em; color: var(--cobre-claro); text-decoration: none; border-bottom: 1.5px solid color-mix(in srgb, var(--cobre-claro) 45%, transparent); padding-bottom: 2px; transition: gap .25s, border-color .25s; }
+.lc-more:hover { gap: 10px; border-color: var(--cobre-claro); }
+.lc-slide.is-active .lc-more { animation: lcRise .7s .45s cubic-bezier(.2,.7,.2,1) both; }
+.lc-map svg { filter: drop-shadow(0 0 28px color-mix(in srgb, var(--cobre-claro) 22%, transparent)); }
+.lc-map svg > path { fill: rgba(255,255,255,.08); stroke: rgba(255,255,255,.26); }
+@media (max-width: 860px) {
+  .logros-carousel .lc-head h2 { font-size: clamp(26px, 7.4vw, 32px); }
+  .lc-stage .lc-slide h3 { font-size: clamp(20px, 5.6vw, 24px); }
+}
+/* margen interno para que el logro siguiente no asome por el borde del carrusel */
+.lc-stage .lc-slide { padding-left: 28px; padding-right: 16px; }
+@media (max-width: 860px) { .lc-stage .lc-slide { padding-inline: 20px; } }
