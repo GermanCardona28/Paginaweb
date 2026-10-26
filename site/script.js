@@ -607,6 +607,40 @@
     lcVp.closest('section')?.addEventListener('mouseleave', () => { hover = false; progress(); });
   }
 
+  /* ---- Inicio en zigzag: al llegar a cada sección su imagen entra desde su lado y el texto en cascada;
+     con el mouse encima, la imagen se inclina y se desplaza un poco (profundidad). El panel de video de
+     Investigación alterna tres clips de las líneas de investigación ---- */
+  const zz = document.querySelectorAll('.zz');
+  if (zz.length) {
+    const zzIo = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('video[data-src]').forEach(v => { v.src = v.dataset.src; v.removeAttribute('data-src'); });
+    }), { threshold: .3 });
+    zz.forEach(s => zzIo.observe(s));
+    if (!reduce && matchMedia('(hover: hover)').matches) zz.forEach(sec => {
+      const media = sec.querySelector('.zz-media, .uni-carousel');
+      if (!media) return;
+      sec.addEventListener('mousemove', e => {
+        const r = sec.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        media.style.setProperty('--ry', (x * 6).toFixed(2) + 'deg');
+        media.style.setProperty('--rx', (-y * 4).toFixed(2) + 'deg');
+        media.style.setProperty('--mx', (-x * 18).toFixed(1) + 'px');
+        media.style.setProperty('--my', (-y * 14).toFixed(1) + 'px');
+      });
+      sec.addEventListener('mouseleave', () => ['--ry', '--rx', '--mx', '--my'].forEach(p => media.style.removeProperty(p)));
+    });
+    document.querySelectorAll('.zz-video').forEach(box => {
+      const clips = [...box.querySelectorAll('video')];
+      let k = 0;
+      const show = () => clips.forEach((v, j) => { v.classList.toggle('on', j === k); if (j === k) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
+      // el primer clip arranca cuando ya tiene fuente; luego cambia cada 8 s
+      const start = () => { if (!clips[0].src) return setTimeout(start, 300); show(); if (!reduce) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
+      start();
+    });
+  }
+
   /* ---- Formación (inicio): cada tarjeta muestra fotos de su universidad como un video de 8 s.
      Las fotos se cruzan con un acercamiento lento; al final de la vuelta se oscurece y el carrusel pasa
      solo a la siguiente formación, hasta que la persona lo toque (entonces solo avanza a mano). ---- */
