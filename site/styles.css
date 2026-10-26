@@ -2021,3 +2021,14 @@ html:has(main[data-snap]) .footer { scroll-snap-align: end; }
   .jc-form .check { justify-content: center; }
   .jc-form .form-msg { text-align: center; }
 }
+/* Reconocimientos (inicio): las cuatro tarjetas iguales. Cada título reserva dos renglones y cada descripción
+   dos renglones, así los textos quedan a la misma altura; al pasar el mouse la tarjeta sube en vez de correrse */
+.prensa .awards { align-items: stretch; }
+.prensa .award { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; }
+.prensa .award h3 { font-size: 19px; line-height: 1.25; min-height: 2.5em; margin: 0; display: flex; align-items: flex-start; }
+.prensa .award p { font-size: 15px; line-height: 1.5; min-height: 3em; margin: 0; }
+.prensa .award:hover { transform: translateY(-4px); }
+@media (max-width: 760px) {
+  .prensa .award { padding: 14px; gap: 0; }
+  .prensa .award h3 { font-size: 15px; min-height: 3.75em; }
+}
