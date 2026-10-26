@@ -159,6 +159,22 @@
     VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { speed: 600, scale: 1.02 });
   }
 
+  /* ---- Crecimiento (Territorio): pictograma de personas que se va llenando ---- */
+  const growthPeople = document.getElementById('growthPeople');
+  if (growthPeople) {
+    const total = 72;
+    for (let i = 0; i < total; i++) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'gp');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#gp-icon');
+      use.setAttribute('href', '#gp-icon');
+      svg.appendChild(use);
+      growthPeople.appendChild(svg);
+    }
+  }
+
   /* ---- Contadores ---- */
   const counters = document.querySelectorAll('[data-count]');
   const setCount = (el, v) => { const n = Math.round(v); el.textContent = (el.dataset.prefix || '') + (el.dataset.fmt ? n.toLocaleString('es-CO') : n) + (el.dataset.suffix || ''); };
@@ -169,6 +185,7 @@
   if (reduce || !hasGsap) {
     document.querySelectorAll('.card').forEach(c => c.classList.add('in'));
     document.querySelectorAll('.tl-line span').forEach(s => { s.style.transform = 'none'; });
+    document.querySelectorAll('.growth-people .gp').forEach(g => { g.style.opacity = 1; g.style.transform = 'none'; });
   } else {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -221,36 +238,46 @@
         scrollTrigger: { trigger: item, start: 'top 85%', once: true } });
     });
 
-    // Mapa: los pines aparecen después del mapa
-    gsap.from("#map .pin", { opacity: 0, duration: .7, stagger: .15, ease: "power2.out",
-      scrollTrigger: { trigger: "#map", start: "top 75%", once: true } });
-    gsap.from("#map .mun", { opacity: 0, duration: .8, stagger: { amount: .8, from: "random" }, ease: "power1.out",
-      scrollTrigger: { trigger: "#map", start: "top 80%", once: true } });
+    // Mapa: los pines aparecen después del mapa (si la página todavía tiene el mapa)
+    if (document.getElementById("map")) {
+      gsap.from("#map .pin", { opacity: 0, duration: .7, stagger: .15, ease: "power2.out",
+        scrollTrigger: { trigger: "#map", start: "top 75%", once: true } });
+      gsap.from("#map .mun", { opacity: 0, duration: .8, stagger: { amount: .8, from: "random" }, ease: "power1.out",
+        scrollTrigger: { trigger: "#map", start: "top 80%", once: true } });
+    }
+
+    // Crecimiento: el grupo de personas se va formando, primero pocas y luego muchas
+    if (growthPeople) {
+      gsap.from('.growth-people .gp', { opacity: 0, scale: 0, duration: .5, ease: 'back.out(2)',
+        stagger: { each: .02, from: 'start' },
+        scrollTrigger: { trigger: '.growth-viz', start: 'top 80%', once: true } });
+    }
   }
 
-  /* ---- Mapa interactivo ---- */
-  const mt = document.getElementById("map-title");
-  const md = document.getElementById("map-desc");
-  const pinsEl = [...document.querySelectorAll("#map .pin")];
-  const byName = n => pinsEl.find(p => p.dataset.t === n || (n === "Socorro" && p.dataset.t === "El Socorro"));
-  const clear = () => document.querySelectorAll("#map .active").forEach(e => e.classList.remove("active"));
-  const show = (t, d, ...els) => { clear(); els.forEach(e => e && e.classList.add("active")); mt.textContent = t; md.textContent = d; };
-  pinsEl.forEach(pin => {
-    pin.setAttribute("tabindex", "0");
-    pin.setAttribute("role", "button");
-    pin.setAttribute("aria-label", pin.dataset.t + ": " + pin.dataset.d);
-    const mun = [...document.querySelectorAll("#map .mun[data-k]")].find(m => m.dataset.n === (pin.dataset.t === "El Socorro" ? "Socorro" : pin.dataset.t));
-    const go = () => show(pin.dataset.t, pin.dataset.d, pin, mun);
-    pin.addEventListener("mousedown", e => e.preventDefault());
-    pin.addEventListener("click", go);
-    pin.addEventListener("mouseenter", go);
-    pin.addEventListener("focus", go);
-    pin.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
-    if (mun) { mun.addEventListener("click", go); mun.addEventListener("mouseenter", go); }
-  });
-  document.querySelectorAll("#map .mun:not([data-k])").forEach(m => {
-    m.addEventListener("mouseenter", () => show(m.dataset.n, "Municipio de Santander."));
-  });
+  /* ---- Mapa interactivo (si la página todavía tiene el mapa) ---- */
+  if (document.getElementById("map")) {
+    const mt = document.getElementById("map-title");
+    const md = document.getElementById("map-desc");
+    const pinsEl = [...document.querySelectorAll("#map .pin")];
+    const clear = () => document.querySelectorAll("#map .active").forEach(e => e.classList.remove("active"));
+    const show = (t, d, ...els) => { clear(); els.forEach(e => e && e.classList.add("active")); mt.textContent = t; md.textContent = d; };
+    pinsEl.forEach(pin => {
+      pin.setAttribute("tabindex", "0");
+      pin.setAttribute("role", "button");
+      pin.setAttribute("aria-label", pin.dataset.t + ": " + pin.dataset.d);
+      const mun = [...document.querySelectorAll("#map .mun[data-k]")].find(m => m.dataset.n === (pin.dataset.t === "El Socorro" ? "Socorro" : pin.dataset.t));
+      const go = () => show(pin.dataset.t, pin.dataset.d, pin, mun);
+      pin.addEventListener("mousedown", e => e.preventDefault());
+      pin.addEventListener("click", go);
+      pin.addEventListener("mouseenter", go);
+      pin.addEventListener("focus", go);
+      pin.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+      if (mun) { mun.addEventListener("click", go); mun.addEventListener("mouseenter", go); }
+    });
+    document.querySelectorAll("#map .mun:not([data-k])").forEach(m => {
+      m.addEventListener("mouseenter", () => show(m.dataset.n, "Municipio de Santander."));
+    });
+  }
 
   /* ---- Investigación: líneas, filtros y publicaciones ---- */
   const ICONS = {
@@ -420,5 +447,6 @@
   };
   initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
+  initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
 
 })();
