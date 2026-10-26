@@ -76,7 +76,7 @@
   const hasSnap = !!document.querySelector('[data-snap]');
   let lenis = null;
   if (!reduce && typeof Lenis !== 'undefined' && !hasSnap) {
-    lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    lenis = new Lenis({ duration: 0.85, smoothWheel: true });
     if (hasGsap) {
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add(t => lenis.raf(t * 1000));
