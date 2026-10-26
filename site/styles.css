@@ -1514,3 +1514,9 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 :root[data-theme="dark"] .btn-more-pubs { color: #4CD98A; border-color: #4CD98A; }
 :root[data-theme="dark"] .btn-more-pubs:hover { background: #4CD98A; color: #08281A; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-more-pubs { color: #4CD98A; border-color: #4CD98A; } :root:not([data-theme="light"]) .btn-more-pubs:hover { background: #4CD98A; color: #08281A; } }
+
+/* recuadros de arriba: fotos más claras antes del hover (al pasar el cursor se oscurecen como antes) */
+.r-badges > div::before { opacity: .62; filter: saturate(1) brightness(1.08); }
+.r-badges > div:hover::before { opacity: .8; filter: brightness(.5) saturate(.75) hue-rotate(200deg) contrast(1.15); }
+.r-badges > div::after { background: linear-gradient(200deg, rgba(5,12,35,.04) 25%, rgba(6,14,38,.5) 100%); }
+.r-badges b, .r-badges span { text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 2px 14px rgba(0,0,0,.45); }
