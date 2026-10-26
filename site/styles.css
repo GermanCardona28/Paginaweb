@@ -1244,3 +1244,113 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 
 /* difuminado también en modo oscuro: igual curva, pero hacia --bg-page en vez de transparente */
 .section.dark { background: linear-gradient(180deg, color-mix(in srgb, var(--azul) 0%, var(--bg-page)) 0px, color-mix(in srgb, var(--azul) 3%, var(--bg-page)) 12px, color-mix(in srgb, var(--azul) 10%, var(--bg-page)) 24px, color-mix(in srgb, var(--azul) 22%, var(--bg-page)) 36px, color-mix(in srgb, var(--azul) 35%, var(--bg-page)) 48px, color-mix(in srgb, var(--azul) 50%, var(--bg-page)) 60px, color-mix(in srgb, var(--azul) 65%, var(--bg-page)) 72px, color-mix(in srgb, var(--azul) 78%, var(--bg-page)) 84px, color-mix(in srgb, var(--azul) 90%, var(--bg-page)) 96px, color-mix(in srgb, var(--azul) 97%, var(--bg-page)) 108px, color-mix(in srgb, var(--azul) 100%, var(--bg-page)) 120px, color-mix(in srgb, var(--azul) 97%, var(--bg-page)) calc(100% - 108px), color-mix(in srgb, var(--azul) 90%, var(--bg-page)) calc(100% - 96px), color-mix(in srgb, var(--azul) 78%, var(--bg-page)) calc(100% - 84px), color-mix(in srgb, var(--azul) 65%, var(--bg-page)) calc(100% - 72px), color-mix(in srgb, var(--azul) 50%, var(--bg-page)) calc(100% - 60px), color-mix(in srgb, var(--azul) 35%, var(--bg-page)) calc(100% - 48px), color-mix(in srgb, var(--azul) 22%, var(--bg-page)) calc(100% - 36px), color-mix(in srgb, var(--azul) 10%, var(--bg-page)) calc(100% - 24px), color-mix(in srgb, var(--azul) 3%, var(--bg-page)) calc(100% - 12px), color-mix(in srgb, var(--azul) 0%, var(--bg-page)) calc(100% - 0px)); padding-block: clamp(120px, 12vw, 160px); }
+
+/* ===== Logros de los trabajos: tarjetas con gráfico, simétricas y con parallax ===== */
+.findings { --fv: var(--cobre); counter-reset: fnd; grid-auto-rows: 1fr; gap: 24px; }
+:root[data-theme="dark"] .findings { --fv: #4CD98A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .findings { --fv: #4CD98A; } }
+.finding {
+  --p: 0; --mx: 50%; --my: 0%;
+  position: relative; overflow: hidden; isolation: isolate; counter-increment: fnd;
+  padding: 0; border-radius: 22px; background: var(--surface); color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--fv) 16%, transparent);
+  box-shadow: 0 1px 2px rgba(8,40,26,.05), 0 18px 36px -24px rgba(8,40,26,.35);
+  grid-template-rows: auto auto 1fr auto; gap: 0;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s, border-color .45s;
+}
+.finding::before { /* etiqueta numerada */
+  content: counter(fnd, decimal-leading-zero); position: absolute; z-index: 3; left: 16px; top: 12px;
+  font: 700 12px/1 var(--sans); letter-spacing: .14em; color: var(--fv); padding: 6px 10px; border-radius: 99px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent); border: 1px solid color-mix(in srgb, var(--fv) 28%, transparent); backdrop-filter: blur(6px);
+}
+.finding::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(280px circle at var(--mx) var(--my), color-mix(in srgb, var(--fv) 12%, transparent), transparent 70%); }
+.finding:hover { transform: translateY(-8px); border-color: color-mix(in srgb, var(--fv) 50%, transparent); box-shadow: 0 2px 4px rgba(8,40,26,.06), 0 30px 50px -26px rgba(8,40,26,.5); }
+.finding:hover::after { opacity: 1; }
+/* panel del gráfico */
+.f-viz { position: relative; height: 96px; overflow: hidden; z-index: 1;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--fv) 14%, var(--surface)) 0%, color-mix(in srgb, var(--fv) 4%, var(--surface)) 100%);
+  border-bottom: 1px solid color-mix(in srgb, var(--fv) 14%, transparent); }
+.f-viz svg { position: absolute; inset: 0; width: 100%; height: 100%; padding: 14px 0 6px; box-sizing: border-box; transform: translate3d(0, calc(var(--p) * -9px), 0) scale(.98); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.finding:hover .f-viz svg { transform: translate3d(0, calc(var(--p) * -9px), 0) scale(1.05); }
+.f-viz svg * { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.f-viz .ax { stroke: color-mix(in srgb, var(--fv) 16%, transparent); stroke-width: 1; }
+.f-viz .ax2 { stroke: color-mix(in srgb, var(--fv) 55%, transparent); stroke-width: 2; }
+.f-viz .st { stroke: var(--fv); stroke-width: 3; }
+.f-viz .dsh { stroke: color-mix(in srgb, var(--fv) 50%, transparent); stroke-width: 2.2; stroke-dasharray: 3 7; }
+.f-viz .fl { fill: color-mix(in srgb, var(--fv) 20%, transparent); stroke: none; }
+.f-viz .fl2 { fill: #F2B544; stroke: none; }
+.f-viz .jt { fill: var(--surface); stroke: var(--fv); stroke-width: 2.4; }
+.f-viz .dot { fill: var(--fv); stroke: none; }
+.f-viz .ring { fill: none; stroke: var(--fv); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: fvPulse 2.6s ease-out infinite; }
+.f-viz .noise { stroke: color-mix(in srgb, var(--fv) 38%, transparent); stroke-width: 2; }
+.f-viz .drop { fill: #4FA8E8; stroke: none; transform-box: fill-box; transform-origin: center; animation: fvDrop 3s ease-in-out infinite; }
+.f-viz .sun { transform-box: fill-box; transform-origin: center; animation: fvSpin 18s linear infinite; }
+.f-viz .wind { animation: fvWind 3.5s ease-in-out infinite alternate; }
+.f-viz .flag { stroke: var(--fv); stroke-width: 2.6; fill: color-mix(in srgb, var(--fv) 40%, transparent); }
+.f-viz .bot { offset-path: path("M20 94C60 94 56 34 100 34S140 90 180 84 214 40 224 30"); offset-rotate: 0deg; animation: fvTrack 5s ease-in-out infinite; }
+.f-viz .leaf { fill: var(--fv); stroke: none; }
+.f-viz .bar { fill: color-mix(in srgb, var(--fv) 42%, transparent); stroke: none; transform-box: fill-box; transform-origin: bottom; }
+.f-viz .bar.hi { fill: var(--fv); }
+.js .finding:not(.in) .f-viz .bar { transform: scaleY(0); }
+.js .finding.in .f-viz .bar { animation: fvGrow .9s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: calc(.35s + var(--d) * 90ms); }
+.f-viz .draw { stroke-dasharray: 420; stroke-dashoffset: 0; }
+.js .finding:not(.in) .f-viz .draw { stroke-dashoffset: 420; }
+.js .finding.in .f-viz .draw { animation: draw 1.7s cubic-bezier(.4,.1,.2,1) .25s backwards; }
+@keyframes fvPulse { 0% { transform: scale(.7); opacity: 1; } 80%, 100% { transform: scale(1.35); opacity: 0; } }
+@keyframes fvDrop { 0%, 100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+@keyframes fvSpin { to { transform: rotate(360deg); } }
+@keyframes fvWind { to { transform: translateX(-10px); } }
+@keyframes fvTrack { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@keyframes fvGrow { from { transform: scaleY(0); } }
+/* texto: mismo número de renglones en todas las tarjetas */
+.finding h4 { position: relative; z-index: 1; margin: 0; padding: 22px 26px 0; font: 800 22px/1.22 var(--serif); color: var(--azul); height: 2.44em; box-sizing: content-box; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+:root[data-theme="dark"] .finding h4 { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding h4 { color: var(--ink); } }
+.finding p { position: relative; z-index: 1; margin: 0; padding: 10px 26px 0; font-size: 15.5px; line-height: 1.55; color: var(--ink-muted); align-self: start; box-sizing: content-box; height: 7.75em; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.finding small { position: relative; z-index: 1; display: block; margin: 16px 26px 22px; padding-top: 14px; min-height: 3.6em; font: 700 13px/1.4 var(--sans); letter-spacing: .01em; color: var(--fv); opacity: 1; }
+.finding small::before { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: color-mix(in srgb, var(--fv) 16%, transparent); border-radius: 2px; }
+.finding small::after { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 0; border-radius: 2px; background: var(--fv); transition: width 1.4s cubic-bezier(.2,.7,.2,1) .5s; }
+.finding.in small::after { width: 40%; }
+.finding:hover small::after { width: 100%; transition-duration: .7s; transition-delay: 0s; }
+/* entrada escalonada al hacer scroll */
+.js .finding:not(.in) { opacity: 0; transform: translateY(46px) scale(.97); }
+.js .finding.in { animation: fndRise .95s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: calc(var(--i, 0) * 110ms); }
+@keyframes fndRise { from { opacity: 0; transform: translateY(46px) scale(.97); } }
+@media (prefers-reduced-motion: reduce) { .finding { transform: none !important; animation: none !important; } .f-viz svg { transform: none !important; } .f-viz .ring, .f-viz .drop, .f-viz .sun, .f-viz .wind, .f-viz .bot, .f-viz .bar, .f-viz .draw { animation: none !important; } .f-viz .bot { offset-distance: 100%; } }
+
+/* refinamiento: gráficos básicos y tarjetas con más verde */
+.finding { background: color-mix(in srgb, var(--cobre) 9%, var(--surface)); border-color: color-mix(in srgb, var(--cobre) 30%, transparent); }
+:root[data-theme="dark"] .finding { background: color-mix(in srgb, var(--cobre) 22%, var(--surface)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding { background: color-mix(in srgb, var(--cobre) 22%, var(--surface)); } }
+.f-viz { height: 76px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--cobre) 0%, color-mix(in srgb, var(--cobre) 62%, #08281A) 100%); border-bottom: 0; }
+.f-viz svg { position: static; inset: auto; width: auto; height: 42px; padding: 0; margin-top: 14px; transform: translate3d(0, calc(var(--p) * -4px), 0); opacity: .9; }
+.finding:hover .f-viz svg { transform: translate3d(0, calc(var(--p) * -4px), 0) scale(1.08); }
+.f-viz .b { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.finding::before { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.4); color: #fff; backdrop-filter: none; }
+.finding small { color: var(--cobre); }
+:root[data-theme="dark"] .finding small { color: #4CD98A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding small { color: #4CD98A; } }
+.finding h4 { color: color-mix(in srgb, var(--cobre) 55%, #08281A); }
+:root[data-theme="dark"] .finding h4 { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding h4 { color: var(--ink); } }
+
+/* títulos y subtítulos con el mismo número de renglones reservado, en cualquier ancho */
+.r-badges b, .finding h4, .finding p, .r-badges span { text-wrap: balance; }
+.r-badges b { min-height: 1.2em; }
+.r-badges span { display: block; min-height: 2.8em; }
+@media (max-width: 1180px) { .r-badges b { min-height: 2.4em; } }
+@media (max-width: 960px) { .r-badges b { min-height: 1.2em; } }
+@media (max-width: 600px) { .finding h4 { font-size: 20px; } .finding p { font-size: 15px; } }
+@media (max-width: 600px) { .r-badges b { min-height: 2.4em; } .r-badges span { min-height: 4.2em; } }
+
+/* texto centrado, con el mismo espacio y centrado vertical dentro de cada bloque */
+.finding h4, .finding p { display: grid; align-content: center; justify-items: center; text-align: center; -webkit-line-clamp: unset; }
+.finding p { padding-top: 6px; }
+.finding small { text-align: center; }
+.finding small::before, .finding small::after { left: 50%; transform: translateX(-50%); }
+.finding small::before { width: 100%; }
+.finding.in small::after { width: 40%; }
+.finding:hover small::after { width: 100%; }
+/* títulos siempre en 2 renglones equilibrados */
+.finding h4 { max-width: 19ch; margin-inline: auto; padding-inline: 0; text-wrap: balance; }

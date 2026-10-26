@@ -447,4 +447,34 @@
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
+
+  /* ---- Tarjetas de logros: parallax por capas + luz que sigue al cursor ---- */
+  const fnds = document.querySelectorAll('.findings .finding');
+  if (fnds.length) {
+    fnds.forEach((el, i) => {
+      el.style.setProperty('--i', i % 3);
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+    if (!reduce) {
+      let ft = false;
+      const fRun = () => {
+        ft = false;
+        fnds.forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -80 || r.top > innerHeight + 80) return;
+          const d = (r.top + r.height / 2 - innerHeight / 2) / (innerHeight / 2);
+          el.style.setProperty('--p', Math.max(-1, Math.min(1, d)).toFixed(3));
+        });
+      };
+      const fReq = () => { if (!ft) { ft = true; requestAnimationFrame(fRun); } };
+      addEventListener('scroll', fReq, { passive: true });
+      addEventListener('resize', fReq);
+      fRun();
+    }
+  }
+
 })();
