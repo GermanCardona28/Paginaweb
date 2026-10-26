@@ -1520,3 +1520,4 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 .r-badges > div:hover::before { opacity: .8; filter: brightness(.5) saturate(.75) hue-rotate(200deg) contrast(1.15); }
 .r-badges > div::after { background: linear-gradient(200deg, rgba(5,12,35,.04) 25%, rgba(6,14,38,.5) 100%); }
 .r-badges b, .r-badges span { text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 2px 14px rgba(0,0,0,.45); }
+.r-badges > div.rb1::before { background-image: url(img/investigador-senior.webp?v=2); background-position: 30% 35%; }
