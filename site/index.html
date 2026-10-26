@@ -121,49 +121,53 @@
         <h2 class="reveal-up">Doce años llevando la educación a la obra.</h2>
       </div>
 
+      <!-- Línea de tiempo de la gestión: también es la navegación del carrusel -->
+      <div class="lc-timeline wrap">
+        <span class="lc-year">2015</span>
+        <div class="lc-dots lc-steps" id="lcDots" role="tablist" aria-label="Logros UTS">
+          <span class="lc-rail" aria-hidden="true"><span class="lc-fill"></span></span>
+          <button type="button" class="lc-step" data-i="0" role="tab" aria-selected="true" aria-label="Logro 1 de 4: Sede de Bucaramanga ampliada"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Bucaramanga</span></button>
+          <button type="button" class="lc-step" data-i="1" role="tab" aria-selected="false" aria-label="Logro 2 de 4: Nueva sede en Barrancabermeja"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Barrancabermeja</span></button>
+          <button type="button" class="lc-step" data-i="2" role="tab" aria-selected="false" aria-label="Logro 3 de 4: Seccionales de Piedecuesta y Vélez"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Piedecuesta y Vélez</span></button>
+          <button type="button" class="lc-step" data-i="3" role="tab" aria-selected="false" aria-label="Logro 4 de 4: Acreditación de alta calidad"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Acreditación</span></button>
+        </div>
+        <span class="lc-year">2026</span>
+      </div>
+
       <div class="lc-stage wrap">
       <figure class="lc-map" id="lcMap" aria-hidden="true"></figure>
       <div class="lc-viewport" id="lcViewport" data-lenis-prevent>
         <div class="lc-track" id="lcTrack">
-          <article class="lc-slide" data-m="bga barranca piedecuesta velez">
-            <span class="lc-ico reveal-up" aria-hidden="true">
-              <svg viewBox="0 0 48 48"><path d="M24 6l20 10-20 10L4 16 24 6z"/><path d="M12 22v10c0 3 6 7 12 7s12-4 12-7V22"/><path d="M44 16v12"/></svg>
-            </span>
-            <h3 class="reveal-up"><a href="logros-uts.html#acreditacion">Acreditación de alta calidad, lograda en su gestión</a></h3>
-            <p class="reveal-up">Un joven puede estudiar en una institución pública con calidad certificada por el Estado, sin irse de Santander.</p>
-          </article>
-          <article class="lc-slide" data-m="bga">
+          <article class="lc-slide" data-m="bga" data-new="bga">
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><path d="M6 42V18l10-6v30"/><path d="M16 42V8l14 6v28"/><path d="M30 42V22l12 4v16"/><path d="M4 42h40"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#bucaramanga">Sede de Bucaramanga ampliada</a></h3>
             <p class="reveal-up">Más aulas y laboratorios para quienes ya estudian, y más oportunidades para quienes esperaban entrar.</p>
           </article>
-          <article class="lc-slide" data-m="barranca">
+          <article class="lc-slide" data-m="bga barranca" data-new="barranca">
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><path d="M10 42V14l14-8 14 8v28"/><path d="M18 42V28h12v14"/><path d="M4 42h40"/><path d="M24 14v6"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#barrancabermeja">Nueva sede en Barrancabermeja</a></h3>
             <p class="reveal-up">La educación superior pública llega al Magdalena Medio, para que los jóvenes estudien en casa.</p>
           </article>
-          <article class="lc-slide" data-m="piedecuesta velez">
+          <article class="lc-slide" data-m="bga barranca piedecuesta velez" data-new="piedecuesta velez">
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="8"/><path d="M24 28c-6 6-10 10-10 14h20c0-4-4-8-10-14z"/><circle cx="24" cy="20" r="2"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#piedecuesta-velez">Seccionales de Piedecuesta y Vélez</a></h3>
             <p class="reveal-up">Estudiar una carrera ya no implica mudarse a la capital: cada familia ahorra y cada municipio retiene a su talento.</p>
           </article>
+          <article class="lc-slide" data-m="bga barranca piedecuesta velez" data-new="all">
+            <span class="lc-ico reveal-up" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M24 6l20 10-20 10L4 16 24 6z"/><path d="M12 22v10c0 3 6 7 12 7s12-4 12-7V22"/><path d="M44 16v12"/></svg>
+            </span>
+            <h3 class="reveal-up"><a href="logros-uts.html#acreditacion">Acreditación de alta calidad, lograda en su gestión</a></h3>
+            <p class="reveal-up">Un joven puede estudiar en una institución pública con calidad certificada por el Estado, sin irse de Santander.</p>
+          </article>
         </div>
       </div>
-      </div>
-
-      <div class="lc-controls wrap">
-        <div class="lc-dots" id="lcDots" role="tablist" aria-label="Logros UTS">
-          <button type="button" class="lc-dot" data-i="0" role="tab" aria-selected="true" aria-label="Logro 1 de 4"></button>
-          <button type="button" class="lc-dot" data-i="1" role="tab" aria-selected="false" aria-label="Logro 2 de 4"></button>
-          <button type="button" class="lc-dot" data-i="2" role="tab" aria-selected="false" aria-label="Logro 3 de 4"></button>
-          <button type="button" class="lc-dot" data-i="3" role="tab" aria-selected="false" aria-label="Logro 4 de 4"></button>
-        </div>
       </div>
 
       <div class="more-bar wrap"><a class="btn-more light" href="logros-uts.html">Ver más</a></div>

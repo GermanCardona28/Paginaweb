@@ -551,30 +551,48 @@
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
-  /* ---- Logros UTS (inicio): mini mapa de Santander que enciende el municipio de cada logro,
-     y entrada animada del ícono y el texto al cambiar de logro ---- */
+  /* ---- Logros UTS (inicio): los logros van en orden de crecimiento. El mapa de Santander muestra la red de sedes
+     que nace en Bucaramanga y se extiende con cada logro (arcos que se dibujan), y la línea de tiempo 2015–2026
+     avanza hasta el logro visible; sus puntos también sirven para navegar ---- */
   const lcVp = document.getElementById('lcViewport');
   const lcMap = document.getElementById('lcMap');
   if (lcVp && lcMap) {
     const slides = [...lcVp.querySelectorAll('.lc-slide')];
+    const steps = document.querySelector('.lc-steps');
     // centro aproximado de cada municipio en las coordenadas del mapa (img/mapa-santander.svg)
     // [x, y, nombre, posición de la etiqueta respecto al punto]
-    const PINS = { bga: [404, 293, 'Bucaramanga', 'top'], barranca: [221, 328, 'Barrancabermeja', 'top'], piedecuesta: [430, 341, 'Piedecuesta', 'left'], velez: [251, 516, 'Vélez', 'left'] };
+    const PINS = { bga: [404, 293, 'Bucaramanga', 'left'], barranca: [221, 328, 'Barrancabermeja', 'left'], piedecuesta: [430, 341, 'Piedecuesta', 'left'], velez: [251, 516, 'Vélez', 'left'] };
     const LABEL = { top: [0, -22, 'middle'], left: [-16, 8, 'end'], right: [16, 8, 'start'] };
     let svg = null, current = -1;
     const light = () => {
       if (!svg || current < 0) return;
       const on = (slides[current].dataset.m || '').split(' ');
+      const fresh = (slides[current].dataset.new || '').split(' ');
       Object.keys(PINS).forEach(k => {
-        const hit = on.includes(k);
+        const hit = on.includes(k), isNew = fresh.includes(k) || fresh.includes('all');
         svg.querySelector('#m-' + k)?.classList.toggle('on', hit);
-        svg.querySelector('.pin-' + k)?.classList.toggle('on', hit);
+        svg.querySelector('#m-' + k)?.classList.toggle('new', hit && isNew);
+        const pin = svg.querySelector('.pin-' + k);
+        pin?.classList.toggle('on', hit);
+        pin?.classList.toggle('new', hit && isNew);
+        const arc = svg.querySelector('.arc-' + k);
+        if (arc) { arc.classList.toggle('on', hit); arc.classList.toggle('new', hit && isNew); }
       });
+      svg.classList.toggle('all', fresh.includes('all'));
     };
     fetch('img/mapa-santander.svg').then(r => r.text()).then(txt => {
       lcMap.innerHTML = txt;
       svg = lcMap.querySelector('svg');
       const NS = 'http://www.w3.org/2000/svg';
+      const [hx, hy] = PINS.bga;
+      // arcos desde Bucaramanga hacia cada sede nueva, curvados hacia arriba
+      const arcs = document.createElementNS(NS, 'g');
+      arcs.setAttribute('class', 'lc-arcs');
+      arcs.innerHTML = ['barranca', 'piedecuesta', 'velez'].map(k => {
+        const [x, y] = PINS[k], mx = (hx + x) / 2, my = (hy + y) / 2 - Math.hypot(x - hx, y - hy) * .35;
+        return `<path class="lc-arc arc-${k}" pathLength="100" d="M${hx} ${hy}Q${mx.toFixed(0)} ${my.toFixed(0)} ${x} ${y}"/>`;
+      }).join('');
+      svg.appendChild(arcs);
       Object.entries(PINS).forEach(([k, [x, y, name, side]]) => {
         const g = document.createElementNS(NS, 'g');
         g.setAttribute('class', 'lc-pin pin-' + k);
@@ -590,6 +608,10 @@
       if (i === current) return;
       current = i;
       slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
+      if (steps) {
+        steps.style.setProperty('--lc-progress', slides.length > 1 ? i / (slides.length - 1) : 1);
+        steps.querySelectorAll('.lc-step').forEach((b, j) => b.classList.toggle('done', j <= i));
+      }
       light();
     }), { root: lcVp, threshold: [.6] });
     slides.forEach(s => io.observe(s));

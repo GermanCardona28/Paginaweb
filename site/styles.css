@@ -1644,15 +1644,15 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 
 /* Logros UTS (inicio): mapa de Santander y logro en un solo bloque; el texto se monta sobre el borde del mapa */
 .lc-stage { position: relative; display: grid; grid-template-columns: minmax(240px, 380px) minmax(0, 560px); justify-content: center; align-items: center; max-width: 1000px; margin-inline: auto; }
-.lc-map { position: relative; z-index: 0; margin: 0 -70px 0 0; aspect-ratio: 532 / 633; height: min(56vh, 460px); width: auto; justify-self: end; }
+.lc-map { position: relative; z-index: 0; margin: 0 -36px 0 0; aspect-ratio: 532 / 633; height: min(56vh, 460px); width: auto; justify-self: end; }
 .lc-stage .lc-viewport { position: relative; z-index: 1; }
 .lc-stage .lc-slide { align-items: flex-start; text-align: left; padding-left: 0; gap: 14px; }
 .lc-stage .lc-slide p { max-width: 44ch; }
 .lc-stage .lc-ico { width: 84px; height: 84px; }
 .lc-stage .lc-ico svg { width: 42px; height: 42px; }
 .lc-map svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.lc-map path { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.16); stroke-width: 1.2; stroke-linejoin: round; transition: fill .6s ease, stroke .6s ease; }
-.lc-map path.on { fill: color-mix(in srgb, var(--cobre-claro) 55%, transparent); stroke: var(--cobre-claro); stroke-width: 2; }
+.lc-map svg > path { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.16); stroke-width: 1.2; stroke-linejoin: round; transition: fill .6s ease, stroke .6s ease; }
+.lc-map svg > path.on { fill: color-mix(in srgb, var(--cobre-claro) 55%, transparent); stroke: var(--cobre-claro); stroke-width: 2; }
 .lc-pin { opacity: 0; transform: translateY(-10px); transform-box: fill-box; transition: opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
 .lc-pin.on { opacity: 1; transform: none; }
 .lc-pin .dot { fill: #fff; stroke: var(--cobre-claro); stroke-width: 3; }
@@ -1671,7 +1671,7 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 /* en celular el mapa ocupa el lugar del ícono (que se oculta) para que el logro quepa en una pantalla; sin nombres, que ya dice el título */
 @media (max-width: 860px) {
   .lc-stage { grid-template-columns: 1fr; }
-  .lc-map { justify-self: center; margin: 0 0 4px; height: min(24vh, 190px); }
+  .lc-map { justify-self: center; margin: 0 0 4px; height: min(22vh, 180px); }
   .lc-stage .lc-ico { display: none; }
   .lc-stage .lc-slide { align-items: center; text-align: center; padding: 0 20px; min-height: 0; gap: 10px; }
   .lc-stage .lc-slide h3 { font-size: clamp(24px, 6.6vw, 30px); }
@@ -1680,3 +1680,42 @@ img[src*="entrevista"] { object-position: 78% 15%; }
   .lc-pin .dot { r: 12; }
 }
 @media (prefers-reduced-motion: reduce) { .lc-pin, .lc-map path { transition: none; } .lc-pin.on .ring, .lc-slide.is-active *, .lc-slide.is-active .lc-ico { animation: none !important; } }
+
+/* Logros UTS (inicio), un solo eje: título, línea de tiempo, bloque mapa + logro y botón, todos centrados */
+.lc-stage .lc-ico { display: none; }
+.lc-stage { grid-template-columns: minmax(240px, 400px) minmax(0, 470px); max-width: 940px; }
+.lc-stage .lc-slide { min-height: min(46vh, 400px); }
+/* red de sedes: arcos que salen de Bucaramanga y se dibujan al sumar cada sede */
+.lc-arc { fill: none; stroke: var(--cobre-claro); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; opacity: .85; transition: stroke-dashoffset 1.2s cubic-bezier(.4,.1,.2,1) .2s; }
+.lc-arc.on { stroke-dashoffset: 0; }
+.lc-arc.on:not(.new) { opacity: .45; }
+.lc-map svg > path.on:not(.new) { fill: color-mix(in srgb, var(--cobre-claro) 26%, transparent); stroke: color-mix(in srgb, var(--cobre-claro) 60%, transparent); }
+.lc-pin.on:not(.new) .ring { animation: none; opacity: 0; }
+.lc-pin.on:not(.new) text { opacity: .7; }
+/* en la acreditación, toda la red late a la vez */
+.lc-map svg.all .lc-arc.on { opacity: 1; }
+/* línea de tiempo 2015–2026 que funciona como navegación */
+.lc-timeline { display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 760px; margin: 18px auto 6px; }
+.lc-year { font: 700 13px var(--sans); letter-spacing: .08em; color: rgba(247,242,234,.6); }
+.lc-steps { position: relative; flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding-top: 6px; }
+.lc-rail { position: absolute; left: 12.5%; right: 12.5%; top: 13px; height: 2px; background: rgba(255,255,255,.18); border-radius: 2px; }
+.lc-fill { position: absolute; inset: 0; background: var(--cobre-claro); transform-origin: left; transform: scaleX(var(--lc-progress, 0)); transition: transform .8s cubic-bezier(.4,.1,.2,1); }
+.lc-step { position: relative; display: grid; justify-items: center; gap: 8px; padding: 0 4px; background: none; border: 0; cursor: pointer; color: rgba(247,242,234,.55); font: 600 13px var(--sans); transition: color .3s; }
+.lc-step:hover { color: #fff; }
+.lc-node { width: 16px; height: 16px; border-radius: 50%; background: #0E2A1C; border: 2px solid rgba(255,255,255,.35); transition: background .4s, border-color .4s, transform .4s; }
+.lc-step.done .lc-node { background: var(--cobre-claro); border-color: var(--cobre-claro); }
+.lc-step[aria-selected="true"] { color: #fff; }
+.lc-step[aria-selected="true"] .lc-node { transform: scale(1.35); box-shadow: 0 0 0 6px color-mix(in srgb, var(--cobre-claro) 22%, transparent); }
+@media (max-width: 860px) {
+  .lc-timeline { gap: 8px; margin-top: 10px; }
+  .lc-year { font-size: 11px; }
+  .lc-step { font-size: 11px; }
+  .lc-step:not([aria-selected="true"]) .lc-step-name { visibility: hidden; }
+  .lc-stage .lc-slide { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .lc-arc, .lc-fill, .lc-node { transition: none; } }
+.lc-step { align-content: start; }
+@media (max-width: 860px) {
+  .lc-stage { grid-template-columns: 1fr; max-width: none; }
+  .lc-map { margin: 0 0 4px; }
+}
