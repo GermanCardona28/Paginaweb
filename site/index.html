@@ -234,19 +234,20 @@
     </section>
 
     <!-- SUMATE -->
-    <section class="section join wrap snap-section" id="unete">
-      <div class="join-box">
-        <div>
-          <p class="eyebrow">Contacto</p>
-          <h2>Súmate</h2>
-          <p class="lead">Pongámonos en contacto. Escriba sus datos en este formulario y el equipo de Omar Lengerke le enviará un mensaje lo más pronto posible.</p>
-        </div>
-        <form id="form" novalidate>
-          <label>Nombre<input name="nombre" autocomplete="name" required></label>
-          <label>Municipio<input name="municipio" required></label>
-          <label>Celular<input name="celular" type="tel" autocomplete="tel" required></label>
+    <!-- Cierre: fondo claro, un título y el formulario en una sola fila -->
+    <section class="section join join-clean snap-section" id="unete">
+      <div class="wrap jc-inner">
+        <span class="jc-rule" aria-hidden="true"></span>
+        <p class="eyebrow">Súmate</p>
+        <h2>Esto se hace entre todos.</h2>
+        <p class="lead">Déjenos sus datos y el equipo de Omar Lengerke le escribe.</p>
+        <form id="form" class="jc-form" novalidate>
+          <label><span class="jc-lbl">Nombre</span><input name="nombre" autocomplete="name" placeholder="Nombre" required></label>
+          <label><span class="jc-lbl">Municipio</span><input name="municipio" list="municipios" autocomplete="off" placeholder="Municipio" required></label>
+          <datalist id="municipios"><option value="Aguada"><option value="Albania"><option value="Aratoca"><option value="Barbosa"><option value="Barichara"><option value="Barrancabermeja"><option value="Betulia"><option value="Bolívar"><option value="Bucaramanga"><option value="Cabrera"><option value="California"><option value="Capitanejo"><option value="Carcasí"><option value="Cepitá"><option value="Cerrito"><option value="Charalá"><option value="Charta"><option value="Chima"><option value="Chipatá"><option value="Cimitarra"><option value="Concepción"><option value="Confines"><option value="Contratación"><option value="Coromoro"><option value="Curití"><option value="El Carmen de Chucurí"><option value="El Guacamayo"><option value="El Peñón"><option value="El Playón"><option value="Encino"><option value="Enciso"><option value="Floridablanca"><option value="Florián"><option value="Galán"><option value="Girón"><option value="Guaca"><option value="Guadalupe"><option value="Guapotá"><option value="Guavatá"><option value="Gámbita"><option value="Güepsa"><option value="Hato"><option value="Jesús María"><option value="Jordán"><option value="La Belleza"><option value="La Paz"><option value="Landázuri"><option value="Lebrija"><option value="Los Santos"><option value="Macaravita"><option value="Matanza"><option value="Mogotes"><option value="Molagavita"><option value="Málaga"><option value="Ocamonte"><option value="Oiba"><option value="Onzaga"><option value="Palmar"><option value="Palmas del Socorro"><option value="Piedecuesta"><option value="Pinchote"><option value="Puente Nacional"><option value="Puerto Parra"><option value="Puerto Wilches"><option value="Páramo"><option value="Rionegro"><option value="Sabana de Torres"><option value="San Andrés"><option value="San Benito"><option value="San Gil"><option value="San Joaquín"><option value="San José de Miranda"><option value="San Miguel"><option value="San Vicente de Chucurí"><option value="Santa Bárbara"><option value="Santa Helena del Opón"><option value="Simacota"><option value="Socorro"><option value="Suaita"><option value="Sucre"><option value="Suratá"><option value="Tona"><option value="Valle de San José"><option value="Vetas"><option value="Villanueva"><option value="Vélez"><option value="Zapatoca"></datalist>
+          <label><span class="jc-lbl">Celular</span><input name="celular" type="tel" autocomplete="tel" placeholder="Celular" required></label>
+          <button class="btn" type="submit">Súmate</button>
           <label class="check"><input type="checkbox" name="auth" required> Autorizo el tratamiento de mis datos personales según la política de privacidad.</label>
-          <button class="btn" type="submit">Enviar</button>
           <p class="form-msg" id="form-msg" role="status"></p>
         </form>
       </div>

@@ -1849,3 +1849,32 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .lc-bg i:nth-child(2) { background-position: 50% 45%; }
 .lc-bg i:nth-child(3) { background-position: 50% 60%; }
 .lc-bg i:nth-child(4) { background-position: 50% 50%; }
+
+/* Súmate (inicio): cierre limpio. Fondo claro para cortar la serie de secciones oscuras, un título grande
+   y el formulario en una sola fila; la línea verde repite la del lema de la portada */
+.join-clean { background: #F5F8F3; color: #08281A; text-align: center; padding-block: 120px 96px; }
+.jc-inner { max-width: 980px; display: flex; flex-direction: column; align-items: center; }
+.jc-rule { width: 56px; height: 3px; background: #00873A; margin-bottom: 22px; }
+.join-clean .eyebrow { color: #00873A; margin-bottom: 10px; }
+.join-clean h2 { font-size: clamp(42px, 6vw, 78px); line-height: 1; letter-spacing: -.01em; color: #08281A; margin: 0 0 18px; text-wrap: balance; }
+.join-clean .lead { font-size: 19px; color: #3E4A43; margin: 0 0 40px; max-width: 46ch; }
+.jc-form { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; text-align: left; }
+.jc-form label:not(.check) { display: block; margin: 0; }
+.jc-lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.jc-form input:not([type=checkbox]) { width: 100%; height: 56px; padding: 0 18px; border-radius: 14px; border: 1.5px solid #CFDDD4; background: #fff; color: #08281A; font: 500 16px var(--sans); transition: border-color .2s, box-shadow .2s; }
+.jc-form input::placeholder { color: #7A8A80; }
+.jc-form input:not([type=checkbox]):focus { outline: none; border-color: #00873A; box-shadow: 0 0 0 4px rgba(0,135,58,.14); }
+.jc-form input.err { border-color: #C2412F; }
+.join-clean .jc-form .btn { height: 56px; padding: 0 34px; border-radius: 14px; background: #00873A; color: #fff; box-shadow: 0 10px 24px -12px rgba(0,135,58,.7); }
+.join-clean .jc-form .btn:hover { background: #007331; }
+.jc-form .check { grid-column: 1 / -1; justify-content: center; font-size: 13px; color: #4A5750; opacity: 1; margin-top: 6px; }
+.jc-form .form-msg { grid-column: 1 / -1; text-align: center; color: #00702F; }
+@media (max-width: 760px) {
+  .join-clean { padding-block: 88px 64px; }
+  .join-clean .lead { font-size: 17px; margin-bottom: 28px; }
+  .jc-form { grid-template-columns: 1fr; }
+  .join-clean .jc-form .btn { width: 100%; }
+  .jc-form .check { justify-content: flex-start; text-align: left; }
+}
+.jc-form .check input { accent-color: #00873A; width: 18px; height: 18px; }
+:root .join-clean .eyebrow { color: #00873A !important; }
