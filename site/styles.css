@@ -1552,3 +1552,14 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 .r-badges > div::after { background: linear-gradient(200deg, rgba(5,12,35,.04) 25%, rgba(6,14,38,.5) 100%); }
 .r-badges b, .r-badges span { text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 2px 14px rgba(0,0,0,.45); }
 .r-badges > div.rb1::before { background-image: url(img/investigador-senior.webp?v=2); background-position: 30% 35%; }
+
+/* Investigación: títulos, fichas y bloques centrados para que la página se lea en un solo eje */
+.research .sub { text-align: center; }
+.research .finding .f-viz { display: flex; justify-content: center; }
+.research .finding h4 { text-align: center; justify-items: center; margin-inline: auto; padding-inline: 0; }
+.research .finding p { text-align: center; justify-items: center; }
+.research .finding small { text-align: center; }
+.research .finding small::before { left: 50%; transform: translateX(-50%); }
+.research .chips { justify-content: center; }
+.research .pubs { max-width: 900px; margin-inline: auto; }
+.research .r-badges > div { text-align: center; }
