@@ -559,7 +559,7 @@
     const slides = [...lcVp.querySelectorAll('.lc-slide')];
     // centro aproximado de cada municipio en las coordenadas del mapa (img/mapa-santander.svg)
     // [x, y, nombre, posición de la etiqueta respecto al punto]
-    const PINS = { bga: [404, 293, 'Bucaramanga', 'top'], barranca: [221, 328, 'Barrancabermeja', 'top'], piedecuesta: [430, 341, 'Piedecuesta', 'right'], velez: [251, 516, 'Vélez', 'left'] };
+    const PINS = { bga: [404, 293, 'Bucaramanga', 'top'], barranca: [221, 328, 'Barrancabermeja', 'top'], piedecuesta: [430, 341, 'Piedecuesta', 'left'], velez: [251, 516, 'Vélez', 'left'] };
     const LABEL = { top: [0, -22, 'middle'], left: [-16, 8, 'end'], right: [16, 8, 'start'] };
     let svg = null, current = -1;
     const light = () => {

@@ -1642,9 +1642,14 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .uni-nav .uni-arrow svg { width: 18px; height: 18px; }
 @media (prefers-reduced-motion: reduce) { .uni-show i { transition: opacity .3s; transform: none !important; } #eduTrack .edu-card b, #eduTrack .edu-card p { opacity: 1; transform: none; transition: none; } }
 
-/* Logros UTS (inicio): mini mapa de Santander al lado del carrusel; se enciende el municipio de cada logro */
-.lc-stage { display: grid; grid-template-columns: minmax(200px, 300px) minmax(0, 1fr); align-items: center; gap: 24px; }
-.lc-map { margin: 0; aspect-ratio: 532 / 633; max-height: min(52vh, 440px); justify-self: center; width: 100%; }
+/* Logros UTS (inicio): mapa de Santander y logro en un solo bloque; el texto se monta sobre el borde del mapa */
+.lc-stage { position: relative; display: grid; grid-template-columns: minmax(240px, 380px) minmax(0, 560px); justify-content: center; align-items: center; max-width: 1000px; margin-inline: auto; }
+.lc-map { position: relative; z-index: 0; margin: 0 -70px 0 0; aspect-ratio: 532 / 633; height: min(56vh, 460px); width: auto; justify-self: end; }
+.lc-stage .lc-viewport { position: relative; z-index: 1; }
+.lc-stage .lc-slide { align-items: flex-start; text-align: left; padding-left: 0; gap: 14px; }
+.lc-stage .lc-slide p { max-width: 44ch; }
+.lc-stage .lc-ico { width: 84px; height: 84px; }
+.lc-stage .lc-ico svg { width: 42px; height: 42px; }
 .lc-map svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .lc-map path { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.16); stroke-width: 1.2; stroke-linejoin: round; transition: fill .6s ease, stroke .6s ease; }
 .lc-map path.on { fill: color-mix(in srgb, var(--cobre-claro) 55%, transparent); stroke: var(--cobre-claro); stroke-width: 2; }
@@ -1653,7 +1658,7 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .lc-pin .dot { fill: #fff; stroke: var(--cobre-claro); stroke-width: 3; }
 .lc-pin .ring { fill: none; stroke: var(--cobre-claro); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
 .lc-pin.on .ring { animation: lcPing 1.8s ease-out infinite; }
-.lc-pin text { font: 700 26px var(--sans); fill: #fff; paint-order: stroke; stroke: rgba(4,20,12,.85); stroke-width: 6px; stroke-linejoin: round; }
+.lc-pin text { font: 700 24px var(--sans); fill: #fff; paint-order: stroke; stroke: rgba(4,20,12,.85); stroke-width: 6px; stroke-linejoin: round; }
 @keyframes lcPing { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3.2); opacity: 0; } }
 /* entrada del logro: el ícono se dibuja y el texto sube */
 .lc-slide.is-active .lc-ico svg * { stroke-dasharray: 220; animation: lcDraw 1.3s ease both; }
@@ -1663,10 +1668,15 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 @keyframes lcDraw { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 0; } }
 @keyframes lcPop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes lcRise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+/* en celular el mapa ocupa el lugar del ícono (que se oculta) para que el logro quepa en una pantalla; sin nombres, que ya dice el título */
 @media (max-width: 860px) {
-  .lc-stage { grid-template-columns: 1fr; gap: 4px; }
-  .lc-map { max-height: 230px; width: auto; height: 230px; }
-  .lc-pin text { font-size: 40px; stroke-width: 9px; }
-  .lc-pin .dot { r: 10; }
+  .lc-stage { grid-template-columns: 1fr; }
+  .lc-map { justify-self: center; margin: 0 0 4px; height: min(24vh, 190px); }
+  .lc-stage .lc-ico { display: none; }
+  .lc-stage .lc-slide { align-items: center; text-align: center; padding: 0 20px; min-height: 0; gap: 10px; }
+  .lc-stage .lc-slide h3 { font-size: clamp(24px, 6.6vw, 30px); }
+  .lc-stage .lc-slide p { font-size: 16px; }
+  .lc-pin text { display: none; }
+  .lc-pin .dot { r: 12; }
 }
 @media (prefers-reduced-motion: reduce) { .lc-pin, .lc-map path { transition: none; } .lc-pin.on .ring, .lc-slide.is-active *, .lc-slide.is-active .lc-ico { animation: none !important; } }
