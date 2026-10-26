@@ -1586,3 +1586,16 @@ img[src*="galeria-canada"] { object-position: 57% 25%; }
 img[src*="galeria-redttu"] { object-position: 50% 20%; }
 img[src*="galeria-cesu"] { object-position: 85% 18%; }
 img[src*="entrevista"] { object-position: 78% 15%; }
+
+/* Video de 8 s en la franja superior de cada línea de investigación: aparece al llegar al centro, se oscurece al salir y entre vueltas */
+.lines .line-card { position: relative; overflow: hidden; isolation: isolate; padding-top: calc(var(--lc-w) / 2.6 - 18px); }
+.lc-media { position: absolute; top: 0; left: 0; right: 0; z-index: -1; aspect-ratio: 2.6 / 1; background: #06140D; overflow: hidden; }
+.lc-media video { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: brightness(.35) saturate(.7); transform: scale(1.06); transition: opacity 1.2s ease, filter 1.2s ease, transform 8s linear; }
+.lc-media.ready video { opacity: .55; }
+.line-card.on .lc-media.ready video { opacity: 1; filter: brightness(.85) saturate(1); transform: scale(1); }
+.line-card.on .lc-media.fading video { opacity: .15; filter: brightness(.25); transition-duration: .7s; }
+.lc-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,12,8,.1) 0%, rgba(4,12,8,0) 45%, var(--lc-fade, var(--surface)) 100%); pointer-events: none; }
+.line-card.on .lc-media::after { --lc-fade: var(--azul); }
+.lines .line-card .r-ico { position: relative; z-index: 1; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+@media (max-width: 960px) { .lines .line-card { padding-top: calc(var(--lc-w) / 2.6 - 14px); } }
+@media (prefers-reduced-motion: reduce) { .lc-media video { transition: none; transform: none; } }

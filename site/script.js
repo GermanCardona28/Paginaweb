@@ -355,7 +355,7 @@
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     // Cada línea es una tarjeta del carrusel: la que queda en el centro se resalta y muestra su ficha
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="lc-media" aria-hidden="true"><video muted playsinline preload="none" data-src="media/lineas/${l.id}.mp4"></video></span><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
@@ -384,7 +384,30 @@
       center = i;
       cards.forEach((c, j) => { c.classList.toggle('on', j === i); c.setAttribute('aria-current', j === i ? 'true' : 'false'); });
       dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
+      playClip(i);
     };
+    /* Video de 8 s por línea (Pexels): solo se carga y reproduce el de la tarjeta del centro; los demás quedan oscurecidos.
+       Al final de cada vuelta la imagen se oscurece y vuelve a aparecer desde el inicio. */
+    const CLIP = 8, FADE = .7;
+    const clips = cards.map(c => c.querySelector('.lc-media video'));
+    const load = v => { if (v && !v.src) { v.src = v.dataset.src; v.preload = 'auto'; } };
+    clips.forEach(v => {
+      v.addEventListener('loadeddata', () => v.closest('.lc-media').classList.add('ready'));
+      v.addEventListener('timeupdate', () => {
+        const m = v.closest('.lc-media');
+        if (v.currentTime >= CLIP) { v.currentTime = 0; m.classList.remove('fading'); }
+        else m.classList.toggle('fading', v.currentTime >= CLIP - FADE);
+      });
+      v.addEventListener('ended', () => { v.currentTime = 0; v.play().catch(() => {}); });
+    });
+    function playClip(i) {
+      clips.forEach((v, j) => {
+        if (j === i) { load(v); if (reduce) return; v.play().catch(() => {}); }
+        else v.pause();
+      });
+      // la siguiente se deja lista para que al deslizar no aparezca vacía
+      load(clips[(i + 1) % clips.length]);
+    }
     const centerOn = i => {
       target = (i + cards.length) % cards.length;
       const c = cards[target];
