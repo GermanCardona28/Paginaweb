@@ -402,7 +402,16 @@
     let settle = 0;
     linesEl.addEventListener('scroll', () => { clearTimeout(settle); settle = setTimeout(markCenter, 80); }, { passive: true });
     ['pointerdown', 'wheel', 'touchstart'].forEach(ev => linesEl.addEventListener(ev, () => { target = -1; }, { passive: true }));
-    window.addEventListener('resize', () => centerOn(center));
+    // Iguala el alto del párrafo y de la fila de etiquetas de todas las tarjetas (el de la más larga)
+    const equalize = () => {
+      linesEl.style.removeProperty('--lc-desc-h'); linesEl.style.removeProperty('--lc-tags-h');
+      const max = sel => Math.max(...cards.map(c => c.querySelector(sel).offsetHeight));
+      linesEl.style.setProperty('--lc-desc-h', max('.lc-desc') + 'px');
+      linesEl.style.setProperty('--lc-tags-h', max('.lc-tags') + 'px');
+    };
+    equalize();
+    if (document.fonts) document.fonts.ready.then(equalize);
+    window.addEventListener('resize', () => { equalize(); centerOn(center); });
     linesEl.addEventListener('click', e => { const c = e.target.closest('.line-card'); if (c) centerOn(cards.indexOf(c)); });
     dots.forEach((d, i) => d.addEventListener('click', () => centerOn(i)));
     document.querySelector('.lines-arrow.prev')?.addEventListener('click', () => centerOn(center - 1));

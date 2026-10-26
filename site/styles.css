@@ -442,12 +442,16 @@ input.err { border-color: #ff8a65 !important; }
 .lines .line-card { flex: 0 0 var(--lc-w); scroll-snap-align: center; justify-items: center; text-align: center; padding: 26px 28px; opacity: .45; transform: scale(.86); transition: transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s, border-color .25s, background .25s, box-shadow .25s; }
 .lines .line-card:hover { transform: scale(.88); }
 .lines .line-card.on, .lines .line-card.on:hover { opacity: 1; transform: none; }
-.line-card .lc-body { display: block; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .45s ease, opacity .25s ease; }
-.line-card .lc-inner { display: grid; justify-items: center; gap: 14px; padding-top: 4px; }
-.line-card.on .lc-body { max-height: 360px; opacity: 1; transition-delay: .1s, .3s; }
-.lines .line-card.on .lc-desc { font: 400 15px/1.6 var(--sans); color: rgba(255,255,255,.9) !important; max-width: 46ch; }
-.line-card .lc-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-.line-card .lc-tags span { padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.1); font: 600 13px var(--sans); color: var(--cobre-claro); }
+/* Todas las tarjetas muestran su ficha con la misma estructura: el párrafo ocupa el mismo alto
+   (el de la descripción más larga, medido en script.js) y la fila de etiquetas queda siempre a la misma altura */
+.line-card .lc-body { display: block; width: 100%; }
+.line-card .lc-inner { display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 16px; padding-top: 4px; }
+.line-card .lc-desc { display: block; min-height: var(--lc-desc-h, auto); align-self: center; max-width: 46ch; }
+.lines-carousel .lines .line-card .lc-desc { font: 400 15px/1.6 var(--sans); color: var(--ink-muted) !important; }
+.lines-carousel .lines .line-card.on .lc-desc { color: rgba(255,255,255,.9) !important; }
+.line-card .lc-tags { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 6px; min-height: var(--lc-tags-h, auto); }
+.line-card .lc-tags span { padding: 4px 10px; border-radius: 999px; background: var(--accent-surface); font: 600 13px var(--sans); color: var(--cobre); }
+.line-card.on .lc-tags span { background: rgba(255,255,255,.1); color: var(--cobre-claro); }
 .lines-arrow { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; display: grid; place-items: center; border: 0; border-radius: 999px; background: var(--cobre); box-shadow: var(--shadow-md); cursor: pointer; transition: transform .2s; }
 .lines-arrow:hover { transform: scale(1.08); }
 .lines-arrow svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -459,7 +463,7 @@ input.err { border-color: #ff8a65 !important; }
   .lines .line-card { padding: 22px 18px; }
   .lines-arrow { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .lines .line-card, .line-card .lc-body { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .lines .line-card { transition: none; } }
 .line-detail { margin-top: 20px; padding: 26px 30px; border-radius: var(--r); background: var(--accent-surface); min-height: 120px; }
 .line-detail:empty { display: none; }
 .line-detail h4 { margin: 0 0 8px; font: 800 24px var(--serif); color: var(--azul-2); }
