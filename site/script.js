@@ -317,6 +317,48 @@
     maquinas: '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="13"/><path d="M24 4v7M24 37v7M4 24h7M37 24h7M9.9 9.9l4.9 4.9M33.2 33.2l4.9 4.9M38.1 9.9l-4.9 4.9M14.8 33.2l-4.9 4.9"/></svg>',
     agro: '<svg viewBox="0 0 48 48"><path d="M24 43V24"/><path d="M24 27c-10 0-15-5-15-13 10 0 15 5 15 13z"/><path d="M24 32c0-8 5-13 15-13 0 8-5 13-15 13z"/><path d="M13 43h22"/></svg>'
   };
+  /* Escenas animadas de 5 s, una por línea: un "video" corto en la franja superior de cada ficha, sin tapar el texto */
+  const gear = (cx, cy, r, teeth) => {
+    let d = '';
+    for (let i = 0; i < teeth * 2; i++) {
+      const a = (i / (teeth * 2)) * Math.PI * 2, a2 = ((i + 1) / (teeth * 2)) * Math.PI * 2, rr = i % 2 ? r : r * 1.25;
+      d += `${i ? 'L' : 'M'}${(cx + rr * Math.cos(a)).toFixed(1)} ${(cy + rr * Math.sin(a)).toFixed(1)}L${(cx + rr * Math.cos(a2)).toFixed(1)} ${(cy + rr * Math.sin(a2)).toFixed(1)}`;
+    }
+    return d + 'Z';
+  };
+  const loop = (attr, type, values, extra = '') => `<animateTransform attributeName="${attr}" type="${type}" values="${values}" dur="5s" repeatCount="indefinite" ${extra}/>`;
+  const SCENES = {
+    // un brazo robot que baja a recoger una pieza y un vehículo de fábrica que la lleva
+    robotica: `<path class="faint" d="M0 94H400"/>
+      <rect x="50" y="82" width="40" height="12" rx="3"/>
+      <g>${loop('transform', 'rotate', '-20 70 78;-60 70 78;-60 70 78;-20 70 78', 'keyTimes="0;.4;.6;1"')}
+        <path d="M70 78V40"/><circle cx="70" cy="78" r="5"/><circle cx="70" cy="40" r="4"/>
+        <g>${loop('transform', 'rotate', '80 70 40;30 70 40;30 70 40;80 70 40', 'keyTimes="0;.4;.6;1"')}<path d="M70 40V12M63 6l7 6 7-6"/></g></g>
+      <g>${loop('transform', 'translate', '0 0;-70 0;-70 0;0 0', 'keyTimes="0;.45;.55;1"')}
+        <rect x="270" y="74" width="56" height="12" rx="3"/><circle cx="282" cy="89" r="4"/><circle cx="314" cy="89" r="4"/><rect x="284" y="62" width="18" height="12" rx="2"/></g>`,
+    // el sol gira y sus rayos llegan a un panel que se enciende
+    energia: `<g>${loop('transform', 'rotate', '0 320 34;45 320 34')}<circle cx="320" cy="34" r="13"/>
+        <path d="M320 12V6M320 62v-6M298 34h-6M348 34h-6M304 18l-4-4M336 18l4-4M304 50l-4 4M336 50l4 4"/></g>
+      <path class="beam" d="M304 46L170 72M308 52L150 82M300 40L190 64"/>
+      <path d="M70 94l18-32h88l-18 32z"/><path class="faint" d="M79 78h88M117 62l-18 32M146 62l-18 32"/>
+      <path class="glow" d="M88 62h88l-18 32H70z"/>`,
+    // la señal eléctrica de un músculo corre, con picos cuando la mano hace fuerza
+    biomecanica: `<path class="faint" d="M0 60H400"/>
+      <g>${loop('transform', 'translate', '0 0;-200 0')}
+        <path d="M0 60h40l6-16 6 30 6-40 6 46 6-26 6 6h50l4-10 4 16 4-6h58l6-16 6 30 6-40 6 46 6-26 6 6h50l4-10 4 16 4-6h58l6-16 6 30 6-40 6 46 6-26 6 6h50l4-10 4 16 4-6h58"/></g>
+      <circle cx="378" cy="18" r="4"><animate attributeName="r" values="4;8;4" dur="2.5s" repeatCount="indefinite"/></circle>`,
+    // dos engranajes que giran juntos y la vibración que se mide en ellos
+    maquinas: `<g>${loop('transform', 'rotate', '0 300 52;360 300 52')}<path d="${gear(300, 52, 26, 12)}"/><circle cx="300" cy="52" r="7"/></g>
+      <g>${loop('transform', 'rotate', '0 246 84;-540 246 84')}<path d="${gear(246, 84, 13, 8)}"/><circle cx="246" cy="84" r="4"/></g>
+      <g>${loop('transform', 'translate', '0 0;-60 0')}<path d="M0 46q15-18 30 0t30 0 30 0 30 0 30 0 30 0 30 0"/></g>`,
+    // una planta que crece mientras cae el riego
+    agro: `<path class="faint" d="M0 94H400"/>
+      <path class="grow" d="M90 94V40"/>
+      <path class="leaf" d="M90 74c-20 0-30-9-30-25 20 0 30 9 30 25z"/>
+      <path class="leaf l2" d="M90 58c0-17 9-27 28-27 0 17-9 27-28 27z"/>
+      <path d="M284 34a18 18 0 0 1 35-6 14 14 0 0 1 6 26h-44a12 12 0 0 1 3-20z"/>
+      <path d="M292 62v7M306 64v7M320 60v7"><animateTransform attributeName="transform" type="translate" values="0 0;0 26" dur="1.25s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.25s" repeatCount="indefinite"/></path>`
+  };
   const LINES = [
     { id: 'robotica', name: 'Robots y control', desc: 'Robots y máquinas que se mueven solas: brazos robóticos, vehículos que transportan cosas en las fábricas, drones y hasta exoesqueletos. Es donde empezó su carrera de investigador.', topics: ['Brazos robot', 'Robots que se desplazan', 'Vehículos autónomos de fábrica', 'Exoesqueletos', 'Control inteligente'] },
     { id: 'energia', name: 'Energía del sol y eficiencia', desc: 'Aprovechar el sol y gastar menos energía: calor solar para producir agua dulce, casas más frescas y vehículos eléctricos.', topics: ['Energía solar', 'Agua dulce con sol', 'Casas más frescas', 'Vehículos eléctricos'] },
@@ -355,7 +397,7 @@
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     // Cada línea es una tarjeta del carrusel: la que queda en el centro se resalta y muestra su ficha
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><svg class="lc-scene" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">${SCENES[l.id]}</svg><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
@@ -382,7 +424,12 @@
     const setCenter = i => {
       if (i === center) return;
       center = i;
-      cards.forEach((c, j) => { c.classList.toggle('on', j === i); c.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+      cards.forEach((c, j) => {
+        c.classList.toggle('on', j === i); c.setAttribute('aria-current', j === i ? 'true' : 'false');
+        // solo se anima la escena de la tarjeta del centro
+        const sc = c.querySelector('.lc-scene');
+        if (sc && sc.pauseAnimations) { if (j === i && !reduce) sc.unpauseAnimations(); else sc.pauseAnimations(); }
+      });
       dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
     };
     const centerOn = i => {
