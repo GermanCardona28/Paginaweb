@@ -1590,12 +1590,28 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 /* Video de 8 s en la franja superior de cada línea de investigación: aparece al llegar al centro, se oscurece al salir y entre vueltas */
 .lines .line-card { position: relative; overflow: hidden; isolation: isolate; padding-top: calc(var(--lc-w) / 2.6 - 18px); }
 .lc-media { position: absolute; top: 0; left: 0; right: 0; z-index: -1; aspect-ratio: 2.6 / 1; background: #06140D; overflow: hidden; }
-.lc-media video { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: brightness(.35) saturate(.7); transform: scale(1.06); transition: opacity 1.2s ease, filter 1.2s ease, transform 8s linear; }
-.lc-media.ready video { opacity: .55; }
-.line-card.on .lc-media.ready video { opacity: 1; filter: brightness(.85) saturate(1); transform: scale(1); }
-.line-card.on .lc-media.fading video { opacity: .15; filter: brightness(.25); transition-duration: .7s; }
+/* Entrada: llega desenfocado, oscuro y un poco ampliado; se aclara, se enfoca y se acerca despacio (efecto Ken Burns),
+   alternando el lado hacia el que se desplaza. Entre vueltas se oscurece y desenfoca, y al entrar pasa un destello de luz. */
+.lc-media video { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: brightness(.3) saturate(.6) blur(6px); transform: scale(1.12); transform-origin: 30% 50%; transition: opacity 1.2s ease, filter 1.2s ease, transform 8s cubic-bezier(.25,.6,.3,1); }
+.line-card:nth-child(even) .lc-media video { transform-origin: 70% 50%; }
+.lc-media.ready video { opacity: .5; filter: brightness(.3) saturate(.6) blur(2px); }
+.line-card.on .lc-media.ready video { opacity: 1; filter: brightness(.85) saturate(1) blur(0); transform: scale(1.02); }
+.line-card.on .lc-media.fading video { opacity: .2; filter: brightness(.2) saturate(.6) blur(4px); transform: scale(1.12); transition-duration: .7s, .7s, .7s; }
+.lc-media::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%); transform: translateX(-100%); }
+.line-card.on .lc-media.ready::before { animation: lcSheen 1.6s .35s ease-out both; }
+@keyframes lcSheen { 0% { opacity: 1; transform: translateX(-100%); } 100% { opacity: 1; transform: translateX(100%); } }
 .lc-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,12,8,.1) 0%, rgba(4,12,8,0) 45%, var(--lc-fade, var(--surface)) 100%); pointer-events: none; }
 .line-card.on .lc-media::after { --lc-fade: var(--azul); }
 .lines .line-card .r-ico { position: relative; z-index: 1; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
 @media (max-width: 960px) { .lines .line-card { padding-top: calc(var(--lc-w) / 2.6 - 14px); } }
-@media (prefers-reduced-motion: reduce) { .lc-media video { transition: none; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .lc-media video { transition: none; transform: none !important; filter: brightness(.85) !important; } .lc-media::before { display: none; } }
+/* Rostros pegados al borde superior: el recorte arranca arriba para no cortar la cabeza */
+.r-badges > div.rb2::before, .r-badges > div.rb4::before { top: 0; bottom: 0; transform: none; }
+.r-badges > div.rb2:hover::before, .r-badges > div.rb4:hover::before { transform: scale(1.06); transform-origin: 50% 0; }
+.r-badges > div.rb2::before { background-position: 50% 0%; }
+.r-badges > div.rb4::before { background-position: 80% 0%; }
+.kpi-photo.ph-acreditados::before { background-position: center 10%; }
+.edu-viewport .edu-card.p1::before { background-position: 66% 4% !important; }
+.edu-viewport .edu-card.p2::before { background-position: 52% 14% !important; }
+.blog-topics .edu-card.t1::before { background-position: 52% 18% !important; }
+.blog-topics .edu-card.t4::before { background-position: 40% 20% !important; }
