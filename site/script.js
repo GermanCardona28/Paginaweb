@@ -607,6 +607,50 @@
     lcVp.closest('section')?.addEventListener('mouseleave', () => { hover = false; progress(); });
   }
 
+  /* ---- Súmate (inicio): nombres de los 87 municipios flotan alrededor del arco; cada pocos segundos uno se
+     desvanece y aparece otro, y el municipio que la persona escribe aparece iluminado ---- */
+  const floatEl = document.getElementById('joinFloat');
+  const muniList = document.getElementById('municipios');
+  if (floatEl && muniList) {
+    const names = [...muniList.options].map(o => o.value);
+    // lugares fijos alrededor del arco (izquierda) y en los bordes, lejos del formulario (en % de la sección)
+    const SPOTS = [[4, 14], [18, 6], [34, 10], [2, 34], [40, 26], [6, 56], [38, 48], [16, 80], [36, 72], [4, 90], [48, 90], [54, 8], [92, 6], [96, 92], [62, 94], [26, 92]];
+    const pick = used => { let n; do { n = names[Math.floor(Math.random() * names.length)]; } while (used.has(n)); return n; };
+    const used = new Set();
+    const words = SPOTS.map(([x, y], i) => {
+      const w = document.createElement('span');
+      const n = pick(used); used.add(n);
+      w.textContent = n;
+      w.style.left = x + '%'; w.style.top = y + '%';
+      w.style.setProperty('--d', (i % 5) * 1.3 + 's');
+      w.style.setProperty('--s', [1, .8, 1.25, .9, 1.1][i % 5]);
+      floatEl.appendChild(w);
+      return w;
+    });
+    // cambia una palabra cada 2,5 s para que con el tiempo pasen todos los municipios
+    if (!reduce) setInterval(() => {
+      const w = words[Math.floor(Math.random() * words.length)];
+      if (w.classList.contains('hit')) return;
+      w.classList.add('out');
+      setTimeout(() => { used.delete(w.textContent); const n = pick(used); used.add(n); w.textContent = n; w.classList.remove('out'); }, 900);
+    }, 2500);
+    const norm = t => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const field = document.querySelector('#form [name="municipio"]');
+    let hit = null;
+    field?.addEventListener('input', () => {
+      const q = norm(field.value);
+      const match = q.length > 2 && names.find(n => norm(n) === q);
+      if (hit) { hit.classList.remove('hit'); hit = null; }
+      if (!match) return;
+      // el municipio escrito aparece iluminado abajo, bajo el arco, donde siempre se ve; si ya flotaba en otro lugar, ese cambia
+      hit = words[10];
+      words.forEach(w => { if (w !== hit && w.textContent === match) { const n = pick(used); used.add(n); w.textContent = n; } });
+      used.delete(hit.textContent); used.add(match);
+      hit.textContent = match;
+      hit.classList.add('hit');
+    });
+  }
+
   /* ---- Formación (inicio): cada tarjeta muestra fotos de su universidad como un video de 8 s.
      Las fotos se cruzan con un acercamiento lento; al final de la vuelta se oscurece y el carrusel pasa
      solo a la siguiente formación, hasta que la persona lo toque (entonces solo avanza a mano). ---- */
