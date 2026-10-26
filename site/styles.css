@@ -1849,30 +1849,3 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .lc-bg i:nth-child(2) { background-position: 50% 45%; }
 .lc-bg i:nth-child(3) { background-position: 50% 60%; }
 .lc-bg i:nth-child(4) { background-position: 50% 50%; }
-
-/* Súmate (inicio): Omar dentro del arco con el Cañón del Chicamocha de fondo, municipios flotando alrededor
-   y el formulario en su tarjeta verde al lado */
-.join-omar { position: relative; isolation: isolate; overflow: hidden; }
-.join-omar .join-grid { position: relative; display: grid; grid-template-columns: minmax(260px, 380px) minmax(0, 1fr); align-items: center; gap: clamp(32px, 5vw, 72px); }
-.join-arc { position: relative; margin: 0; aspect-ratio: 4 / 5.1; }
-/* el fondo va recortado en arco; Omar va encima y sobresale un poco por los lados */
-.join-arc-bg { position: absolute; inset: 0; border-radius: 999px 999px 22px 22px; overflow: hidden; box-shadow: 0 30px 60px -32px rgba(8,40,26,.55); }
-.join-arc-bg::before { content: ""; position: absolute; inset: 0; background: url(img/sumate/chicamocha-niebla.webp) 50% 40% / cover; animation: jaZoom 20s ease-in-out infinite alternate; }
-.join-arc-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,40,26,.55) 0%, rgba(8,40,26,0) 50%); }
-.join-arc-omar { position: absolute; left: -9%; bottom: 0; width: 118%; height: auto; filter: drop-shadow(0 18px 28px rgba(0,0,0,.35)); border-radius: 0 0 22px 22px; }
-@keyframes jaZoom { from { transform: scale(1.05); } to { transform: scale(1.18) translateX(-3%); } }
-/* municipios que flotan, aparecen y se desvanecen */
-.join-float { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.join-float span { position: absolute; transform: translate(-50%, -50%) scale(var(--s, 1)); font: 700 clamp(15px, 1.5vw, 22px) var(--serif); letter-spacing: .01em; color: var(--ink); opacity: .22; white-space: nowrap; animation: jfFloat 7s ease-in-out var(--d, 0s) infinite alternate; transition: opacity .9s ease, color .5s; }
-.join-float span.out { opacity: 0; }
-.join-float span.hit { opacity: 1; color: var(--cobre); font-size: clamp(20px, 2vw, 30px); text-shadow: 0 0 24px color-mix(in srgb, var(--cobre-claro) 45%, transparent); }
-@keyframes jfFloat { from { margin-top: -8px; } to { margin-top: 10px; } }
-@media (max-width: 860px) {
-  .join-omar .join-grid { grid-template-columns: 1fr; gap: 26px; }
-  .join-arc { width: min(62vw, 250px); justify-self: center; }
-  .join-float span:nth-child(n+9) { display: none; }
-}
-@media (prefers-reduced-motion: reduce) { .join-arc-bg::before, .join-float span { animation: none; } }
-.join-arc-omar { max-width: none; z-index: 1; }
-.join-float span.hit { color: #3CCB7F; }
-@media (max-width: 860px) { .join-arc { width: min(52vw, 210px); } }
