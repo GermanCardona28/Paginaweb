@@ -345,7 +345,6 @@
     { y: 2026, s: 'Un equipo pequeño que saca agua dulce usando el calor del sol.', t: 'Experimental and Numerical Analysis of a Small-Scale Desalination System Using Humidification–Dehumidification Fed by Linear Fresnel Concentration', v: 'Sustainability', c: 0, l: 'energia' }
   ];
   const linesEl = document.getElementById('lines');
-  const detailEl = document.getElementById('line-detail');
   const chipsEl = document.getElementById('chips');
   const pubsEl = document.getElementById('pubs');
   if (linesEl && pubsEl) {
@@ -355,14 +354,11 @@
     const PUB_LIMIT = 5;
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    // Cada línea es una tarjeta del slider: al tocarla se despliega su ficha dentro de la misma tarjeta
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" role="tab" data-l="${l.id}" aria-selected="false"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
+    // Cada línea es una tarjeta del carrusel: la que queda en el centro se resalta y muestra su ficha
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
-      linesEl.querySelectorAll('.line-card').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); });
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
-      linesEl.classList.toggle('has-open', current !== 'all');
-      if (detailEl) detailEl.innerHTML = '';
       const list = PUBS.filter(p => current === 'all' || p.l === current);
       const collapsed = current === 'all' && !expanded && list.length > PUB_LIMIT;
       if (moreEl) {
@@ -377,14 +373,50 @@
       }).join('');
       if (hasGsap) ScrollTrigger.refresh();
     };
+    /* Carrusel de líneas: desliza con swipe, flechas o puntos; la tarjeta del centro despliega su ficha */
+    const cards = [...linesEl.querySelectorAll('.line-card')];
+    const linesDots = document.getElementById('linesDots');
+    if (linesDots) linesDots.innerHTML = LINES.map((l, i) => `<button type="button" class="centers-dot" data-i="${i}" role="tab" aria-selected="false" aria-label="${esc(l.name)}"></button>`).join('');
+    const dots = linesDots ? [...linesDots.children] : [];
+    let center = -1, target = -1;
+    const setCenter = i => {
+      if (i === center) return;
+      center = i;
+      cards.forEach((c, j) => { c.classList.toggle('on', j === i); c.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+      dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
+    };
+    const centerOn = i => {
+      target = (i + cards.length) % cards.length;
+      const c = cards[target];
+      setCenter(target);
+      linesEl.scrollTo({ left: c.offsetLeft - (linesEl.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    const markCenter = () => {
+      const mid = linesEl.scrollLeft + linesEl.clientWidth / 2;
+      let best = 0;
+      cards.forEach((c, i) => { if (Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) < Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - mid)) best = i; });
+      // mientras va hacia una tarjeta elegida con flecha o punto, no se resaltan las que pasan de largo
+      if (target !== -1) { if (best !== target) return; target = -1; }
+      setCenter(best);
+    };
+    let settle = 0;
+    linesEl.addEventListener('scroll', () => { clearTimeout(settle); settle = setTimeout(markCenter, 80); }, { passive: true });
+    ['pointerdown', 'wheel', 'touchstart'].forEach(ev => linesEl.addEventListener(ev, () => { target = -1; }, { passive: true }));
+    window.addEventListener('resize', () => centerOn(center));
+    linesEl.addEventListener('click', e => { const c = e.target.closest('.line-card'); if (c) centerOn(cards.indexOf(c)); });
+    dots.forEach((d, i) => d.addEventListener('click', () => centerOn(i)));
+    document.querySelector('.lines-arrow.prev')?.addEventListener('click', () => centerOn(center - 1));
+    document.querySelector('.lines-arrow.next')?.addEventListener('click', () => centerOn(center + 1));
+    markCenter();
+
     const pick = e => {
       const b = e.target.closest('[data-l]'); if (!b) return;
       current = b.dataset.l === current ? 'all' : b.dataset.l;
       expanded = false;
       render();
+      if (current !== 'all') centerOn(LINES.findIndex(l => l.id === current));
     };
     if (moreEl) moreEl.addEventListener('click', () => { expanded = !expanded; render(); if (!expanded) pubsEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); });
-    linesEl.addEventListener('click', pick);
     chipsEl.addEventListener('click', pick);
     render();
   }

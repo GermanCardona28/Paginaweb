@@ -77,8 +77,12 @@
       </div>
 
         <h3 class="sub">¿En qué ha investigado?</h3>
-        <div class="lines" id="lines" role="tablist" aria-label="Líneas de investigación"></div>
-        <div class="line-detail" id="line-detail" aria-live="polite"></div>
+        <div class="lines-carousel">
+          <button type="button" class="lines-arrow prev" aria-label="Línea anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <div class="lines" id="lines" aria-label="Líneas de investigación" data-lenis-prevent></div>
+          <button type="button" class="lines-arrow next" aria-label="Línea siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="centers-dots" id="linesDots" role="tablist" aria-label="Líneas de investigación"></div>
 
         <h3 class="sub">Lo que han logrado sus trabajos, en palabras sencillas</h3>
         <div class="findings">
