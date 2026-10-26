@@ -435,6 +435,25 @@ input.err { border-color: #ff8a65 !important; }
 .line-card.on { background: var(--azul); border-color: var(--cobre-claro); }
 .line-card.on b { color: #fff; }
 .line-card.on span { color: var(--cobre-claro); }
+/* Slider de líneas: la tarjeta activa se ensancha y despliega su ficha */
+.lines { display: flex; align-items: stretch; }
+.lines .line-card { flex: 1 1 0; min-width: 0; transition: flex-grow .5s cubic-bezier(.2,.7,.2,1), transform .25s, border-color .25s, background .25s, box-shadow .25s; }
+.lines.has-open .line-card { flex-grow: .8; }
+.lines .line-card.on { flex-grow: 3.6; transform: none; }
+.line-card .lc-body { display: block; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .45s ease, opacity .25s ease; }
+.line-card .lc-inner { display: grid; gap: 12px; padding-top: 4px; }
+.line-card.on .lc-body { max-height: 360px; opacity: 1; transition-delay: .1s, .3s; }
+.lines .line-card.on .lc-desc { font: 400 15px/1.55 var(--sans); color: rgba(255,255,255,.9) !important; }
+.line-card .lc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.line-card .lc-tags span { padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.1); font: 600 13px var(--sans); color: var(--cobre-claro); }
+@media (max-width: 960px) {
+  .lines { flex-direction: column; }
+  .lines .line-card, .lines.has-open .line-card, .lines .line-card.on { flex: none; }
+  .lines .line-card { grid-template-columns: auto 1fr; align-items: center; row-gap: 0; }
+  .line-card .lc-body { grid-column: 1 / -1; }
+  .line-card .lc-inner { padding-top: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .lines .line-card, .line-card .lc-body { transition: none; } }
 .line-detail { margin-top: 20px; padding: 26px 30px; border-radius: var(--r); background: var(--accent-surface); min-height: 120px; }
 .line-detail:empty { display: none; }
 .line-detail h4 { margin: 0 0 8px; font: 800 24px var(--serif); color: var(--azul-2); }

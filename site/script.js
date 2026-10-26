@@ -355,15 +355,14 @@
     const PUB_LIMIT = 5;
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" role="tab" data-l="${l.id}" aria-selected="false"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b></button>`).join('');
+    // Cada línea es una tarjeta del slider: al tocarla se despliega su ficha dentro de la misma tarjeta
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" role="tab" data-l="${l.id}" aria-selected="false"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       linesEl.querySelectorAll('.line-card').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); });
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
-      const L = LINES.find(l => l.id === current);
-      detailEl.innerHTML = L
-        ? `<span class="r-ico big" aria-hidden="true">${ICONS[L.id]}</span><div><h4>${esc(L.name)}</h4><p>${esc(L.desc)}</p><ul>${L.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`
-        : '';
+      linesEl.classList.toggle('has-open', current !== 'all');
+      if (detailEl) detailEl.innerHTML = '';
       const list = PUBS.filter(p => current === 'all' || p.l === current);
       const collapsed = current === 'all' && !expanded && list.length > PUB_LIMIT;
       if (moreEl) {
