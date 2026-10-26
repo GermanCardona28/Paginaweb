@@ -2032,3 +2032,12 @@ html:has(main[data-snap]) .footer { scroll-snap-align: end; }
   .prensa .award { padding: 14px; gap: 0; }
   .prensa .award h3 { font-size: 15px; min-height: 3.75em; }
 }
+/* Reconocimientos sin imagen: título, texto y botón a la izquierda; las cuatro distinciones a la derecha */
+@media (min-width: 961px) {
+  .prensa .wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .prensa .section-head { grid-column: 1; grid-row: 1; }
+  .prensa .section-head .lead { display: block; }
+  .prensa .awards-group { grid-column: 2; grid-row: 1 / span 2; }
+  .prensa .more-bar { grid-column: 1; grid-row: 2; }
+}
+@media (max-width: 960px) { .prensa .section-head .lead { display: block; } }
