@@ -351,9 +351,12 @@
   if (linesEl && pubsEl) {
     const lineName = id => CHIP_LABEL[id] || '';
     let current = 'all';
+    let expanded = false;
+    const PUB_LIMIT = 5;
+    const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" role="tab" data-l="${l.id}" aria-selected="false"><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b></button>`).join('');
-    chipsEl.innerHTML = [['all', 'Todas'], ...Object.entries(CHIP_LABEL)].map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
+    chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       linesEl.querySelectorAll('.line-card').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); });
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
@@ -361,7 +364,15 @@
       detailEl.innerHTML = L
         ? `<span class="r-ico big" aria-hidden="true">${ICONS[L.id]}</span><div><h4>${esc(L.name)}</h4><p>${esc(L.desc)}</p><ul>${L.topics.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`
         : '';
-      pubsEl.innerHTML = PUBS.filter(p => current === 'all' || p.l === current).map(p => {
+      const list = PUBS.filter(p => current === 'all' || p.l === current);
+      const collapsed = current === 'all' && !expanded && list.length > PUB_LIMIT;
+      if (moreEl) {
+        moreEl.hidden = !(current === 'all' && list.length > PUB_LIMIT);
+        const btn = moreEl.querySelector('button');
+        btn.textContent = expanded ? 'Ver menos' : 'Ver todas (' + list.length + ')';
+        btn.setAttribute('aria-expanded', String(expanded));
+      }
+      pubsEl.innerHTML = (collapsed ? list.slice(0, PUB_LIMIT) : list).map(p => {
         const orig = p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener">${esc(p.t)}</a>` : esc(p.t);
         return `<li class="pub"><time>${p.y}</time><div><h4>${esc(p.s)}</h4><p class="orig">${orig}</p><p>${esc(p.v)} · <em>${esc(lineName(p.l))}</em></p></div><span class="cites" title="Citas según OpenAlex">${p.c ? p.c + ' citas' : 'Reciente'}</span></li>`;
       }).join('');
@@ -369,9 +380,11 @@
     };
     const pick = e => {
       const b = e.target.closest('[data-l]'); if (!b) return;
-      current = (b.dataset.l === current && b.classList.contains('line-card')) ? 'all' : b.dataset.l;
+      current = b.dataset.l === current ? 'all' : b.dataset.l;
+      expanded = false;
       render();
     };
+    if (moreEl) moreEl.addEventListener('click', () => { expanded = !expanded; render(); if (!expanded) pubsEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); });
     linesEl.addEventListener('click', pick);
     chipsEl.addEventListener('click', pick);
     render();
@@ -474,5 +487,84 @@
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
+
+
+  /* ---- Tarjetas de logros: parallax por capas + luz que sigue al cursor ---- */
+  const fnds = document.querySelectorAll('.findings .finding');
+  if (fnds.length) {
+    fnds.forEach((el, i) => {
+      el.style.setProperty('--i', i % 3);
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+    if (!reduce) {
+      let ft = false;
+      const fRun = () => {
+        ft = false;
+        fnds.forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -80 || r.top > innerHeight + 80) return;
+          const d = (r.top + r.height / 2 - innerHeight / 2) / (innerHeight / 2);
+          el.style.setProperty('--p', Math.max(-1, Math.min(1, d)).toFixed(3));
+        });
+      };
+      const fReq = () => { if (!ft) { ft = true; requestAnimationFrame(fRun); } };
+      addEventListener('scroll', fReq, { passive: true });
+      addEventListener('resize', fReq);
+      fRun();
+    }
+  }
+
+  /* ---- Parallax de las fotos de fondo en los recuadros de investigación ---- */
+  const rbs = document.querySelectorAll('.r-badges > .rb');
+  if (rbs.length && !reduce) {
+    let tick = false;
+    const run = () => {
+      tick = false;
+      rbs.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const d = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        const max = r.height * 0.12;
+        el.style.setProperty('--py', Math.max(-max, Math.min(max, -d * r.height * 0.5)).toFixed(1) + 'px');
+      });
+    };
+    const req = () => { if (!tick) { tick = true; requestAnimationFrame(run); } };
+    addEventListener('scroll', req, { passive: true });
+    addEventListener('resize', req);
+    run();
+  }
+
+  /* ---- Publicaciones: aparecen en alterno y se mueven con el scroll (parallax) ---- */
+  const pubsList = document.getElementById('pubs');
+  if (pubsList) {
+    const pio = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); pio.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' }) : null;
+    const items = () => pubsList.querySelectorAll('.pub');
+    const prep = () => items().forEach((el, i) => { el.style.setProperty('--i', i % 5); if (!el.classList.contains('in')) { if (pio) pio.observe(el); else el.classList.add('in'); } });
+    new MutationObserver(prep).observe(pubsList, { childList: true });
+    prep();
+    if (!reduce) {
+      let pt = false;
+      const pRun = () => {
+        pt = false;
+        items().forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -60 || r.top > innerHeight + 60) return;
+          const d = (r.top + r.height / 2 - innerHeight / 2) / (innerHeight / 2);
+          const p = Math.max(-1, Math.min(1, d));
+          el.style.setProperty('--p', p.toFixed(3));
+          el.style.setProperty('--ap', Math.min(1, Math.abs(p)).toFixed(3));
+        });
+      };
+      const pReq = () => { if (!pt) { pt = true; requestAnimationFrame(pRun); } };
+      addEventListener('scroll', pReq, { passive: true });
+      addEventListener('resize', pReq);
+      new MutationObserver(pReq).observe(pubsList, { childList: true });
+      pRun();
+    }
+  }
 
 })();
