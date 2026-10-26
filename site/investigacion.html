@@ -12,7 +12,7 @@
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="preload" as="image" href="img/banner.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=20">
+  <link rel="stylesheet" href="styles.css?v=29">
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body class="subpage">
@@ -122,7 +122,7 @@
         <h3 class="sub">Algunas de sus publicaciones</h3>
         <div class="chips" id="chips" role="group" aria-label="Filtrar por tema"></div>
         <ol class="pubs" id="pubs"></ol>
-        <p class="r-note">Resumen en lenguaje sencillo de cada trabajo; debajo, el título científico original (con enlace cuando está disponible). Lista basada en registros bibliográficos públicos (OpenAlex), ordenada por número de citas. Los proyectos y grupos de investigación se completarán con el CvLAC de MinCiencias.</p>
+        <div class="pubs-more" id="pubsMore" hidden><button type="button" class="btn-more-pubs" aria-expanded="false">Ver todas</button></div>
       
     </section>
   </main>
@@ -154,6 +154,6 @@
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/vanilla-tilt.min.js"></script>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=12"></script>
 </body>
 </html>
