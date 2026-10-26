@@ -447,4 +447,24 @@
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
+  /* ---- Parallax de las fotos de fondo en los recuadros de investigación ---- */
+  const rbs = document.querySelectorAll('.r-badges > .rb');
+  if (rbs.length && !reduce) {
+    let tick = false;
+    const run = () => {
+      tick = false;
+      rbs.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const d = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        const max = r.height * 0.12;
+        el.style.setProperty('--py', Math.max(-max, Math.min(max, -d * r.height * 0.5)).toFixed(1) + 'px');
+      });
+    };
+    const req = () => { if (!tick) { tick = true; requestAnimationFrame(run); } };
+    addEventListener('scroll', req, { passive: true });
+    addEventListener('resize', req);
+    run();
+  }
+
 })();
