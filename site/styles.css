@@ -1586,24 +1586,3 @@ img[src*="galeria-canada"] { object-position: 57% 25%; }
 img[src*="galeria-redttu"] { object-position: 50% 20%; }
 img[src*="galeria-cesu"] { object-position: 85% 18%; }
 img[src*="entrevista"] { object-position: 78% 15%; }
-
-/* Escenas animadas (5 s) en la franja superior de las fichas de líneas de investigación, como un video corto sobre el texto */
-.lines .line-card { position: relative; overflow: hidden; isolation: isolate; padding-top: calc(var(--lc-w) / 4 - 6px); }
-.lc-scene { position: absolute; top: 0; left: 0; z-index: -1; display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; pointer-events: none; color: var(--cobre); opacity: .35; transition: opacity .5s;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--cobre) 10%, transparent), transparent);
-  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
-.line-card.on .lc-scene { color: var(--cobre-claro); opacity: .8; }
-@media (max-width: 960px) { .lines .line-card { padding-top: calc(var(--lc-w) / 4 - 4px); } }
-.lc-scene * { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.lc-scene .faint { stroke-width: 1.4; opacity: .5; }
-.lc-scene .beam { stroke-dasharray: 6 10; animation: lcBeam 5s linear infinite; }
-.lc-scene .glow { fill: currentColor; stroke: none; animation: lcGlow 5s ease-in-out infinite; }
-.lc-scene .grow { stroke-dasharray: 80; animation: lcGrow 5s ease-in-out infinite; }
-.lc-scene .leaf { transform-box: fill-box; transform-origin: 100% 100%; animation: lcLeaf 5s ease-in-out infinite; }
-.lc-scene .leaf.l2 { transform-origin: 0 100%; animation-delay: .4s; }
-.line-card:not(.on) .lc-scene * { animation-play-state: paused; }
-@keyframes lcBeam { to { stroke-dashoffset: -80; } }
-@keyframes lcGlow { 0%, 100% { opacity: .05; } 50% { opacity: .45; } }
-@keyframes lcGrow { 0% { stroke-dashoffset: 80; } 45%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 80; } }
-@keyframes lcLeaf { 0%, 20% { transform: scale(0); } 55%, 85% { transform: scale(1); } 100% { transform: scale(0); } }
-@media (prefers-reduced-motion: reduce) { .lc-scene * { animation: none !important; } .lc-scene .grow { stroke-dashoffset: 0; } }
