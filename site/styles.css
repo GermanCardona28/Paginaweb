@@ -1361,3 +1361,31 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 .finding:hover small::after { width: 100%; }
 /* títulos siempre en 2 renglones equilibrados */
 .finding h4 { max-width: 19ch; margin-inline: auto; padding-inline: 0; text-wrap: balance; }
+
+/* ===== versión minimalista: gráfico secundario, sin franja ni adornos ===== */
+.finding { background: color-mix(in srgb, var(--cobre) 4%, var(--surface)); border: 1px solid color-mix(in srgb, var(--cobre) 14%, transparent); box-shadow: none; border-radius: 18px; }
+:root[data-theme="dark"] .finding { background: color-mix(in srgb, var(--cobre) 12%, var(--surface)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding { background: color-mix(in srgb, var(--cobre) 12%, var(--surface)); } }
+.finding::after { display: none; }
+.finding:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--cobre) 38%, transparent); box-shadow: 0 14px 28px -20px rgba(8,40,26,.35); }
+.finding::before { left: auto; right: 26px; top: 26px; padding: 0; border: 0; background: none; color: color-mix(in srgb, var(--cobre) 55%, var(--surface)); font: 600 13px/1 var(--sans); letter-spacing: .12em; }
+.f-viz { height: auto; display: block; background: none; padding: 26px 26px 0; }
+.f-viz svg { height: 26px; margin: 0; opacity: .85; transform: none; }
+.finding:hover .f-viz svg { transform: none; }
+.f-viz .b { stroke: var(--cobre); stroke-width: 2.2; }
+:root[data-theme="dark"] .f-viz .b { stroke: #4CD98A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .f-viz .b { stroke: #4CD98A; } }
+.finding h4 { padding-top: 14px; text-align: left; justify-items: start; margin-inline: 0; padding-inline: 26px; max-width: none; width: calc(100% - 52px); }
+.finding p { text-align: left; justify-items: start; padding-inline: 26px; }
+.finding small { text-align: left; margin: 14px 26px 22px; }
+.finding small::before { left: 0; transform: none; width: 100%; background: color-mix(in srgb, var(--cobre) 14%, transparent); }
+.finding small::after { display: none; }
+.finding h4 { max-width: 19ch; width: auto; }
+.finding small { min-height: 3.6em; }
+
+/* fondo un poco más verde y luz suave que sigue al cursor */
+.finding { background: color-mix(in srgb, var(--cobre) 11%, var(--surface)); border-color: color-mix(in srgb, var(--cobre) 22%, transparent); }
+:root[data-theme="dark"] .finding { background: color-mix(in srgb, var(--cobre) 20%, var(--surface)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .finding { background: color-mix(in srgb, var(--cobre) 20%, var(--surface)); } }
+.finding::after { display: block; background: radial-gradient(240px circle at var(--mx) var(--my), color-mix(in srgb, var(--cobre) 20%, transparent), transparent 70%); }
+.finding:hover::after { opacity: 1; }
