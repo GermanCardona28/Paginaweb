@@ -45,6 +45,16 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
   }
 
+  /* ---- Desplegable del nav: Sobre Lengerke / Logros UTS ---- */
+  const navDropBtn = document.querySelector('.nav-drop-btn');
+  const navDropMenu = document.querySelector('.nav-drop-menu');
+  if (navDropBtn && navDropMenu) {
+    const toggleDrop = open => { navDropMenu.classList.toggle('open', open); navDropBtn.setAttribute('aria-expanded', String(open)); };
+    navDropBtn.addEventListener('click', e => { e.stopPropagation(); toggleDrop(!navDropMenu.classList.contains('open')); });
+    document.addEventListener('click', e => { if (!e.target.closest('.nav-drop')) toggleDrop(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleDrop(false); });
+  }
+
   /* ---- Nav ---- */
   const nav = document.getElementById('nav');
   const burger = document.querySelector('.burger');

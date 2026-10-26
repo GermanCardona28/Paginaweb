@@ -16,7 +16,7 @@
   <link rel="preload" as="image" href="img/omar.webp" type="image/webp">
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=5">
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
@@ -43,8 +43,13 @@
     </div>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
-      <a href="logros-uts.html">Logros UTS</a>
-      <a href="sobre-lengerke.html">Sobre Lengerke</a>
+      <div class="nav-drop">
+        <a href="sobre-lengerke.html" class="nav-drop-link">Sobre Lengerke</a>
+        <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" aria-controls="sobreMenu" aria-label="Más sobre Lengerke"></button>
+        <div class="nav-drop-menu" id="sobreMenu" role="menu">
+          <a href="logros-uts.html" role="menuitem">Logros UTS</a>
+        </div>
+      </div>
       <a href="investigacion.html">Investigación</a>
       <a href="territorio.html">Territorio</a>
       <a href="reconocimientos.html">Reconocimientos</a>
@@ -271,6 +276,6 @@
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/vanilla-tilt.min.js"></script>
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>

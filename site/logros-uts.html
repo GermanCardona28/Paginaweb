@@ -12,7 +12,7 @@
   <link rel="icon" type="image/webp" href="img/logo-imagen.webp">
   <link rel="preload" as="image" href="img/logo-imagen.webp" type="image/webp">
   <link rel="preload" as="image" href="img/banner.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=5">
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body class="subpage">
@@ -38,8 +38,13 @@
     </div>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     <nav id="menu" class="menu" aria-label="Principal">
-      <a href="logros-uts.html">Logros UTS</a>
-      <a href="sobre-lengerke.html">Sobre Lengerke</a>
+      <div class="nav-drop">
+        <a href="sobre-lengerke.html" class="nav-drop-link">Sobre Lengerke</a>
+        <button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false" aria-controls="sobreMenu" aria-label="Más sobre Lengerke"></button>
+        <div class="nav-drop-menu" id="sobreMenu" role="menu">
+          <a href="logros-uts.html" role="menuitem">Logros UTS</a>
+        </div>
+      </div>
       <a href="investigacion.html">Investigación</a>
       <a href="territorio.html">Territorio</a>
       <a href="reconocimientos.html">Reconocimientos</a>
@@ -69,7 +74,7 @@
         <div class="kpi"><b class="kpi-n" data-count="2015" data-plain="1">0</b><span>Inicio de su rectoría.</span></div>
       </div>
 
-      <p class="lead mid wide reveal-up">Desde marzo de 2015, Omar Lengerke Pérez se desempeña como rector de las Unidades Tecnológicas de Santander (UTS). Durante su gestión, ha liderado una institución que cuenta con más de 26.500 estudiantes, de los cuales cerca del 98 % pertenecen a los estratos socioeconómicos 1, 2 y 3. Su trayectoria en la educación superior está vinculada al fortalecimiento de la formación técnica y tecnológica y a la generación de oportunidades educativas.</p>
+      <p class="lead mid wide reveal-up">Desde marzo de 2015, Omar Lengerke Pérez se desempeñó como rector de las Unidades Tecnológicas de Santander (UTS). Su gestión estuvo vinculada al fortalecimiento de la formación técnica y tecnológica y a la generación de oportunidades educativas.</p>
 
       <h3 class="group-title">Hitos principales de su gestión</h3>
       <div class="places hitos">
@@ -103,9 +108,9 @@
 
       <h3 class="group-title">Calidad y oportunidades educativas</h3>
       <div class="kpi-row three">
-        <div class="kpi"><b class="kpi-n" data-count="7">0</b><span>Programas profesionales abiertos</span></div>
-        <div class="kpi"><b class="kpi-n" data-count="6">0</b><span>Programas virtuales abiertos</span></div>
-        <div class="kpi"><b class="kpi-n" data-count="6">0</b><span>Programas acreditados en alta calidad</span></div>
+        <div class="kpi kpi-photo ph-profesionales"><b class="kpi-n" data-count="7">0</b><span>Programas profesionales abiertos</span></div>
+        <div class="kpi kpi-photo ph-virtuales"><b class="kpi-n" data-count="6">0</b><span>Programas virtuales abiertos</span></div>
+        <div class="kpi kpi-photo ph-acreditados"><b class="kpi-n" data-count="6">0</b><span>Programas acreditados en alta calidad</span></div>
       </div>
       <h2 class="page-title sm">Investigación e innovación</h2>
 
@@ -169,6 +174,6 @@
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lenis.min.js"></script>
   <script src="vendor/vanilla-tilt.min.js"></script>
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
