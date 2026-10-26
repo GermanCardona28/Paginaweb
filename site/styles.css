@@ -113,7 +113,7 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
   padding: 14px max(16px, calc((100% - 1160px) / 2)); transition: background .3s, box-shadow .3s, padding .3s;
   color: var(--crema);
 }
-.nav.solid { background: rgba(8,40,26, .92); backdrop-filter: blur(10px); box-shadow: 0 6px 30px rgba(0,0,0,.2); padding-block: 10px; }
+.nav.solid { background: rgba(8,40,26, .92); box-shadow: 0 6px 30px rgba(0,0,0,.2); padding-block: 10px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--cobre); color: var(--azul); font: 800 15px var(--serif); }
 .brand-name { font: 600 16px var(--serif); letter-spacing: .01em; }
@@ -1072,23 +1072,8 @@ html.is-loading { overflow: hidden; }
 @media (max-width: 1100px) { .menu { top: 84px; } }
 @media (max-width: 560px) { .brand-logo, .nav.solid .brand-logo { height: 40px; } .menu { top: 66px; } .hero { padding-top: 80px; } }
 
-/* pantalla de carga de las secciones (no la del inicio): banner detrás y fondo claro encima, con las mismas proporciones del primer panel */
-body.subpage .preloader { background: #eef7f1; overflow: hidden; }
-body.subpage .preloader::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background-image: url(img/banner.jpg);
-  background-image: image-set(url(img/banner.webp) type("image/webp"), url(img/banner.jpg) type("image/jpeg"));
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-  opacity: .55;
-}
-body.subpage .preloader::after {
-  content: ""; position: absolute; inset: 0; z-index: 1;
-  background:
-    radial-gradient(900px 600px at 85% 15%, #d6f1e0, transparent 65%),
-    radial-gradient(700px 500px at 0% 100%, #e6f6ec, transparent 60%),
-    linear-gradient(180deg, #f9fcf8, #eef7f1);
-  opacity: .8;
-}
+/* pantalla de carga de las secciones (no la del inicio): fondo blanco con el logo */
+body.subpage .preloader { background: #fff; overflow: hidden; }
 body.subpage .preloader .clear-loading { z-index: 2; }
 
 /* ===== portada con zoom alto o ventanas bajas: nada se superpone ===== */
