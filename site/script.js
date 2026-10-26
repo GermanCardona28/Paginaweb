@@ -547,57 +547,23 @@
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
-  /* ---- Logros UTS (inicio): los logros van en orden de crecimiento. El mapa de Santander muestra la red de sedes
-     que nace en Bucaramanga y se extiende con cada logro (arcos que se dibujan), y la línea de tiempo 2015–2026
-     avanza hasta el logro visible; sus puntos también sirven para navegar ---- */
+  /* ---- Logros UTS (inicio): los logros van en orden de crecimiento y cada uno trae su foto de fondo a pantalla
+     completa, que entra barriendo sobre la anterior y se acerca despacio. La línea de tiempo 2015–2026 avanza hasta
+     el logro visible y sus puntos también sirven para navegar ---- */
   const lcVp = document.getElementById('lcViewport');
-  const lcMap = document.getElementById('lcMap');
-  if (lcVp && lcMap) {
+  const lcBg = document.querySelector('.lc-bg');
+  if (lcVp && lcBg) {
     const slides = [...lcVp.querySelectorAll('.lc-slide')];
     const steps = document.querySelector('.lc-steps');
-    // centro aproximado de cada municipio en las coordenadas del mapa (img/mapa-santander.svg)
-    // [x, y, nombre, posición de la etiqueta respecto al punto]
-    const PINS = { bga: [404, 293, 'Bucaramanga', 'left'], barranca: [221, 328, 'Barrancabermeja', 'left'], piedecuesta: [430, 341, 'Piedecuesta', 'left'], velez: [251, 516, 'Vélez', 'left'] };
-    const LABEL = { top: [0, -22, 'middle'], left: [-16, 8, 'end'], right: [16, 8, 'start'] };
-    let svg = null, current = -1;
-    const light = () => {
-      if (!svg || current < 0) return;
-      const on = (slides[current].dataset.m || '').split(' ');
-      const fresh = (slides[current].dataset.new || '').split(' ');
-      Object.keys(PINS).forEach(k => {
-        const hit = on.includes(k), isNew = fresh.includes(k) || fresh.includes('all');
-        svg.querySelector('#m-' + k)?.classList.toggle('on', hit);
-        svg.querySelector('#m-' + k)?.classList.toggle('new', hit && isNew);
-        const pin = svg.querySelector('.pin-' + k);
-        pin?.classList.toggle('on', hit);
-        pin?.classList.toggle('new', hit && isNew);
-        const arc = svg.querySelector('.arc-' + k);
-        if (arc) { arc.classList.toggle('on', hit); arc.classList.toggle('new', hit && isNew); }
-      });
-      svg.classList.toggle('all', fresh.includes('all'));
+    const shots = [...lcBg.children];
+    let current = -1;
+    const paint = i => { const el = shots[i]; if (el && el.dataset.bg) { el.style.backgroundImage = `url(${el.dataset.bg})`; delete el.dataset.bg; } };
+    const show = i => {
+      paint(i); paint((i + 1) % shots.length);
+      // la foto anterior queda debajo mientras la nueva la cubre con el barrido
+      shots.forEach((el, j) => { el.classList.toggle('prev', el.classList.contains('on') && j !== i); el.classList.toggle('on', j === i); });
     };
-    fetch('img/mapa-santander.svg').then(r => r.text()).then(txt => {
-      lcMap.innerHTML = txt;
-      svg = lcMap.querySelector('svg');
-      const NS = 'http://www.w3.org/2000/svg';
-      const [hx, hy] = PINS.bga;
-      // arcos desde Bucaramanga hacia cada sede nueva, curvados hacia arriba
-      const arcs = document.createElementNS(NS, 'g');
-      arcs.setAttribute('class', 'lc-arcs');
-      arcs.innerHTML = ['barranca', 'piedecuesta', 'velez'].map(k => {
-        const [x, y] = PINS[k], mx = (hx + x) / 2, my = (hy + y) / 2 - Math.hypot(x - hx, y - hy) * .35;
-        return `<path class="lc-arc arc-${k}" pathLength="100" d="M${hx} ${hy}Q${mx.toFixed(0)} ${my.toFixed(0)} ${x} ${y}"/>`;
-      }).join('');
-      svg.appendChild(arcs);
-      Object.entries(PINS).forEach(([k, [x, y, name, side]]) => {
-        const g = document.createElementNS(NS, 'g');
-        g.setAttribute('class', 'lc-pin pin-' + k);
-        const [dx, dy, anchor] = LABEL[side];
-        g.innerHTML = `<circle class="ring" cx="${x}" cy="${y}" r="10"/><circle class="dot" cx="${x}" cy="${y}" r="7"/><text x="${x + dx}" y="${y + dy}" text-anchor="${anchor}">${name}</text>`;
-        svg.appendChild(g);
-      });
-      light();
-    }).catch(() => lcMap.remove());
+    const light = () => { if (current >= 0) show(current); };
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting || e.intersectionRatio < .6) return;
       const i = slides.indexOf(e.target);
