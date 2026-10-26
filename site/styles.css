@@ -1844,3 +1844,8 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .lc-bg i:nth-child(2) { background-position: 50% 0%; }
 .lc-num { -webkit-text-stroke-color: rgba(255,255,255,.22); }
 .lc-steps { align-items: start; }
+/* paisajes de Logros: encuadre de cada foto */
+.lc-bg i:nth-child(1) { background-position: 50% 55%; }
+.lc-bg i:nth-child(2) { background-position: 50% 45%; }
+.lc-bg i:nth-child(3) { background-position: 50% 60%; }
+.lc-bg i:nth-child(4) { background-position: 50% 50%; }
