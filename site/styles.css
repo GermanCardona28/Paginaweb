@@ -2011,3 +2011,13 @@ html:has(main[data-snap]) .footer { scroll-snap-align: end; }
   .join-clean .lead { margin-bottom: 18px; }
   .jc-rule { margin-bottom: 14px; }
 }
+/* Súmate sin imagen: vuelve al cierre limpio y centrado, con el formulario en una sola fila */
+@media (min-width: 961px) {
+  .jc-grid { display: block; }
+  .jc-grid .jc-inner { align-items: center; text-align: center; max-width: 980px; margin-inline: auto; }
+  .join-clean { text-align: center; }
+  .jc-form { grid-template-columns: 1fr 1fr 1fr auto; }
+  .jc-form .btn { grid-column: auto; justify-self: stretch; }
+  .jc-form .check { justify-content: center; }
+  .jc-form .form-msg { text-align: center; }
+}
