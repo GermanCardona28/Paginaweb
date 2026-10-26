@@ -1563,3 +1563,26 @@ body.subpage .preloader .clear-loading { z-index: 2; }
 .research .chips { justify-content: center; }
 .research .pubs { max-width: 900px; margin-inline: auto; }
 .research .r-badges > div { text-align: center; }
+
+/* Encuadre de fotos: cada recorte apunta a las caras de la foto (x% y%) en vez del centro geométrico */
+.centers-slide.ph-cedera::before { background-position: 45% 35%; }
+.centers-slide.ph-cip::before { background-position: 65% 40%; }
+.centers-slide.ph-cafe::before { background-position: 50% 55%; }
+.r-badges > div.rb2::before { background-position: 50% 12%; }
+.r-badges > div.rb4::before { background-position: 78% 15%; }
+.edu-viewport .edu-card.p1::before { background-position: 66% 22% !important; }
+.edu-viewport .edu-card.p2::before { background-position: 55% 28% !important; }
+.edu-viewport .edu-card.p4::before { background-position: 50% 22% !important; }
+.blog-topics .edu-card.t1::before { background-position: 50% 18% !important; }
+.blog-topics .edu-card.t2::before { background-position: 70% 30% !important; }
+.blog-topics .edu-card.t3::before { background-position: 57% 25% !important; }
+.blog-topics .edu-card.t4::before { background-position: 50% 20% !important; }
+img[src*="galeria-bucaramanga"] { object-position: 66% 22%; }
+img[src*="galeria-barrancabermeja"] { object-position: 55% 28%; }
+img[src*="galeria-velez"] { object-position: 50% 22%; }
+img[src*="galeria-grados"] { object-position: 50% 18%; }
+img[src*="galeria-ruta-regiones"] { object-position: 70% 30%; }
+img[src*="galeria-canada"] { object-position: 57% 25%; }
+img[src*="galeria-redttu"] { object-position: 50% 20%; }
+img[src*="galeria-cesu"] { object-position: 85% 18%; }
+img[src*="entrevista"] { object-position: 78% 15%; }
