@@ -26,10 +26,10 @@
   --accent-surface: #E6F3EB;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #081A11; }
+  :root:not([data-theme="light"]) { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #123D28; }
   :root:not([data-theme="light"]) .nav.solid { background: rgba(6,26,17,.95) !important; }
-  :root:not([data-theme="light"]) .logros-carousel { --azul: #0E2B1C; }
-  :root:not([data-theme="light"]) .prensa { --azul: #061A13; }
+  :root:not([data-theme="light"]) .logros-carousel { --azul: #123D28; }
+  :root:not([data-theme="light"]) .prensa { --azul: #0E3523; }
   :root:not([data-theme="light"]) .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
   :root:not([data-theme="light"]) .footer { background: #03100A !important; }
   :root:not([data-theme="light"]) .hero::after {
@@ -57,10 +57,10 @@
   
 }
 /* modo oscuro elegido a mano con el botón de configuración */
-:root[data-theme="dark"] { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #081A11; }
+:root[data-theme="dark"] { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #123D28; }
 :root[data-theme="dark"] .nav.solid { background: rgba(6,26,17,.95) !important; }
-:root[data-theme="dark"] .logros-carousel { --azul: #0E2B1C; }
-:root[data-theme="dark"] .prensa { --azul: #061A13; }
+:root[data-theme="dark"] .logros-carousel { --azul: #123D28; }
+:root[data-theme="dark"] .prensa { --azul: #0E3523; }
 :root[data-theme="dark"] .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
 :root[data-theme="dark"] .footer { background: #03100A !important; }
 :root[data-theme="dark"] .hero::after {
@@ -200,8 +200,8 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .dark .lead { color: rgba(247,242,234,.8); }
 
 /* Sobre Lengerke + Investigación, en una sola sección dividida a la mitad */
-.split-section { display: grid; grid-template-columns: 1fr; gap: 56px 0; }
-.split-col { position: relative; padding-top: 4px; display: block; }
+.split-section { display: grid; grid-template-columns: minmax(0, 1fr); gap: 56px 0; }
+.split-col { position: relative; padding-top: 4px; display: block; min-width: 0; }
 .split-col .r-badges { grid-template-columns: repeat(2, 1fr); }
 /* Sobre Lengerke: mini-carrusel de formación, una tarjeta a la vez */
 .edu-viewport { overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
@@ -213,7 +213,7 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .edu-dot[aria-selected="true"] { width: 26px; background: var(--cobre); }
 
 /* timeline */
-.timeline { position: relative; display: grid; gap: 40px; padding-block: 10px; }
+.timeline { position: relative; display: grid; gap: 40px; padding-block: 10px; overflow-x: hidden; }
 .tl-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--arena); transform: translateX(-50%); }
 .tl-line span { display: block; width: 100%; height: 100%; background: linear-gradient(var(--azul), var(--cobre)); transform: scaleY(0); transform-origin: top; }
 .tl-item { position: relative; width: calc(50% - 44px); padding: 22px 26px; background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow-md); }
@@ -295,9 +295,9 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
 .hablemos-cta { margin: 40px 0 0; }
 
 /* premios, agrupados por año (un solo año por grupo, no repetido en cada tarjeta) */
-.awards-group { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: stretch; margin-bottom: 22px; }
+.awards-group { display: grid; grid-template-columns: 76px 1fr; gap: 20px; align-items: center; margin-bottom: 48px; }
 .awards-group:last-child { margin-bottom: 0; }
-.awards-year { margin: 0; font: 800 26px var(--serif); color: var(--cobre-claro); display: flex; flex-direction: column; justify-content: space-between; align-items: center; align-self: stretch; }
+.awards-year { margin: 0; font: 800 26px var(--serif); color: var(--cobre-claro); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px; }
 .awards-year span { line-height: 1; }
 .awards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
 .award { padding: 18px 24px; border-radius: var(--r); background: rgba(255,255,255,.06); border: 1px solid rgba(247,242,234,.12); transition: transform .3s, border-color .3s; }
@@ -651,7 +651,7 @@ body { overflow-x: clip; }
   .growth-stat { border-left: 0; border-top: 1px solid var(--arena); padding-left: 0; padding-top: 20px; }
 }
 
-.hitos { grid-template-columns: repeat(2, 1fr); margin-bottom: 40px; }
+.hitos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 40px; margin-bottom: 40px; }
 .hito { scroll-margin-top: 120px; display: grid; gap: 10px; }
 .hito .r-ico { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: rgba(0,135,58,.12); }
 .hito .r-ico svg { width: 30px; height: 30px; fill: none; stroke: var(--cobre); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
