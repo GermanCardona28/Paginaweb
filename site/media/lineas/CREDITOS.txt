@@ -1,0 +1,11 @@
+Videos de las líneas de investigación (página Investigación)
+Fuente: Pexels (licencia Pexels: uso gratuito, comercial permitido, no exige atribución)
+Se muestran solo los primeros 8 segundos de cada clip (el corte lo hace script.js).
+
+robotica.mp4     https://www.pexels.com/video/industrial-robotic-arm-operating-in-a-laboratory-32386519/
+energia.mp4      https://www.pexels.com/video/drone-footage-of-solar-panels-7040278/
+biomecanica.mp4  https://www.pexels.com/video/person-wearing-prosthetic-arm-6153062/
+maquinas.mp4     https://www.pexels.com/video/mesmerizing-close-up-of-industrial-gears-in-motion-31802320/
+agro.mp4         https://www.pexels.com/video/a-cacao-fruit-on-a-tree-8505961/
+
+Para reemplazar uno por un video propio del equipo, basta con guardar el nuevo archivo con el mismo nombre.

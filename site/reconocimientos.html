@@ -62,7 +62,7 @@
 
   <main id="contenido">
 
-    <section class="section dark prensa page">
+    <section class="section dark prensa-page page">
       <div class="wrap">
         <a class="back light" href="index.html#reconocimientos">← Volver al inicio</a>
         <header class="page-head">
@@ -70,52 +70,54 @@
           <h1 class="page-title reveal-up">Santander también lo ha reconocido.</h1>
           <p class="lead reveal-up">Doce distinciones de concejos, asambleas, gremios y medios, por su trayectoria y su impacto educativo.</p>
         </header>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>1</span><span>5</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Condecoración «Luis Carlos Galán Sarmiento»</h3><p>La máxima condecoración de la Asamblea de Santander.</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>1</span><span>8</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Orden «Ciudadanía de Vélez»</h3><p>Del municipio de Vélez.</p></li>
-            <li class="award"><h3>Orden «Juan Manuel Ortiz» · El Socorro</h3><p>Reconocido como hijo ilustre de su municipio natal.</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>2</span><span>0</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Condecoración «General José María Mantilla» · Piedecuesta</h3><p>En la categoría «Ciudadano Excelencia».</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>2</span><span>1</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Medalla al Mérito Cívico · Vélez</h3><p>Del Concejo Municipal de Vélez.</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>2</span><span>2</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Orden «Francisco Mantilla de los Ríos» · Girón</h3><p>En grado Gran Comendador, del Concejo de Girón.</p></li>
-            <li class="award"><h3>Orden «Ciudad de Bucaramanga»</h3><p>Al Mérito Educativo y Cultural, del Concejo de Bucaramanga.</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>2</span><span>3</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Orden «Victoriano de Diego y Paredes» · Piedecuesta</h3><p>En grado Gran Cruz.</p></li>
-          </ol>
-        </div>
-        <div class="awards-group">
-          <p class="awards-year"><span>2</span><span>0</span><span>2</span><span>4</span></p>
-          <ol class="awards">
-            <li class="award"><h3>Personaje 2024 · Vanguardia Liberal</h3><p>Categoría de instituciones públicas que hacen crecer a Santander.</p></li>
-            <li class="award"><h3>Orquídea de Oro · CORPOBOGOTÁ</h3><p>Por su labor en Derecho Humanitario y paz.</p></li>
-            <li class="award"><h3>Orden «Carlos Gutiérrez» · Floridablanca</h3><p>La máxima distinción del Concejo Municipal.</p></li>
-            <li class="award"><h3>Colegio Nacional de Periodistas</h3><p>Por su servicio a la sociedad y su trato con la prensa.</p></li>
-          </ol>
+        <div class="yr-acc" id="porAnio">
+          <div class="yr open">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2024" aria-expanded="true" aria-controls="yp-2024"><span class="yr-num">2024</span><span class="yr-count">4 distinciones</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2024" role="region" aria-labelledby="yr-2024"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Personaje 2024 · Vanguardia Liberal</strong><span>Categoría de instituciones públicas que hacen crecer a Santander.</span></li>
+              <li><strong>Orquídea de Oro · CORPOBOGOTÁ</strong><span>Por su labor en Derecho Humanitario y paz.</span></li>
+              <li><strong>Orden «Carlos Gutiérrez» · Floridablanca</strong><span>La máxima distinción del Concejo Municipal.</span></li>
+              <li><strong>Colegio Nacional de Periodistas</strong><span>Por su servicio a la sociedad y su trato con la prensa.</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2023" aria-expanded="false" aria-controls="yp-2023"><span class="yr-num">2023</span><span class="yr-count">1 distinción</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2023" role="region" aria-labelledby="yr-2023"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Orden «Victoriano de Diego y Paredes» · Piedecuesta</strong><span>En grado Gran Cruz.</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2022" aria-expanded="false" aria-controls="yp-2022"><span class="yr-num">2022</span><span class="yr-count">2 distinciones</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2022" role="region" aria-labelledby="yr-2022"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Orden «Francisco Mantilla de los Ríos» · Girón</strong><span>En grado Gran Comendador, del Concejo de Girón.</span></li>
+              <li><strong>Orden «Ciudad de Bucaramanga»</strong><span>Al Mérito Educativo y Cultural, del Concejo de Bucaramanga.</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2021" aria-expanded="false" aria-controls="yp-2021"><span class="yr-num">2021</span><span class="yr-count">1 distinción</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2021" role="region" aria-labelledby="yr-2021"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Medalla al Mérito Cívico · Vélez</strong><span>Del Concejo Municipal de Vélez.</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2020" aria-expanded="false" aria-controls="yp-2020"><span class="yr-num">2020</span><span class="yr-count">1 distinción</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2020" role="region" aria-labelledby="yr-2020"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Condecoración «General José María Mantilla» · Piedecuesta</strong><span>En la categoría «Ciudadano Excelencia».</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2018" aria-expanded="false" aria-controls="yp-2018"><span class="yr-num">2018</span><span class="yr-count">2 distinciones</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2018" role="region" aria-labelledby="yr-2018"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Orden «Ciudadanía de Vélez»</strong><span>Del municipio de Vélez.</span></li>
+              <li><strong>Orden «Juan Manuel Ortiz» · El Socorro</strong><span>Reconocido como hijo ilustre de su municipio natal.</span></li>
+            </ul></div></div>
+          </div>
+          <div class="yr">
+            <h3 class="yr-h"><button type="button" class="yr-btn" id="yr-2015" aria-expanded="false" aria-controls="yp-2015"><span class="yr-num">2015</span><span class="yr-count">1 distinción</span><span class="yr-ico" aria-hidden="true"></span></button></h3>
+            <div class="yr-panel" id="yp-2015" role="region" aria-labelledby="yr-2015"><div class="yr-in"><ul class="yr-list">
+              <li><strong>Condecoración «Luis Carlos Galán Sarmiento»</strong><span>La máxima condecoración de la Asamblea de Santander.</span></li>
+            </ul></div></div>
+          </div>
         </div>
         <p class="note">Fuente: Perfil oficial del rector en el sitio de las UTS.</p>
 
@@ -147,7 +149,6 @@
         </ul>
       </div>
       <div><a href="logros-uts.html">Logros UTS</a><a href="sobre-lengerke.html">Sobre Lengerke</a><a href="investigacion.html">Investigación</a><a href="reconocimientos.html">Reconocimientos</a><a href="blog.html">Blog</a><a href="index.html#unete">Hablemos</a></div>
-      <div><p class="tiny">Fotos de universidades: Wikimedia Commons — UNAB (Jpinedo20, CC BY-SA 4.0), Tecnológico de Monterrey (Dzo22, CC BY 4.0), UFRJ (Marcelo Horn, CC BY 2.0; Omar Uran, CC BY 2.0).</p><p class="tiny">Sitio en construcción. Las cifras y la información se verifican contra fuentes oficiales antes de su publicación definitiva.</p></div>
     </div>
   </footer>
 

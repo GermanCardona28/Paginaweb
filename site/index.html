@@ -64,7 +64,7 @@
     </nav>
   </header>
 
-  <main id="contenido">
+  <main id="contenido" data-snap>
     <!-- HERO: retrato al centro -->
     <section class="hero-retrato" id="inicio">
       <h1 class="hr-name" aria-label="Omar Lengerke Pérez"><span class="hr-w" aria-hidden="true"><span>Omar</span></span> <span class="hr-w hr-ape" aria-hidden="true"><span>Lengerke</span></span> <span class="hr-w" aria-hidden="true"><span>Pérez</span></span></h1>
@@ -97,86 +97,109 @@
     </section>
 
     <!-- LOGROS -->
-    <section class="section dark logros-carousel snap-section" id="logros">
+    <section class="section dark logros-carousel snap-section lc-cinema" id="logros">
+      <div class="lc-bg" aria-hidden="true"><i data-bg="img/logros/bucaramanga.webp"></i><i data-bg="img/logros/barrancabermeja.webp"></i><i data-bg="img/logros/velez.webp"></i><i data-bg="img/logros/chicamocha.webp"></i></div>
       <div class="lc-head wrap">
         <p class="eyebrow">Logros UTS · 2015–2026</p>
         <h2 class="reveal-up">Doce años llevando la educación a la obra.</h2>
       </div>
 
+      <!-- Línea de tiempo de la gestión: también es la navegación del carrusel -->
+      <div class="lc-timeline wrap">
+        <span class="lc-year">2015</span>
+        <div class="lc-dots lc-steps" id="lcDots" role="tablist" aria-label="Logros UTS">
+          <span class="lc-rail" aria-hidden="true"><span class="lc-fill"></span></span>
+          <button type="button" class="lc-step" data-i="0" role="tab" aria-selected="true" aria-label="Logro 1 de 4: Sede de Bucaramanga ampliada"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Bucaramanga</span></button>
+          <button type="button" class="lc-step" data-i="1" role="tab" aria-selected="false" aria-label="Logro 2 de 4: Nueva sede en Barrancabermeja"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Barrancabermeja</span></button>
+          <button type="button" class="lc-step" data-i="2" role="tab" aria-selected="false" aria-label="Logro 3 de 4: Seccionales de Piedecuesta y Vélez"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Piedecuesta y Vélez</span></button>
+          <button type="button" class="lc-step" data-i="3" role="tab" aria-selected="false" aria-label="Logro 4 de 4: Acreditación de alta calidad"><span class="lc-node" aria-hidden="true"></span><span class="lc-step-name">Acreditación</span></button>
+        </div>
+        <span class="lc-year">2026</span>
+      </div>
+
+      <div class="lc-stage wrap">
       <div class="lc-viewport" id="lcViewport" data-lenis-prevent>
         <div class="lc-track" id="lcTrack">
-          <article class="lc-slide">
-            <span class="lc-ico reveal-up" aria-hidden="true">
-              <svg viewBox="0 0 48 48"><path d="M24 6l20 10-20 10L4 16 24 6z"/><path d="M12 22v10c0 3 6 7 12 7s12-4 12-7V22"/><path d="M44 16v12"/></svg>
-            </span>
-            <h3 class="reveal-up"><a href="logros-uts.html#acreditacion">Acreditación de alta calidad, lograda en su gestión</a></h3>
-            <p class="reveal-up">Un joven puede estudiar en una institución pública con calidad certificada por el Estado, sin irse de Santander.</p>
-          </article>
-          <article class="lc-slide">
+          <article class="lc-slide" data-m="bga" data-new="bga">
+            <span class="lc-num" aria-hidden="true">01</span>
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><path d="M6 42V18l10-6v30"/><path d="M16 42V8l14 6v28"/><path d="M30 42V22l12 4v16"/><path d="M4 42h40"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#bucaramanga">Sede de Bucaramanga ampliada</a></h3>
             <p class="reveal-up">Más aulas y laboratorios para quienes ya estudian, y más oportunidades para quienes esperaban entrar.</p>
+            <a class="lc-more" href="logros-uts.html#bucaramanga">Cómo se hizo <span aria-hidden="true">→</span></a>
           </article>
-          <article class="lc-slide">
+          <article class="lc-slide" data-m="bga barranca" data-new="barranca">
+            <span class="lc-num" aria-hidden="true">02</span>
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><path d="M10 42V14l14-8 14 8v28"/><path d="M18 42V28h12v14"/><path d="M4 42h40"/><path d="M24 14v6"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#barrancabermeja">Nueva sede en Barrancabermeja</a></h3>
             <p class="reveal-up">La educación superior pública llega al Magdalena Medio, para que los jóvenes estudien en casa.</p>
+            <a class="lc-more" href="logros-uts.html#barrancabermeja">Cómo se hizo <span aria-hidden="true">→</span></a>
           </article>
-          <article class="lc-slide">
+          <article class="lc-slide" data-m="bga barranca piedecuesta velez" data-new="piedecuesta velez">
+            <span class="lc-num" aria-hidden="true">03</span>
             <span class="lc-ico reveal-up" aria-hidden="true">
               <svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="8"/><path d="M24 28c-6 6-10 10-10 14h20c0-4-4-8-10-14z"/><circle cx="24" cy="20" r="2"/></svg>
             </span>
             <h3 class="reveal-up"><a href="logros-uts.html#piedecuesta-velez">Seccionales de Piedecuesta y Vélez</a></h3>
             <p class="reveal-up">Estudiar una carrera ya no implica mudarse a la capital: cada familia ahorra y cada municipio retiene a su talento.</p>
+            <a class="lc-more" href="logros-uts.html#piedecuesta-velez">Cómo se hizo <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="lc-slide" data-m="bga barranca piedecuesta velez" data-new="all">
+            <span class="lc-num" aria-hidden="true">04</span>
+            <span class="lc-ico reveal-up" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M24 6l20 10-20 10L4 16 24 6z"/><path d="M12 22v10c0 3 6 7 12 7s12-4 12-7V22"/><path d="M44 16v12"/></svg>
+            </span>
+            <h3 class="reveal-up"><a href="logros-uts.html#acreditacion">Acreditación de alta calidad, lograda en su gestión</a></h3>
+            <p class="reveal-up">Un joven puede estudiar en una institución pública con calidad certificada por el Estado, sin irse de Santander.</p>
+            <a class="lc-more" href="logros-uts.html#acreditacion">Cómo se hizo <span aria-hidden="true">→</span></a>
           </article>
         </div>
       </div>
-
-      <div class="lc-controls wrap">
-        <div class="lc-dots" id="lcDots" role="tablist" aria-label="Logros UTS">
-          <button type="button" class="lc-dot" data-i="0" role="tab" aria-selected="true" aria-label="Logro 1 de 4"></button>
-          <button type="button" class="lc-dot" data-i="1" role="tab" aria-selected="false" aria-label="Logro 2 de 4"></button>
-          <button type="button" class="lc-dot" data-i="2" role="tab" aria-selected="false" aria-label="Logro 3 de 4"></button>
-          <button type="button" class="lc-dot" data-i="3" role="tab" aria-selected="false" aria-label="Logro 4 de 4"></button>
-        </div>
       </div>
 
-      <div class="more-bar wrap"><a class="btn-more light" href="logros-uts.html">Ver más</a></div>
+      <div class="more-bar wrap"><a class="btn-more light" href="logros-uts.html">Ver los 12 años de gestión</a></div>
     </section>
 
     <!-- SOBRE + INVESTIGACION -->
-    <section class="section wrap split-section snap-section">
+    <section class="section wrap split-section snap-section home-sobre zz zz-left">
       <div class="split-col" id="sobre">
-        <div class="section-head">
+        <div class="section-head zz-text">
           <p class="eyebrow">Sobre Lengerke</p>
           <h2 class="reveal-up">Del Socorro al mundo, y del mundo de vuelta a Santander.</h2>
           <p class="lead reveal-up">Nació en El Socorro, Santander. Estudió sistemas, hizo maestría en México y doctorado en Brasil, especializándose en robótica. Volvió a poner ese conocimiento al servicio de su tierra.</p>
         </div>
 
+        <div class="uni-carousel">
         <div class="edu-viewport" id="eduViewport" data-lenis-prevent>
           <div class="edu-track" id="eduTrack">
-            <article class="edu-card c1 edu-slide"><b>Ingeniero de Sistemas Computacionales</b><p>Universidad Autónoma de Bucaramanga (UNAB), Colombia.</p></article>
-            <article class="edu-card c2 edu-slide"><b>Maestría en Control y Automatización de Sistemas Flexibles de Manufactura</b><p>Tecnológico de Monterrey (ITESM), México.</p></article>
-            <article class="edu-card c3 edu-slide"><b>Doctorado en Ciencias en Ingeniería Mecánica</b><p>Universidad Federal de Río de Janeiro (COPPE/UFRJ), Brasil.</p></article>
-            <article class="edu-card c4 edu-slide"><b>Posdoctorado en Robótica y Diseño de Máquinas Mecatrónicas</b><p>Universidad Federal de Río de Janeiro (UFRJ), Brasil.</p></article>
+            <article class="edu-card c1 edu-slide"><span class="uni-show" aria-hidden="true"><i data-bg="img/universidades/unab-1.webp"></i><i data-bg="img/universidades/unab-2.webp"></i><i data-bg="img/universidades/unab-3.webp"></i></span><b>Ingeniero de Sistemas Computacionales</b><p>Universidad Autónoma de Bucaramanga (UNAB), Colombia.</p></article>
+            <article class="edu-card c2 edu-slide"><span class="uni-show" aria-hidden="true"><i data-bg="img/universidades/tec-1.webp"></i><i data-bg="img/universidades/tec-2.webp"></i></span><b>Maestría en Control y Automatización de Sistemas Flexibles de Manufactura</b><p>Tecnológico de Monterrey (ITESM), México.</p></article>
+            <article class="edu-card c3 edu-slide"><span class="uni-show" aria-hidden="true"><i data-bg="img/universidades/coppe-1.webp"></i><i data-bg="img/universidades/coppe-3.webp"></i><i data-bg="img/uni-3.webp"></i></span><b>Doctorado en Ciencias en Ingeniería Mecánica</b><p>Universidad Federal de Río de Janeiro (COPPE/UFRJ), Brasil.</p></article>
+            <article class="edu-card c4 edu-slide"><span class="uni-show" aria-hidden="true"><i data-bg="img/universidades/ufrj-2.webp"></i><i data-bg="img/universidades/ufrj-3.webp"></i><i data-bg="img/universidades/ufrj-1.webp"></i></span><b>Posdoctorado en Robótica y Diseño de Máquinas Mecatrónicas</b><p>Universidad Federal de Río de Janeiro (UFRJ), Brasil.</p></article>
           </div>
         </div>
+        </div>
+        <div class="uni-nav">
+        <button type="button" class="lines-arrow prev uni-arrow" data-dir="-1" aria-label="Formación anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
         <div class="edu-dots" id="eduDots" role="tablist" aria-label="Formación académica">
           <button type="button" class="edu-dot" data-i="0" role="tab" aria-selected="true" aria-label="Formación 1 de 4"></button>
           <button type="button" class="edu-dot" data-i="1" role="tab" aria-selected="false" aria-label="Formación 2 de 4"></button>
           <button type="button" class="edu-dot" data-i="2" role="tab" aria-selected="false" aria-label="Formación 3 de 4"></button>
           <button type="button" class="edu-dot" data-i="3" role="tab" aria-selected="false" aria-label="Formación 4 de 4"></button>
         </div>
+        <button type="button" class="lines-arrow next uni-arrow" data-dir="1" aria-label="Formación siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
 
         <div class="more-bar"><a class="btn-more" href="sobre-lengerke.html">Ver más sobre Lengerke</a></div>
       </div>
+    </section>
 
+    <section class="section wrap split-section snap-section home-inv zz zz-right">
       <div class="split-col" id="investigacion">
-        <div class="section-head">
+        <div class="section-head zz-text">
           <p class="eyebrow">Investigación</p>
           <h2 class="reveal-up">Ciencia con los pies en Santander.</h2>
           <p class="lead reveal-up">Investigador Senior reconocido por MinCiencias. Desde 2007 ha estudiado cómo hacer mejores robots, máquinas y energías limpias: preguntas de laboratorio que terminan sirviendo en la industria, el campo y el hogar.</p>
@@ -188,13 +211,18 @@
         </div>
 
         <div class="more-bar"><a class="btn-more" href="investigacion.html">Ver más sobre su investigación</a></div>
+        <figure class="zz-media zz-video" aria-hidden="true">
+          <video muted playsinline loop preload="none" data-src="media/lineas/robotica.mp4"></video>
+          <video muted playsinline loop preload="none" data-src="media/lineas/energia.mp4"></video>
+          <video muted playsinline loop preload="none" data-src="media/lineas/maquinas.mp4"></video>
+        </figure>
       </div>
     </section>
 
     <!-- RECONOCIMIENTOS -->
-    <section class="section dark prensa snap-section" id="reconocimientos">
+    <section class="section dark prensa snap-section zz zz-left" id="reconocimientos">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head zz-text">
           <p class="eyebrow">Reconocimientos</p>
           <h2 class="reveal-up">Santander también lo ha reconocido.</h2>
           <p class="lead reveal-up">Doce distinciones de concejos, asambleas, gremios y medios, por su trayectoria y su impacto educativo.</p>
@@ -213,21 +241,24 @@
     </section>
 
     <!-- SUMATE -->
-    <section class="section join wrap snap-section" id="unete">
-      <div class="join-box">
-        <div>
-          <p class="eyebrow">Contacto</p>
-          <h2>Súmate</h2>
-          <p class="lead">Pongámonos en contacto. Escriba sus datos en este formulario y el equipo de Omar Lengerke le enviará un mensaje lo más pronto posible.</p>
-        </div>
-        <form id="form" novalidate>
-          <label>Nombre<input name="nombre" autocomplete="name" required></label>
-          <label>Municipio<input name="municipio" required></label>
-          <label>Celular<input name="celular" type="tel" autocomplete="tel" required></label>
+    <!-- Cierre: fondo claro, un título y el formulario en una sola fila -->
+    <section class="section join join-clean snap-section zz zz-right" id="unete">
+      <div class="wrap jc-grid">
+      <div class="jc-inner zz-text">
+        <span class="jc-rule" aria-hidden="true"></span>
+        <p class="eyebrow">Súmate</p>
+        <h2>Esto se hace entre todos.</h2>
+        <p class="lead">Déjenos sus datos y el equipo de Omar Lengerke le escribe.</p>
+        <form id="form" class="jc-form" novalidate>
+          <label><span class="jc-lbl">Nombre</span><input name="nombre" autocomplete="name" placeholder="Nombre" required></label>
+          <label><span class="jc-lbl">Municipio</span><input name="municipio" list="municipios" autocomplete="off" placeholder="Municipio" required></label>
+          <datalist id="municipios"><option value="Aguada"><option value="Albania"><option value="Aratoca"><option value="Barbosa"><option value="Barichara"><option value="Barrancabermeja"><option value="Betulia"><option value="Bolívar"><option value="Bucaramanga"><option value="Cabrera"><option value="California"><option value="Capitanejo"><option value="Carcasí"><option value="Cepitá"><option value="Cerrito"><option value="Charalá"><option value="Charta"><option value="Chima"><option value="Chipatá"><option value="Cimitarra"><option value="Concepción"><option value="Confines"><option value="Contratación"><option value="Coromoro"><option value="Curití"><option value="El Carmen de Chucurí"><option value="El Guacamayo"><option value="El Peñón"><option value="El Playón"><option value="Encino"><option value="Enciso"><option value="Floridablanca"><option value="Florián"><option value="Galán"><option value="Girón"><option value="Guaca"><option value="Guadalupe"><option value="Guapotá"><option value="Guavatá"><option value="Gámbita"><option value="Güepsa"><option value="Hato"><option value="Jesús María"><option value="Jordán"><option value="La Belleza"><option value="La Paz"><option value="Landázuri"><option value="Lebrija"><option value="Los Santos"><option value="Macaravita"><option value="Matanza"><option value="Mogotes"><option value="Molagavita"><option value="Málaga"><option value="Ocamonte"><option value="Oiba"><option value="Onzaga"><option value="Palmar"><option value="Palmas del Socorro"><option value="Piedecuesta"><option value="Pinchote"><option value="Puente Nacional"><option value="Puerto Parra"><option value="Puerto Wilches"><option value="Páramo"><option value="Rionegro"><option value="Sabana de Torres"><option value="San Andrés"><option value="San Benito"><option value="San Gil"><option value="San Joaquín"><option value="San José de Miranda"><option value="San Miguel"><option value="San Vicente de Chucurí"><option value="Santa Bárbara"><option value="Santa Helena del Opón"><option value="Simacota"><option value="Socorro"><option value="Suaita"><option value="Sucre"><option value="Suratá"><option value="Tona"><option value="Valle de San José"><option value="Vetas"><option value="Villanueva"><option value="Vélez"><option value="Zapatoca"></datalist>
+          <label><span class="jc-lbl">Celular</span><input name="celular" type="tel" autocomplete="tel" placeholder="Celular" required></label>
+          <button class="btn" type="submit">Súmate</button>
           <label class="check"><input type="checkbox" name="auth" required> Autorizo el tratamiento de mis datos personales según la política de privacidad.</label>
-          <button class="btn" type="submit">Enviar</button>
           <p class="form-msg" id="form-msg" role="status"></p>
         </form>
+      </div>
       </div>
     </section>
   </main>
@@ -244,7 +275,7 @@
         </ul>
       </div>
       <div><a href="logros-uts.html">Logros UTS</a><a href="sobre-lengerke.html">Sobre Lengerke</a><a href="investigacion.html">Investigación</a><a href="reconocimientos.html">Reconocimientos</a><a href="blog.html">Blog</a><a href="#unete">Hablemos</a></div>
-      <div><p class="tiny">Fotos de universidades: Wikimedia Commons — UNAB (Jpinedo20, CC BY-SA 4.0), Tecnológico de Monterrey (Dzo22, CC BY 4.0), UFRJ (Marcelo Horn, CC BY 2.0; Omar Uran, CC BY 2.0).</p><p class="tiny">Sitio en construcción. Las cifras y la información se verifican contra fuentes oficiales antes de su publicación definitiva.</p></div>
+      <details class="foot-credits"><summary>Créditos de fotos</summary><p class="tiny">Fotos de universidades: Wikimedia Commons — UNAB (Jpinedo20, CC BY-SA 4.0; Fernanda Montilla, dominio público), Tecnológico de Monterrey (Dzo22, CC BY 4.0; CC-MTY, CC BY 3.0), COPPE/UFRJ (Lucasfffaria, CC BY 4.0; Omar Uran, CC BY 2.0), UFRJ (Marcelo Horn, CC BY 2.0; Eugenio Hansen OFS, CC BY-SA 3.0; Estudante do IE-UFRJ, CC0; Arquivo Nacional, dominio público).</p><p class="tiny">Paisajes de Logros UTS: Wikimedia Commons — Bucaramanga (Ángel Páez, CC BY 4.0), Barrancabermeja (Yesid Ferney Patiño, CC BY 3.0), Vélez (Juan Gómez, CC BY 2.0), Cañón del Chicamocha (Bernard Gagnon, CC BY-SA 4.0).</p></details>
     </div>
   </footer>
 
