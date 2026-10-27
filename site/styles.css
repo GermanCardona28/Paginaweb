@@ -857,8 +857,7 @@ a.btn-more:hover::after { transform: rotate(-45deg) translateX(2px); }
 .bp-row a { display: flex; flex-direction: row; align-items: stretch; }
 .bp-row .bp-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .bp-row figure { width: 130px; height: 130px; flex: none; align-self: center; margin-left: 16px; border-radius: 14px; }
-.bp-row a { padding-right: 20px; }
-.bp-row .bp-num { position: static; margin-bottom: 8px; }
+.bp-row .bp-num { top: 8px; right: 8px; }
 @media (max-width: 760px) { .blog-popular-list { grid-template-columns: 1fr; } }
 
 /* Blog: suscripción */
