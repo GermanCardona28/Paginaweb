@@ -766,3 +766,23 @@
   }
 
 })();
+
+/* Reconocimientos por año: un año abierto a la vez; el botón anuncia su estado con aria-expanded */
+(() => {
+  const acc = document.getElementById('porAnio');
+  if (!acc) return;
+  acc.classList.add('yr-js');
+  const rows = [...acc.querySelectorAll('.yr')];
+  const set = (row, open) => {
+    row.classList.toggle('open', open);
+    row.querySelector('.yr-btn').setAttribute('aria-expanded', open);
+    row.querySelector('.yr-panel').toggleAttribute('inert', !open);
+  };
+  rows.forEach(r => {
+    set(r, r.classList.contains('open'));
+    r.querySelector('.yr-btn').addEventListener('click', () => {
+      const open = !r.classList.contains('open');
+      rows.forEach(o => set(o, o === r && open));
+    });
+  });
+})();
