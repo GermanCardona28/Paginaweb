@@ -1,0 +1,36 @@
+<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de un diploma y un birrete, sobre el cambio de carácter a universitaria">
+  <rect width="400" height="225" fill="#DCE6DF"/>
+  <circle cx="335" cy="35" r="80" fill="#C7DED0"/>
+  <circle cx="30" cy="200" r="60" fill="#C7DED0"/>
+
+  <!-- diploma -->
+  <g transform="translate(90,48)">
+    <rect x="6" y="6" width="170" height="124" rx="10" fill="#08281A" opacity=".12"/>
+    <rect x="0" y="0" width="170" height="124" rx="10" fill="#F5F8F3" stroke="#0A5C30" stroke-width="3"/>
+    <rect x="18" y="18" width="134" height="10" rx="5" fill="#0A5C30" opacity=".18"/>
+    <line x1="18" y1="46" x2="152" y2="46" stroke="#9FB3A8" stroke-width="4" stroke-linecap="round"/>
+    <line x1="18" y1="62" x2="152" y2="62" stroke="#9FB3A8" stroke-width="4" stroke-linecap="round"/>
+    <line x1="18" y1="78" x2="110" y2="78" stroke="#9FB3A8" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="128" cy="102" r="18" fill="#00873A"/>
+    <path d="M120 102 l6 6 13 -15" stroke="#F5F8F3" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- birrete -->
+  <g transform="translate(190,2)">
+    <ellipse cx="80" cy="46" rx="9" ry="20" fill="#08281A"/>
+    <path d="M14 24 L80 2 L146 24 L80 46 Z" fill="#08281A"/>
+    <path d="M14 24 L80 46 L146 24" fill="none" stroke="#0A5C30" stroke-width="2"/>
+    <circle cx="80" cy="24" r="5" fill="#00873A"/>
+    <path d="M80 24 C 56 38, 52 54, 56 70" fill="none" stroke="#00873A" stroke-width="2.5"/>
+    <circle cx="56" cy="71" r="4.5" fill="#00873A"/>
+  </g>
+
+  <!-- destellos -->
+  <g fill="#0A5C30">
+    <circle cx="58" cy="38" r="4" opacity=".5"/>
+    <circle cx="44" cy="54" r="2.5" opacity=".4"/>
+    <circle cx="352" cy="150" r="5" opacity=".45"/>
+    <circle cx="368" cy="128" r="3" opacity=".4"/>
+    <circle cx="300" cy="190" r="3.5" opacity=".4"/>
+  </g>
+</svg>

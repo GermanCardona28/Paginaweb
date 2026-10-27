@@ -13,7 +13,7 @@
   });
   const key = [...document.querySelectorAll('link[rel="preload"][as="image"]')].map(l => imgReady(l.href));
   const minWait = new Promise(r => setTimeout(r, 800));
-  const maxWait = new Promise(r => setTimeout(r, 6000));
+  const maxWait = new Promise(r => setTimeout(r, 2500));
   const fontsReady = (document.fonts && document.fonts.ready) || Promise.resolve();
   const appReady = Promise.race([Promise.all([minWait, fontsReady, ...key]), maxWait]).then(() => {
     document.documentElement.classList.remove('is-loading');
