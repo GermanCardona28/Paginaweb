@@ -797,6 +797,11 @@ a.btn-more:hover::after { transform: rotate(-45deg) translateX(2px); }
 /* Blog: bienvenida y temas en tarjetas de color (tipo bento) */
 .blog-welcome { text-align: center; font: 600 17px var(--sans); color: var(--ink-muted); margin: 0 0 2px; }
 
+/* Blog: cada bloque tiene su propio espacio, sin cortes con el nav */
+.blog-block { display: flex; flex-direction: column; justify-content: center; padding-block: 36px; }
+.blog-block-hero { min-height: calc(100svh - 110px); padding-top: 48px; }
+@media (max-width: 760px) { .blog-block { padding-block: 16px; } .blog-block-hero { min-height: 0; } }
+
 .blog-topics-grid { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .blog-topic-card { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid color-mix(in srgb, var(--cobre) 16%, transparent); background: var(--surface); transition: transform .3s, box-shadow .3s, background-color .35s; height: 100%; }
 .blog-topic-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); background: color-mix(in srgb, var(--cobre) 30%, var(--surface)); }
