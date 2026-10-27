@@ -763,43 +763,40 @@ a.btn-more:hover::after { transform: rotate(-45deg) translateX(2px); }
 .subpage .timeline { margin-top: 10px; }
 .band { margin: 48px 0 36px; padding: clamp(32px, 5vw, 56px) clamp(16px, 4vw, 40px); background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); text-align: center; }
 
-/* Blog: lista de publicaciones */
-.blog-posts { list-style: none; margin: 40px 0 56px; padding: 0; display: grid; gap: 22px; }
-.blog-post { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-md); overflow: hidden; transition: transform .3s, box-shadow .3s; }
-.blog-post:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.blog-post a { display: grid; grid-template-columns: 320px 1fr; align-items: stretch; color: inherit; text-decoration: none; }
-.blog-post figure { margin: 0; overflow: hidden; }
-.blog-post img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
-.blog-post:hover img { transform: scale(1.05); }
-.blog-post-body { padding: 28px 32px; display: flex; flex-direction: column; justify-content: center; }
-.blog-post-tag { display: inline-block; margin: 0 8px 8px 0; padding: 4px 10px; border-radius: 999px; background: var(--accent-surface); font: 700 12px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--cobre); }
-.blog-post-date { font-size: 13px; color: var(--ink-muted); }
-.blog-post-body h2 { font: 700 26px/1.25 var(--serif); margin: 6px 0 10px; color: var(--ink); }
-.blog-post-body p { margin: 0 0 16px; font-size: 15px; line-height: 1.55; color: var(--ink-muted); }
-.blog-post-cta { font: 700 14px var(--sans); color: var(--azul-2); }
-@media (max-width: 760px) { .blog-post a { grid-template-columns: 1fr; } .blog-post figure { aspect-ratio: 16/9; } }
+/* Blog: bienvenida y temas en tarjetas de color (tipo bento) */
+.blog-welcome { text-align: center; font: 600 17px var(--sans); color: var(--ink-muted); margin: 0 0 2px; }
+
+.blog-topics-grid { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.blog-topic-card { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s; }
+.blog-topic-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.blog-topic-card a { display: block; position: relative; min-height: 190px; height: 100%; padding: 26px 24px 30px; color: #16321F; text-decoration: none; box-sizing: border-box; }
+.blog-topic-card b { display: block; font: 800 21px var(--serif); margin-bottom: 8px; }
+.blog-topic-card p { margin: 0; font-size: 14.5px; line-height: 1.5; opacity: .82; max-width: 24ch; }
+.blog-topic-card .bt-arrow { position: absolute; right: 18px; bottom: 18px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.55); display: grid; place-items: center; font-size: 17px; }
+.bt-1 { background: #FADCE8; }
+.bt-2 { background: #FFE2A8; margin-top: 40px; }
+.bt-3 { background: #C9E6F7; }
+.bt-4 { background: #CFEFDD; margin-top: 40px; }
+@media (max-width: 960px) { .blog-topics-grid { grid-template-columns: repeat(2, 1fr); } .bt-2, .bt-4 { margin-top: 0; } }
+@media (max-width: 560px) { .blog-topics-grid { grid-template-columns: 1fr; } }
+
+/* Blog: lista "Recomendados" */
+.blog-section-title { text-align: left; margin: 56px 0 20px; }
+.blog-posts-grid { list-style: none; margin: 0 0 40px; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.blog-post-card { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-md); overflow: hidden; transition: transform .3s, box-shadow .3s; }
+.blog-post-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.blog-post-card a { display: block; color: inherit; text-decoration: none; }
+.blog-post-card figure { margin: 0; aspect-ratio: 16/9; overflow: hidden; }
+.blog-post-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+.blog-post-card:hover img { transform: scale(1.05); }
+.bpc-body { padding: 22px 26px 26px; }
+.bpc-meta { margin: 0 0 10px; font: 700 12.5px var(--sans); letter-spacing: .04em; text-transform: uppercase; color: var(--cobre); }
+.bpc-body h3 { font: 700 22px/1.3 var(--serif); margin: 0 0 10px; color: var(--ink); }
+.bpc-excerpt { margin: 0 0 16px; font-size: 14.5px; line-height: 1.55; color: var(--ink-muted); }
+.bpc-cta { font: 700 14px var(--sans); color: var(--azul-2); }
+@media (max-width: 760px) { .blog-posts-grid { grid-template-columns: 1fr; } }
 
 .blog-empty { text-align: center; padding: 40px 20px; color: var(--ink-muted); background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-md); }
-
-/* Blog: temas (cada uno lleva a su propia página con todas las noticias de esa sección) */
-.blog-topics { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.blog-topic { background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow-md); overflow: hidden; transition: transform .3s, box-shadow .3s; min-height: clamp(220px, 24vw, 280px); display: flex; padding: 0 !important; }
-.blog-topic:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-.blog-topic a { display: flex; flex-direction: column; justify-content: flex-end; width: 100%; padding: 20px; color: inherit; text-decoration: none; position: relative; }
-.blog-topic .r-ico { margin-bottom: 14px; background: rgba(255,255,255,.18); position: relative; z-index: 1; }
-.blog-topic .r-ico svg { stroke: #fff; }
-.blog-topic b { display: block; font: 700 19px/1.3 var(--serif); margin-bottom: 6px; color: #fff; position: relative; }
-.blog-topic p { margin: 0; font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,.88); position: relative; }
-/* las 4 fotos del blog, con el mismo efecto que las tarjetas de Territorio */
-.blog-topics .edu-card.t1::before { background-image: url(img/galeria/galeria-grados.jpg); }
-.blog-topics .edu-card.t2::before { background-image: url(img/galeria/galeria-ruta-regiones.jpg); }
-.blog-topics .edu-card.t3::before { background-image: url(img/galeria/galeria-canada.jpg); }
-.blog-topics .edu-card.t4::before { background-image: url(img/galeria/galeria-redttu.jpg); }
-.blog-topics .edu-card::before { opacity: .55; }
-.blog-topics .edu-card:hover::before { opacity: .72; filter: brightness(.72) saturate(1.05) contrast(1.02); transform: scale(1.04); }
-.blog-topics .edu-card::after { background: linear-gradient(0deg, rgba(5,12,10,.78) 0%, rgba(5,12,10,0) 65%); opacity: 1; }
-@media (max-width: 960px) { .blog-topics { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .blog-topics { grid-template-columns: 1fr; } }
 
 /* Blog: artículo individual */
 .post-head { max-width: 760px; margin: 0 auto 36px; text-align: center; }
