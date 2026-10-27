@@ -29,7 +29,7 @@
   :root:not([data-theme="light"]) { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #123D28; }
   :root:not([data-theme="light"]) .nav.solid { background: rgba(6,26,17,.95) !important; }
   :root:not([data-theme="light"]) .logros-carousel { --azul: #123D28; }
-  :root:not([data-theme="light"]) .prensa { --azul: #0E3523; }
+  :root:not([data-theme="light"]) .prensa, :root:not([data-theme="light"]) .prensa-page { --azul: #0E3523; }
   :root:not([data-theme="light"]) .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
   :root:not([data-theme="light"]) .footer { background: #03100A !important; }
   :root:not([data-theme="light"]) .hero::after {
@@ -60,7 +60,7 @@
 :root[data-theme="dark"] { color-scheme: dark; --bg-page: #0E1D16; --ink: #EAF2EC; --ink-muted: #9FB3A8; --surface: #152A1F; --accent-surface: #1B3327; --arena: #27402F; --azul: #123D28; }
 :root[data-theme="dark"] .nav.solid { background: rgba(6,26,17,.95) !important; }
 :root[data-theme="dark"] .logros-carousel { --azul: #123D28; }
-:root[data-theme="dark"] .prensa { --azul: #0E3523; }
+:root[data-theme="dark"] .prensa, :root[data-theme="dark"] .prensa-page { --azul: #0E3523; }
 :root[data-theme="dark"] .join-box { background: linear-gradient(140deg, #123D28, #051109) !important; }
 :root[data-theme="dark"] .footer { background: #03100A !important; }
 :root[data-theme="dark"] .hero::after {
@@ -2026,3 +2026,11 @@ html:has(main[data-snap]) .footer { scroll-snap-align: end; }
   .prensa .more-bar { grid-column: 1; grid-row: 2; }
 }
 @media (max-width: 960px) { .prensa .section-head .lead { display: block; } }
+
+/* Página de Reconocimientos: distinciones por año y galería con tarjetas simétricas (misma imagen, mismo alto de descripción) */
+.gallery { align-items: stretch; }
+.gallery li { display: flex; }
+.gallery figure { display: flex; flex-direction: column; width: 100%; }
+.gallery .ph { flex: none; }
+.gallery img { object-fit: cover; }
+.gallery figcaption { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 14px 16px; font-size: 14px; line-height: 1.4; min-height: calc(2 * 1.4em + 28px); }
