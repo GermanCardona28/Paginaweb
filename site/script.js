@@ -414,12 +414,12 @@
       target = (i + cards.length) % cards.length;
       const c = cards[target];
       setCenter(target);
-      linesEl.scrollTo({ left: c.offsetLeft - (linesEl.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      linesEl.scrollTo({ top: c.offsetTop - (linesEl.clientHeight - c.offsetHeight) / 2, behavior: reduce ? 'auto' : 'smooth' });
     };
     const markCenter = () => {
-      const mid = linesEl.scrollLeft + linesEl.clientWidth / 2;
+      const mid = linesEl.scrollTop + linesEl.clientHeight / 2;
       let best = 0;
-      cards.forEach((c, i) => { if (Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) < Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - mid)) best = i; });
+      cards.forEach((c, i) => { if (Math.abs(c.offsetTop + c.offsetHeight / 2 - mid) < Math.abs(cards[best].offsetTop + cards[best].offsetHeight / 2 - mid)) best = i; });
       // mientras va hacia una tarjeta elegida con flecha o punto, no se resaltan las que pasan de largo
       if (target !== -1) { if (best !== target) return; target = -1; }
       setCenter(best);
@@ -430,9 +430,12 @@
     // Iguala el alto del párrafo y de la fila de etiquetas de todas las tarjetas (el de la más larga)
     const equalize = () => {
       linesEl.style.removeProperty('--lc-desc-h'); linesEl.style.removeProperty('--lc-tags-h');
+      linesEl.style.removeProperty('height');
       const max = sel => Math.max(...cards.map(c => c.querySelector(sel).offsetHeight));
       linesEl.style.setProperty('--lc-desc-h', max('.lc-desc') + 'px');
       linesEl.style.setProperty('--lc-tags-h', max('.lc-tags') + 'px');
+      // La altura del carrusel se ajusta a la tarjeta más alta, para mostrar "una a la vez" en vertical
+      linesEl.style.height = Math.max(...cards.map(c => c.offsetHeight)) + 'px';
     };
     equalize();
     if (document.fonts) document.fonts.ready.then(equalize);
@@ -538,17 +541,24 @@
   });
   }
 
-  /* ---- Mini-carruseles "una idea a la vez": navegados con scroll/swipe o los puntos, sin avance automático ---- */
+  /* ---- Mini-carruseles "una idea a la vez": navegados con scroll/swipe vertical o los puntos, sin avance automático ---- */
   const initMiniCarousel = (viewportId, slideSelector, dotsId) => {
     const viewport = document.getElementById(viewportId);
     if (!viewport) return;
     const slides = [...viewport.querySelectorAll(slideSelector)];
     const dots = [...document.querySelectorAll(`#${dotsId} [data-i]`)];
 
+    // La altura del viewport se ajusta a la del slide más alto, para que el scroll
+    // vertical muestre "una idea a la vez" en vez de todas apiladas.
+    const syncHeight = () => { if (slides.length) viewport.style.height = Math.max(...slides.map(s => s.offsetHeight)) + 'px'; };
+    syncHeight();
+    addEventListener('resize', syncHeight);
+    if (document.fonts) document.fonts.ready.then(syncHeight);
+
     const goTo = i => {
       const target = (i + slides.length) % slides.length;
-      // Solo se mueve el carrusel (scroll horizontal del propio viewport); nunca la página
-      viewport.scrollTo({ left: slides[target].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+      // Solo se mueve el carrusel (scroll vertical del propio viewport); nunca la página
+      viewport.scrollTo({ top: slides[target].offsetTop, behavior: reduce ? 'auto' : 'smooth' });
     };
     const setActive = i => dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
     dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.i))));
@@ -612,7 +622,7 @@
         steps.style.setProperty('--lc-progress', current === last ? 1 : span(current + 1));
         timer = setTimeout(() => {
           const next = current === last ? 0 : current + 1;
-          lcVp.scrollTo({ left: slides[next].offsetLeft - slides[0].offsetLeft, behavior: 'smooth' });
+          lcVp.scrollTo({ top: slides[next].offsetTop - slides[0].offsetTop, behavior: 'smooth' });
         }, DWELL - 900);
       }, 900);
     }
@@ -669,7 +679,7 @@
     let active = -1, auto = !reduce, onScreen = false, timers = [];
     const paint = s => s && s.querySelectorAll('.uni-show i[data-bg]').forEach(i => { i.style.backgroundImage = `url(${i.dataset.bg})`; i.removeAttribute('data-bg'); });
     const stop = () => { timers.forEach(clearTimeout); timers = []; };
-    const goTo = i => { const t = slides[(i + slides.length) % slides.length]; eduVp.scrollTo({ left: t.offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
+    const goTo = i => { const t = slides[(i + slides.length) % slides.length]; eduVp.scrollTo({ top: t.offsetTop, behavior: reduce ? 'auto' : 'smooth' }); };
     const run = () => {
       stop();
       const s = slides[active]; if (!s) return;
