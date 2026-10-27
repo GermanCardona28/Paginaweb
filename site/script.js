@@ -520,6 +520,24 @@
   });
   }
 
+  if (document.getElementById("blog-sub-form")) {
+  /* ---- Suscripción del blog (solo validación en el navegador; aún no envía datos a ningún servidor) ---- */
+  const bsForm = document.getElementById('blog-sub-form');
+  const bsMsg = document.getElementById('blog-sub-msg');
+  bsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let ok = true;
+    bsForm.querySelectorAll('[required]').forEach(f => {
+      const bad = !f.value.trim();
+      f.classList.toggle('err', bad); if (bad) ok = false;
+    });
+    bsMsg.textContent = ok
+      ? 'Recibido. Esta es una versión de prueba: aún no se guardan datos.'
+      : 'Revise los campos marcados.';
+    if (ok) bsForm.reset();
+  });
+  }
+
   /* ---- Mini-carruseles "una idea a la vez": navegados con scroll/swipe o los puntos, sin avance automático ---- */
   const initMiniCarousel = (viewportId, slideSelector, dotsId) => {
     const viewport = document.getElementById(viewportId);
