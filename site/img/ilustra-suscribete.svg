@@ -1,29 +1,26 @@
 <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de un sobre de correo abierto, con una carta saliendo">
   <rect width="400" height="480" fill="#DCE6DF"/>
-  <circle cx="330" cy="90" r="90" fill="#C7DED0"/>
-  <circle cx="40" cy="400" r="70" fill="#C7DED0"/>
+  <circle cx="200" cy="235" r="150" fill="#C7DED0"/>
 
-  <g transform="translate(60,160)">
+  <g transform="translate(200,235)">
     <!-- carta -->
-    <rect x="30" y="-40" width="220" height="150" rx="10" fill="#F5F8F3" stroke="#0A5C30" stroke-width="3"/>
-    <line x1="56" y1="-8" x2="224" y2="-8" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
-    <line x1="56" y1="14" x2="224" y2="14" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
-    <line x1="56" y1="36" x2="170" y2="36" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
+    <rect x="-80" y="-120" width="160" height="110" rx="10" fill="#F5F8F3" stroke="#0A5C30" stroke-width="3"/>
+    <line x1="-54" y1="-88" x2="54" y2="-88" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-54" y1="-66" x2="54" y2="-66" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-54" y1="-44" x2="0" y2="-44" stroke="#9FB3A8" stroke-width="5" stroke-linecap="round"/>
 
     <!-- sobre -->
-    <rect x="0" y="120" width="280" height="170" rx="14" fill="#08281A"/>
-    <path d="M0 134 L140 230 L280 134" fill="none" stroke="#0A5C30" stroke-width="6" stroke-linejoin="round"/>
-    <path d="M0 134 L140 230 L280 134 L280 146 L140 244 L0 146 Z" fill="#0A5C30"/>
+    <rect x="-80" y="0" width="160" height="100" rx="14" fill="#08281A"/>
+    <path d="M-80 4 L0 70 L80 4 L80 14 L0 80 L-80 14 Z" fill="#0A5C30"/>
 
     <!-- sello -->
-    <circle cx="140" cy="118" r="26" fill="#00873A"/>
-    <path d="M128 118 l8 8 16 -18" stroke="#F5F8F3" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
+    <circle cx="0" cy="-4" r="26" fill="#2E86AB"/>
+    <path d="M-12 -4 l8 8 16 -18" stroke="#F5F8F3" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <g fill="#0A5C30">
-    <circle cx="60" cy="60" r="5" opacity=".45"/>
-    <circle cx="90" cy="90" r="3" opacity=".4"/>
-    <circle cx="350" cy="340" r="5" opacity=".4"/>
-    <circle cx="368" cy="318" r="3" opacity=".35"/>
+    <g fill="#0A5C30">
+      <circle cx="-104" cy="-90" r="4.5" opacity=".4"/>
+      <circle cx="-118" cy="-70" r="3" opacity=".35"/>
+      <circle cx="108" cy="-20" r="4.5" opacity=".4"/>
+    </g>
   </g>
 </svg>
