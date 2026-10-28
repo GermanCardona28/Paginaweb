@@ -2373,3 +2373,45 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 }
 @keyframes lcStars { 0%, 58% { opacity: 0; } 72%, 88% { opacity: .9; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .lc-bg, .lc-sky, .lc-sky::after { animation: none; } }
+
+/* ===== Inicio sin movimiento horizontal: todo lo que antes se deslizaba hacia los lados ahora sube, baja o
+   aparece con fundido ===== */
+/* Logros fijo: los textos de cada logro se apilan en el mismo lugar y cambian subiendo con el scroll */
+.lc-pinned .lc-track { display: grid; transform: none; }
+.lc-pinned .lc-slide { grid-area: 1 / 1; --d: calc(var(--seg, 0) - var(--i, 0));
+  opacity: clamp(0, calc(1 - max(var(--d), calc(var(--d) * -1)) * 1.8), 1);
+  translate: 0 calc(var(--d) * -70px); pointer-events: none; }
+.lc-pinned .lc-slide.is-active { pointer-events: auto; }
+.lc-pinned .lc-slide:nth-child(1) { --i: 0; } .lc-pinned .lc-slide:nth-child(2) { --i: 1; }
+.lc-pinned .lc-slide:nth-child(3) { --i: 2; } .lc-pinned .lc-slide:nth-child(4) { --i: 3; }
+/* el nombre gigante del lugar también cambia en vertical */
+.lc-wtrack { width: 100%; display: grid; transform: translate3d(0, -50%, 0); }
+.lc-wtrack span { grid-area: 1 / 1; flex: none; --d: calc(var(--seg, 0) - var(--i, 0));
+  opacity: clamp(0, calc(1 - max(var(--d), calc(var(--d) * -1)) * 1.6), 1); translate: 0 calc(var(--d) * -120px); }
+.lc-wtrack span:nth-child(1) { --i: 0; } .lc-wtrack span:nth-child(2) { --i: 1; } .lc-wtrack span:nth-child(3) { --i: 2; } .lc-wtrack span:nth-child(4) { --i: 3; }
+/* las franjas de color suben desde abajo en vez de entrar por un costado */
+.lc-tint i:nth-child(2) { clip-path: inset(calc((1 - clamp(0, var(--seg, 0), 1)) * 100%) 0 0 0); }
+.lc-tint i:nth-child(3) { clip-path: inset(calc((1 - clamp(0, var(--seg, 0) - 1, 1)) * 100%) 0 0 0); }
+.lc-tint i:nth-child(4) { clip-path: inset(calc((1 - clamp(0, var(--seg, 0) - 2, 1)) * 100%) 0 0 0); }
+/* los iconos flotantes suben a su propio ritmo en vez de cruzar la pantalla */
+.lc-bit { left: calc(var(--x) * 1vw); translate: 0 calc(var(--seg, 0) * var(--k) * -18vh); }
+/* la foto nueva entra de abajo hacia arriba y el número gigante sube */
+@keyframes lcWipe { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes lcNum { from { opacity: 0; transform: translate(0, -40%); } to { opacity: 1; transform: translate(0, -62%); } }
+/* zigzag y Formación: las imágenes aparecen subiendo, no desde los costados; con el mouse solo se inclinan en vertical */
+.js .zz .zz-media, .zz.zz-right .zz-media { --from: 0px; }
+.js .zz .zz-media { translate: 0 60px; }
+.js .zz.in .zz-media, .zz.in .zz-media { translate: 0 0; }
+.js .home-sobre .uni-carousel { translate: 0 60px; }
+.js .home-sobre.in .uni-carousel { translate: 0 0; }
+.zz-media, .home-sobre .uni-carousel { --ry: 0deg !important; --mx: 0px !important; }
+/* Investigación (inicio): "5 líneas de trabajo" y "Desde 2007" discretos, como datos al pie del texto y no como tarjetas */
+.home-inv .r-badges { display: flex; gap: clamp(24px, 4vw, 48px); margin-top: 22px; }
+.home-inv .r-badges > div { background: none !important; border: 0; border-top: 1px solid rgba(255,255,255,.16); border-radius: 0; box-shadow: none; padding: 12px 0 0; min-height: 0 !important; display: block; transform: none !important; }
+.home-inv .r-badges > div::before, .home-inv .r-badges > div::after { display: none; }
+.home-inv .r-badges b { display: block; font: 700 15px var(--sans); color: var(--cobre-claro); margin-bottom: 2px; }
+.home-inv .r-badges span { font-size: 13px; color: rgba(247,242,234,.6); }
+:root[data-theme="light"] .home-inv .r-badges > div { border-top-color: rgba(8,40,26,.15); }
+:root[data-theme="light"] .home-inv .r-badges span { color: rgba(8,40,26,.6); }
+@media (max-width: 960px) { .home-inv .r-badges { display: flex; } }
+@media (max-width: 960px) { .home-inv .zz-media { height: 25vh; margin-top: 14px; } .home-inv .r-badges { margin-top: 14px; } }
