@@ -2114,3 +2114,9 @@ html:has(main[data-snap]) .footer { scroll-snap-align: end; }
   .yr-list { padding: 4px 0 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .yr-panel, .yr-in, .yr-num, .yr-ico::before, .yr-ico::after { transition: none; } }
+
+/* Scroll más fluido en la portada: el carrusel de Logros UTS ya no atrapa la rueda (se navega con los puntos,
+   la línea de tiempo y el avance automático) y los anclajes entre secciones dejan de ser obligatorios. */
+.lc-viewport { overflow-y: hidden; overscroll-behavior-y: auto; }
+html:has(main[data-snap]) { scroll-snap-type: y proximity; }
+main[data-snap] > section { scroll-snap-stop: normal; }
