@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" class="is-loading">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,10 +19,6 @@
   <script>try{var t=localStorage.getItem('tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
-  <!-- Pantalla de carga -->
-  <div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Cargando">
-    <div class="clear-loading loading-effect-2"><span></span><img class="pre-logo" src="img/logo-imagen.webp" alt="" width="420" height="420"></div>
-  </div>
   <div class="progress" aria-hidden="true"><span></span></div>
   <a class="skip" href="#contenido">Saltar al contenido</a>
 
@@ -287,7 +283,7 @@
   </footer>
 
   <!-- Botón flotante de WhatsApp: el número aún no está conectado (href="#" a propósito), falta solo poner el enlace wa.me real -->
-  <a class="wa-float" id="waFloat" href="#" aria-label="Escríbenos por WhatsApp" data-whatsapp-pending="true">
+  <a class="wa-float is-hidden" id="waFloat" href="#" aria-label="Escríbenos por WhatsApp" data-whatsapp-pending="true">
     <span class="wa-float-ico" aria-hidden="true">
       <img src="img/whatsapp-logo.png" alt="" width="40" height="40" loading="lazy" decoding="async">
     </span>

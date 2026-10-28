@@ -3,8 +3,7 @@
   const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
   if (!reduce && hasGsap) document.documentElement.classList.add('js');
 
-  /* ---- Pantalla de carga: se cierra cuando la tipografía y las imágenes clave están listas ---- */
-  const pre = document.getElementById('preloader');
+  /* ---- Listo para animar: cuando la tipografía y las imágenes clave cargan ---- */
   const imgReady = src => new Promise(res => {
     const i = new Image();
     i.onload = i.onerror = () => res();
@@ -12,12 +11,9 @@
     if (i.decode) i.decode().then(res, res);
   });
   const key = [...document.querySelectorAll('link[rel="preload"][as="image"]')].map(l => imgReady(l.href));
-  const minWait = new Promise(r => setTimeout(r, 800));
   const maxWait = new Promise(r => setTimeout(r, 2500));
   const fontsReady = (document.fonts && document.fonts.ready) || Promise.resolve();
-  const appReady = Promise.race([Promise.all([minWait, fontsReady, ...key]), maxWait]).then(() => {
-    document.documentElement.classList.remove('is-loading');
-    if (pre) { pre.classList.add('done'); setTimeout(() => pre.remove(), 700); }
+  const appReady = Promise.race([Promise.all([fontsReady, ...key]), maxWait]).then(() => {
     // los videos de Instagram se cargan después, para no competir con el banner y las fotos
     document.querySelectorAll('iframe[data-src]').forEach(f => { f.src = f.dataset.src; });
     document.dispatchEvent(new Event('app:ready'));
@@ -185,20 +181,28 @@
     }
   }
 
-  /* ---- Botón flotante de WhatsApp: a la vista en el inicio, se repliega a un lado en el resto y vuelve al acercarse ---- */
+  /* ---- Botón flotante de WhatsApp: en la home no sale en la portada; aparece completo en la
+         sección siguiente y se repliega a un lado en el resto (vuelve al acercarse) ---- */
   const waFloat = document.querySelector('.wa-float');
   if (waFloat) {
-    const waTarget = document.querySelector('#inicio') || document.querySelector('.page-head') || document.querySelector('main');
+    const hero = document.querySelector('#inicio');
+    const waTarget = hero ? hero.nextElementSibling : (document.querySelector('.page-head') || document.querySelector('main'));
     if (waTarget) {
+      const seen = el => {
+        const r = el.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0));
+        return r.height > 0 ? visible / Math.min(r.height, innerHeight) : 0;
+      };
       // Se revisa en cada frame (en vez de escuchar "scroll") porque Lenis anima el
       // desplazamiento por su cuenta y no siempre dispara el evento nativo del navegador.
       let waLastState = null;
       const waLoop = () => {
-        const r = waTarget.getBoundingClientRect();
-        const visible = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0));
-        const ratio = r.height > 0 ? visible / Math.min(r.height, innerHeight) : 0;
-        const collapsed = ratio < 0.35;
-        if (collapsed !== waLastState) { waFloat.classList.toggle('is-collapsed', collapsed); waLastState = collapsed; }
+        const state = hero && seen(hero) >= 0.35 ? 'hidden' : seen(waTarget) >= 0.35 ? 'open' : 'collapsed';
+        if (state !== waLastState) {
+          waFloat.classList.toggle('is-hidden', state === 'hidden');
+          waFloat.classList.toggle('is-collapsed', state === 'collapsed');
+          waLastState = state;
+        }
         requestAnimationFrame(waLoop);
       };
       waLoop();

@@ -1110,24 +1110,8 @@ h1, h2, h3, h4 { font-weight: 700; }
 .hero .hero-copy { position: relative; }
 .hero .hero-copy::before { content: ""; position: absolute; inset: -18px -26px; z-index: -1; border-radius: 28px; background: radial-gradient(closest-side, rgba(247,252,248,.62), rgba(247,252,248,0)); filter: blur(6px); }
 
-/* ===== pantalla de carga (misma idea que la web original: anillos verdes que giran) ===== */
-html.is-loading { overflow: hidden; }
-.preloader { position: fixed; inset: 0; z-index: 99999; background: #fff; transition: opacity .3s ease, visibility 0s linear .3s; animation: preloader-failsafe .4s 3s forwards; }
-.preloader.done { pointer-events: none; }
-.preloader.done { opacity: 0; visibility: hidden; }
-@keyframes preloader-failsafe { to { opacity: 0; visibility: hidden; } }
-.clear-loading { position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; margin: -50px 0 0 -50px; box-sizing: border-box; }
-.loading-effect-2 > span, .loading-effect-2 > span::before, .loading-effect-2 > span::after { content: ""; display: block; border-radius: 50%; border: 2px solid #00873A; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.loading-effect-2 > span { width: 100%; height: 100%; top: 0; left: 0; transform: none; border-left-color: transparent; animation: effect-2 2s infinite linear; }
-.loading-effect-2 > span::before { width: 75%; height: 75%; border-right-color: transparent; }
-.loading-effect-2 > span::after { width: 50%; height: 50%; border-bottom-color: transparent; }
-.pre-mark { position: absolute; inset: 0; display: grid; place-items: center; font: 800 15px var(--sans); color: #00702F; letter-spacing: -.02em; animation: pre-pulse 1.6s ease-in-out infinite; }
-@keyframes effect-2 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes pre-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.92); } }
-
 /* banner un poco menos visible: el fondo de encima gana opacidad */
 .hero::after { opacity: .76; }
-@media (prefers-reduced-motion: reduce) { .preloader { transition: none; } }
 
 /* banner de atrás al 20 % y fondo de encima al 85 % */
 .hero { background-image: none; }
@@ -1168,13 +1152,6 @@ html.is-loading { overflow: hidden; }
 .foot-logo { display: block; height: 58px; width: auto; margin-bottom: 8px; }
 @media (max-width: 560px) { .brand-logo { height: 38px; } }
 
-/* pantalla de carga: anillos verdes alrededor del emblema */
-.clear-loading { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
-.loading-effect-2 > span::before { width: 84%; height: 84%; }
-.loading-effect-2 > span::after { display: none; }
-.pre-logo { position: absolute; top: 50%; left: 50%; width: 62%; height: 62%; margin: -31% 0 0 -31%; object-fit: contain; animation: pre-emblem 2.4s ease-in-out infinite; }
-@keyframes pre-emblem { 0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; } 50% { transform: scale(.93) rotate(-8deg); opacity: .8; } }
-
 /* el logo nunca se encoge y el menú pasa a botón cuando no cabe */
 .brand { flex: 0 0 auto; }
 .brand-logo { max-width: none; }
@@ -1194,8 +1171,6 @@ html.is-loading { overflow: hidden; }
 @media (max-width: 1100px) { .menu { top: 84px; } }
 @media (max-width: 560px) { .brand-logo, .nav.solid .brand-logo { height: 40px; } .menu { top: 66px; } .hero { padding-top: 80px; } }
 
-/* pantalla de carga de las secciones (no la del inicio): fondo blanco con el logo */
-body.subpage .preloader { display: none; }
 
 /* ===== portada con zoom alto o ventanas bajas: nada se superpone ===== */
 /* tamaño mínimo: con mucho zoom el panel puede ser más alto que la pantalla, pero la portada no se encoge */
@@ -1394,9 +1369,10 @@ body.subpage .preloader { display: none; }
   background: #25D366; color: #06321C; text-decoration: none;
   padding: 8px 20px 8px 8px; border-radius: 999px;
   box-shadow: 0 12px 30px rgba(0,0,0,.3);
-  transition: padding .4s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+  transition: padding .4s cubic-bezier(.22,1,.36,1), box-shadow .3s, opacity .3s ease, transform .4s cubic-bezier(.22,1,.36,1), visibility 0s;
   max-width: 280px; overflow: hidden;
 }
+.wa-float.is-hidden { opacity: 0; visibility: hidden; transform: translateY(16px); pointer-events: none; transition: opacity .3s ease, transform .4s cubic-bezier(.22,1,.36,1), visibility 0s linear .3s; }
 .wa-float:hover, .wa-float:focus-visible { box-shadow: 0 16px 36px rgba(0,0,0,.38); }
 .wa-float-ico { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; }
 .wa-float-ico img { width: 100%; height: 100%; object-fit: contain; }
@@ -1827,8 +1803,8 @@ img[src*="entrevista"] { object-position: 78% 15%; }
   grid-template-rows: auto 1fr;
   column-gap: clamp(32px, 4vw, 64px);
   min-height: 100svh;
-  /* abajo deja libre el botón flotante de WhatsApp */
-  padding: 96px clamp(16px, 4vw, 48px) 96px;
+  /* el arco baja hasta el borde inferior de la pantalla */
+  padding: 96px clamp(16px, 4vw, 48px) 0;
   background: var(--bg-page); color: var(--ink);
 }
 :root[data-theme="dark"] .hero-retrato { --hr-ink: #EAF2EC; --hr-green: #4CD98A; --hr-green-ink: #6FE3A5; --hr-soft: #B4C6BB; --hr-frame: #152A1F; }
@@ -1842,7 +1818,7 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .hr-ape { color: var(--hr-green); }
 
 .hr-arch { grid-area: arch; display: flex; flex-direction: column; min-height: 0; }
-.hr-frame { position: relative; flex: 1; min-height: 420px; border-radius: 999px 999px 20px 20px; overflow: hidden; background: var(--hr-frame); isolation: isolate; }
+.hr-frame { position: relative; flex: 1; min-height: 420px; border-radius: 999px 999px 0 0; overflow: hidden; background: var(--hr-frame); isolation: isolate; }
 .hr-frame picture, .hr-frame video { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hr-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; display: block; }
 .hr-frame video { object-fit: contain; background: #0B2A1B; opacity: 0; transition: opacity 260ms var(--hr-ease); }
@@ -1854,8 +1830,8 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .hr-play i::after { content: ""; border-left: 12px solid #fff; border-top: 7px solid transparent; border-bottom: 7px solid transparent; margin-left: 3px; }
 @media (hover: hover) { .hr-play:hover { transform: translateX(-50%) translateY(-2px); } }
 
-/* las dos columnas son espejo: se pegan al arco y terminan a la altura de su base */
-.hr-side { align-self: end; min-height: 238px; display: flex; flex-direction: column; justify-content: space-between; }
+/* las dos columnas son espejo: se pegan al arco y bajan hasta cerca de su base */
+.hr-side { align-self: end; min-height: 238px; padding-bottom: clamp(32px, 6svh, 64px); display: flex; flex-direction: column; justify-content: space-between; }
 .hr-left { grid-area: left; justify-self: end; text-align: right; align-items: flex-end; }
 .hr-right { grid-area: right; justify-self: start; }
 .hr-rule { width: 56px; height: 3px; background: var(--hr-green); margin-bottom: 22px; }
@@ -1864,7 +1840,7 @@ img[src*="entrevista"] { object-position: 78% 15%; }
 .hr-cta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .hero-retrato .link { border-color: var(--hr-green); }
 
-/* entrada: una sola secuencia al cerrar la pantalla de carga */
+/* entrada: una sola secuencia al abrir la página */
 @media (prefers-reduced-motion: no-preference) {
   .hr-w > span { animation: hr-rise 700ms var(--hr-ease) both; }
   .hr-w:nth-child(2) > span { animation-delay: 80ms; }
@@ -1876,10 +1852,9 @@ img[src*="entrevista"] { object-position: 78% 15%; }
   .hr-side > *:nth-child(1) { animation-delay: 650ms; }
   .hr-side > *:nth-child(2) { animation-delay: 710ms; }
   .hr-side > *:nth-child(3) { animation-delay: 770ms; }
-  html.is-loading .hero-retrato *, html.is-loading .hero-retrato { animation-play-state: paused; }
 }
 @keyframes hr-rise { from { transform: translateY(105%); } }
-@keyframes hr-door { from { clip-path: inset(100% 0 0 0 round 999px 999px 20px 20px); } to { clip-path: inset(0 0 0 0 round 999px 999px 20px 20px); } }
+@keyframes hr-door { from { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); } to { clip-path: inset(0 0 0 0 round 999px 999px 0 0); } }
 @keyframes hr-settle { from { transform: scale(1.08); } }
 @keyframes hr-fade { from { opacity: 0; transform: translateY(12px); } }
 
@@ -1888,8 +1863,8 @@ img[src*="entrevista"] { object-position: 78% 15%; }
   .hero-retrato { grid-template-columns: 1fr; grid-template-areas: "name" "arch" "left" "right"; grid-template-rows: auto; min-height: 0; padding-top: 84px; padding-bottom: 48px; }
   .hr-name { font-size: clamp(44px, 13vw, 64px); margin-bottom: 18px; }
   .hr-arch { width: min(78vw, 340px); justify-self: center; }
-  .hr-frame { flex: none; height: min(58svh, 460px); min-height: 0; }
-  .hr-side { justify-self: center; text-align: center; min-height: 0; align-items: center; }
+  .hr-frame { flex: none; height: min(58svh, 460px); min-height: 0; border-radius: 999px 999px 20px 20px; }
+  .hr-side { justify-self: center; text-align: center; min-height: 0; padding-bottom: 0; align-items: center; }
   .hr-left { margin-top: 30px; }
   .hr-rule { margin: 0 auto 18px; }
   .hr-right .hr-rule { display: none; }
