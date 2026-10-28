@@ -301,9 +301,9 @@ h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
   background: linear-gradient(0deg, var(--azul) 0%, transparent 16%, transparent 84%, var(--azul) 100%),
     url("img/amigos-graffiti.jpg");
-  background-size: 320% 320%; background-position: 0% 0%; background-repeat: no-repeat;
-  filter: blur(4px) brightness(.45) saturate(1.3);
-  transform: scale(1.05);
+  background-size: cover; background-position: center;
+  filter: blur(4px) brightness(.4) saturate(1.3);
+  transform: scale(1.08);
 }
 .amigos-section .wrap { padding-block: 18px; position: relative; z-index: 2; }
 
