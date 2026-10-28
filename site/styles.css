@@ -2205,3 +2205,9 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 
 /* nombre del lugar más visible y edificio al centro-derecha, delante de la palabra */
 .lc-wtrack span { color: rgba(255,255,255,.2); }
+/* Inicio · Investigación: los dos recuadros son discretos, sin foto de fondo */
+.split-col .r-badges > div::before, .split-col .r-badges > div::after { display: none; }
+.split-col .r-badges > div { background: color-mix(in srgb, var(--cobre) 6%, var(--surface)); box-shadow: none; border: 1px solid color-mix(in srgb, var(--cobre) 16%, transparent); }
+.split-col .r-badges > div:hover { transform: none; box-shadow: none; border-color: color-mix(in srgb, var(--cobre) 34%, transparent); }
+.split-col .r-badges b { color: var(--azul); text-shadow: none; }
+.split-col .r-badges span { color: var(--ink-muted); text-shadow: none; }
