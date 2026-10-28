@@ -617,7 +617,7 @@
   if (lcVp && lcBg) {
     const slides = [...lcVp.querySelectorAll('.lc-slide')];
     const steps = document.querySelector('.lc-steps');
-    const shots = [...lcBg.children];
+    const shots = [...lcBg.querySelectorAll('i')];
     let current = -1;
     const paint = i => { const el = shots[i]; if (el && el.dataset.bg) { el.style.backgroundImage = `url(${el.dataset.bg})`; delete el.dataset.bg; } };
     const show = i => {
