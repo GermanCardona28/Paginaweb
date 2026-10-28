@@ -2215,3 +2215,132 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 /* los carruseles de formación y centros ya no atrapan la rueda: la página baja aunque el cursor esté sobre la imagen
    (se navegan con las flechas, los puntos y el avance automático) */
 .edu-viewport, .centers-viewport { overflow-y: hidden; overscroll-behavior-y: auto; }
+
+/* carrusel de líneas de investigación: con mouse la rueda baja la página aunque el cursor esté sobre la tarjeta
+   (se navega con las flechas y al pulsar una tarjeta); en pantallas táctiles se desliza con el dedo y, al llegar al
+   final, el gesto pasa a la página */
+.lines { overscroll-behavior-y: auto; }
+@media (hover: hover) and (min-width: 961px) { .lines { overflow-y: hidden; } }
+
+/* carrusel de líneas de investigación: más pequeño y sutil (cabe cómodo en la pantalla) */
+.lines-carousel { --lc-w: min(400px, 78vw); padding-block: 40px; }
+.lines .line-card { padding: 16px 20px 18px; padding-top: calc(var(--lc-w) / 3.4 - 14px); border-width: 1px; box-shadow: 0 10px 24px -18px rgba(8,40,26,.55); gap: 10px; }
+.lc-media { aspect-ratio: 3.4 / 1; }
+.line-card.on .lc-media.ready video { filter: brightness(.7) saturate(.9) blur(0); }
+.lines .line-card .r-ico { width: 40px; height: 40px; border-radius: 12px; }
+.lines .line-card .r-ico svg { width: 22px; height: 22px; }
+.lines .line-card b { font-size: 19px; }
+.line-card .lc-inner { gap: 12px; padding-top: 0; }
+.lines-carousel .lines .line-card .lc-desc { font-size: 13.5px; line-height: 1.55; max-width: 40ch; }
+.line-card .lc-tags { gap: 5px; }
+.line-card .lc-tags span { padding: 3px 9px; font-size: 11.5px; }
+.lines-arrow { width: 36px; height: 36px; margin-left: -18px; opacity: .85; }
+.lines-arrow svg { width: 18px; height: 18px; }
+.lines-carousel { --lc-soft: color-mix(in srgb, var(--azul) 74%, #06140D); }
+.lines .line-card.on { background: var(--lc-soft); }
+.line-card.on .lc-media::after { --lc-fade: var(--lc-soft); }
+/* un poco más ancho, manteniendo la franja de foto baja */
+.lines-carousel { --lc-w: min(500px, 82vw); }
+.lines .line-card { padding-top: calc(var(--lc-w) / 4.2 - 14px); padding-inline: 30px; }
+.lc-media { aspect-ratio: 4.2 / 1; }
+.lines-carousel .lines .line-card .lc-desc { max-width: 52ch; }
+
+/* el video se difumina hacia el color de la tarjeta, de forma gradual */
+.lc-media { -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0,0,0,.55) 78%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0,0,0,.55) 78%, transparent 100%); }
+.lc-media::after { background: linear-gradient(180deg, rgba(4,12,8,.08) 0%, rgba(4,12,8,0) 40%, var(--lc-fade, var(--surface)) 100%); }
+.lines .line-card .lc-media { background: transparent; }
+
+/* ===== Líneas de investigación: notas adhesivas con la tipografía del sitio y el video difuminado en el papel ===== */
+.lines-carousel { --lc-w: min(480px, 84vw); }
+.lines .line-card { --note: #FDEFA3; background: var(--note); border: 0; border-radius: 4px; rotate: -1.1deg; color: #26231f;
+  padding: calc(var(--lc-w) / 3.1 - 4px) 28px 24px; box-shadow: 0 18px 26px -16px rgba(20,30,20,.5), 0 2px 0 rgba(0,0,0,.05); }
+.lines .line-card:nth-child(5n+2) { --note: #CFEBCB; rotate: .9deg; }
+.lines .line-card:nth-child(5n+3) { --note: #F8CDBE; rotate: -.7deg; }
+.lines .line-card:nth-child(5n+4) { --note: #CBE4F3; rotate: 1.2deg; }
+.lines .line-card:nth-child(5n+5) { --note: #E3D6F4; rotate: -.9deg; }
+.lines .line-card.on, .lines .line-card.on:hover { background: var(--note); }
+/* cinta y esquina doblada */
+.lines .line-card::before { content: ""; position: absolute; left: 50%; top: 6px; width: 92px; height: 22px; margin-left: -46px; rotate: -3deg; z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.46)); box-shadow: 0 1px 4px rgba(0,0,0,.18);
+  clip-path: polygon(0 8%, 4% 0, 8% 8%, 12% 0, 92% 0, 96% 8%, 100% 0, 100% 100%, 96% 92%, 92% 100%, 8% 100%, 4% 92%, 0 100%); }
+.lines .line-card::after { content: ""; position: absolute; right: 0; bottom: 0; width: 28px; height: 28px; z-index: 3; pointer-events: none;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,.1) 50%, rgba(255,255,255,.55) 100%); }
+/* el video se funde con el color del papel */
+.lines .line-card .lc-media { top: 0; left: 0; right: 0; aspect-ratio: 3.1 / 1; background: transparent; border: 0; box-shadow: none; rotate: none; }
+.lines .line-card .lc-media::after { display: block; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, var(--note) 100%); }
+.lc-media.ready video { filter: brightness(.95) saturate(.5) blur(1px); opacity: .35; }
+.line-card.on .lc-media.ready video { filter: brightness(1) saturate(1.05) blur(0); opacity: 1; }
+/* sello del tema */
+.lines .line-card .r-ico { position: absolute; top: 14px; right: 18px; width: 36px; height: 36px; border-radius: 50%; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.25); rotate: 8deg; z-index: 5; }
+.lines .line-card .r-ico svg { width: 20px; height: 20px; stroke: #0F7B45 !important; }
+/* texto: misma tipografía del sitio, tinta oscura sobre el papel */
+.lines-carousel .lines .line-card b { color: #26231f !important; font-size: 23px; }
+.lines-carousel .lines .line-card .lc-desc, .lines-carousel .lines .line-card.on .lc-desc { color: #3a352e !important; font-size: 14.5px; line-height: 1.55; }
+.line-card .lc-tags span, .line-card.on .lc-tags span { background: rgba(255,255,255,.6); color: #2f4a38; font-weight: 600; font-size: 12px; padding: 3px 10px; }
+.lines-arrow { opacity: .9; }
+@media (prefers-reduced-motion: reduce) { .lines .line-card { rotate: none; } }
+.lines .line-card::before { background: linear-gradient(180deg, rgba(255,252,235,.92), rgba(255,247,215,.72)); box-shadow: 0 2px 6px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,255,255,.4); top: 4px; }
+
+/* ===== Líneas de investigación: libreta de notas adhesivas, con la paleta verde del sitio ===== */
+.lines-carousel .lines .line-card { --note: color-mix(in srgb, var(--cobre) 12%, #fff); }
+.lines-carousel .lines .line-card:nth-child(5n+2) { --note: color-mix(in srgb, var(--cobre) 17%, #F5F8F3); }
+.lines-carousel .lines .line-card:nth-child(5n+3) { --note: color-mix(in srgb, var(--cobre-claro) 24%, #fff); }
+.lines-carousel .lines .line-card:nth-child(5n+4) { --note: color-mix(in srgb, var(--cobre) 22%, #F5F8F3); }
+.lines-carousel .lines .line-card:nth-child(5n+5) { --note: color-mix(in srgb, var(--cobre-claro) 16%, #F5F8F3); }
+.lines-carousel .lines .line-card b { color: #0E2A1C !important; }
+.lines-carousel .lines .line-card .lc-desc, .lines-carousel .lines .line-card.on .lc-desc { color: #2f4a38 !important; }
+.line-card .lc-tags span, .line-card.on .lc-tags span { background: rgba(255,255,255,.65); color: var(--cobre); }
+.lines .line-card .r-ico svg { stroke: var(--cobre) !important; }
+/* con mouse: pila de notas, sin flechas; la de arriba se levanta */
+.lines-carousel.notes .lines-arrow { display: none; }
+.lines-carousel.notes .lines { display: grid; justify-items: center; align-items: start; overflow: hidden; scroll-snap-type: none; padding: 8px 14px 38px; }
+.lines-carousel.notes .lines .line-card { grid-area: 1 / 1; flex: none; opacity: 0; pointer-events: none; cursor: pointer; z-index: calc(10 - var(--p, 0));
+  translate: calc(var(--p, 0) * 6px) calc(var(--p, 0) * 10px); rotate: calc(var(--p, 0) * 1.7deg - .8deg); transform: scale(calc(1 - var(--p, 0) * .025)); transform-origin: 100% 100%;
+  transition: translate .55s cubic-bezier(.2,.7,.2,1), rotate .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1), opacity .35s; }
+.lines-carousel.notes .lines .line-card.stk { opacity: 1; pointer-events: auto; }
+.lines-carousel.notes .lines .line-card:not(.on) .lc-media, .lines-carousel.notes .lines .line-card:not(.on) .lc-body, .lines-carousel.notes .lines .line-card:not(.on) b, .lines-carousel.notes .lines .line-card:not(.on) .r-ico { visibility: hidden; }
+.lines-carousel.notes .lines .line-card.on:hover { translate: -2px -4px; }
+/* esquina que invita a levantar la nota */
+.lines-carousel.notes .lines .line-card::after { transition: width .3s cubic-bezier(.2,.7,.2,1), height .3s cubic-bezier(.2,.7,.2,1); }
+.lines-carousel.notes .lines .line-card.on:hover::after { width: 58px; height: 58px; }
+.lines-carousel.notes .lines .line-card.peel { z-index: 30; opacity: 1; pointer-events: none; animation: notePeel .72s cubic-bezier(.45,0,.75,.35) forwards; }
+.lines-carousel.notes .lines .line-card.peel .lc-media, .lines-carousel.notes .lines .line-card.peel .lc-body, .lines-carousel.notes .lines .line-card.peel b, .lines-carousel.notes .lines .line-card.peel .r-ico { visibility: visible; }
+@keyframes notePeel {
+  0% { translate: 0 0; rotate: -.8deg; opacity: 1; filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
+  35% { translate: 14px -26px; rotate: 5deg; opacity: 1; filter: drop-shadow(10px 16px 14px rgba(0,0,0,.25)); }
+  100% { translate: 110px -150px; rotate: 20deg; opacity: 0; filter: drop-shadow(18px 28px 20px rgba(0,0,0,.2)); }
+}
+.lines-carousel.notes::after { content: "Levanta la nota para ver la siguiente"; display: block; text-align: center; margin-top: -26px; position: relative; z-index: 3; font: 600 13px var(--sans); letter-spacing: .02em; color: var(--ink-muted); }
+@media (prefers-reduced-motion: reduce) { .lines-carousel.notes .lines .line-card { transition: none; } .lines-carousel.notes .lines .line-card.peel { animation: none; opacity: 0; } }
+.lines-carousel.notes .lines { justify-content: center; box-sizing: content-box; }
+.lines-carousel.notes::after { margin-top: -30px; }
+.lines-carousel.notes .lines { grid-template-columns: minmax(0, 1fr); }
+
+/* ===== Notas adhesivas más reales: papel con grano, franja de pegamento, hojas apiladas y despegue desde el borde de arriba ===== */
+.lines-carousel.notes .lines { overflow: visible; }
+.lines-carousel.notes .lines .line-card, .lines-carousel.notes .lines .line-card.on, .lines-carousel.notes .lines .line-card.on:hover {
+  background-color: var(--note);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    linear-gradient(180deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 22%, rgba(0,0,0,.045) 100%);
+  border-radius: 2px 2px 7px 7px / 2px 2px 12px 12px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.18), 0 8px 12px -6px rgba(0,0,0,.38), 0 22px 26px -16px rgba(0,0,0,.35);
+}
+/* hojas de la libreta: apenas desplazadas, como un taco de notas */
+.lines-carousel.notes .lines .line-card { translate: calc(var(--p, 0) * 3px) calc(var(--p, 0) * 5px); rotate: calc(var(--p, 0) * .55deg - .35deg); transform: none; }
+.lines-carousel.notes .lines .line-card:nth-child(even) { rotate: calc(var(--p, 0) * -.5deg + .3deg); }
+.lines-carousel.notes .lines .line-card.on:hover { translate: 0 -3px; }
+/* franja de pegamento arriba (sustituye a la cinta) */
+.lines-carousel.notes .lines .line-card::before { left: 0; right: 0; top: 0; width: auto; height: 38px; margin: 0; rotate: none; clip-path: none; box-shadow: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.11) 0%, rgba(0,0,0,.05) 45%, rgba(0,0,0,0) 100%); }
+/* esquina curvada abajo a la derecha */
+.lines-carousel.notes .lines .line-card::after { width: 34px; height: 34px;
+  background: linear-gradient(135deg, transparent 49%, rgba(0,0,0,.16) 50%, rgba(255,255,255,.75) 58%, var(--note) 100%); box-shadow: -3px -3px 6px -3px rgba(0,0,0,.25); border-top-left-radius: 8px; }
+.lines-carousel.notes .lines .line-card.on:hover::after { width: 64px; height: 64px; }
+/* despegue: la nota se levanta por abajo, girando sobre su borde pegado, y se va */
+.lines-carousel.notes .lines .line-card.peel { translate: 0 0; rotate: -.35deg; transform-origin: 50% 0; z-index: 30; animation: notePeel .8s cubic-bezier(.4,0,.6,1) forwards; }
+@keyframes notePeel {
+  0%   { transform: perspective(1100px) rotateX(0deg); opacity: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.18)); }
+  35%  { transform: perspective(1100px) rotateX(32deg) translateY(-6px); opacity: 1; filter: drop-shadow(0 16px 16px rgba(0,0,0,.28)); }
+  70%  { transform: perspective(1100px) rotateX(68deg) translateY(-34px) scale(.98); opacity: .95; filter: drop-shadow(0 26px 22px rgba(0,0,0,.25)); }
+  100% { transform: perspective(1100px) rotateX(96deg) translateY(-90px) scale(.9); opacity: 0; filter: drop-shadow(0 30px 24px rgba(0,0,0,.15)); }
+}

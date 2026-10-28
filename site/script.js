@@ -357,7 +357,7 @@
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     // Cada línea es una tarjeta del carrusel: la que queda en el centro se resalta y muestra su ficha
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="lc-media" aria-hidden="true"><video muted playsinline preload="none" data-src="media/lineas/${l.id}.mp4"></video></span><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span><span class="lc-tags">${l.topics.map(t => `<span>${esc(t)}</span>`).join('')}</span></span></span></button>`).join('');
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="lc-media" aria-hidden="true"><video muted playsinline preload="none" data-src="media/lineas/${l.id}.mp4"></video></span><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
@@ -410,9 +410,31 @@
       // la siguiente se deja lista para que al deslizar no aparezca vacía
       load(clips[(i + 1) % clips.length]);
     }
-    const centerOn = i => {
+    /* Con mouse las tarjetas son una libreta de notas adhesivas apiladas: se levanta la de arriba para ver la siguiente.
+       En pantallas táctiles se mantiene el carrusel que se desliza con el dedo. */
+    const carousel = linesEl.closest('.lines-carousel');
+    const notesMq = matchMedia('(hover: hover) and (min-width: 961px)');
+    let notes = false;
+    const lay = () => cards.forEach((c, j) => {
+      const p = (j - center + cards.length) % cards.length;
+      c.style.setProperty('--p', String(p));
+      c.classList.toggle('stk', p < 3);
+    });
+    const centerOn = (i, animate = true) => {
       target = (i + cards.length) % cards.length;
       const c = cards[target];
+      if (notes) {
+        const prev = center;
+        setCenter(target);
+        lay();
+        if (animate && !reduce && prev >= 0 && prev !== target) {
+          const old = cards[prev];
+          old.classList.remove('peel'); void old.offsetWidth; old.classList.add('peel');
+          setTimeout(() => old.classList.remove('peel'), 760);
+        }
+        target = -1;
+        return;
+      }
       setCenter(target);
       linesEl.scrollTo({ top: c.offsetTop - (linesEl.clientHeight - c.offsetHeight) / 2, behavior: reduce ? 'auto' : 'smooth' });
     };
@@ -429,22 +451,34 @@
     ['pointerdown', 'wheel', 'touchstart'].forEach(ev => linesEl.addEventListener(ev, () => { target = -1; }, { passive: true }));
     // Iguala el alto del párrafo y de la fila de etiquetas de todas las tarjetas (el de la más larga)
     const equalize = () => {
-      linesEl.style.removeProperty('--lc-desc-h'); linesEl.style.removeProperty('--lc-tags-h');
+      linesEl.style.removeProperty('--lc-desc-h');
       linesEl.style.removeProperty('height');
       const max = sel => Math.max(...cards.map(c => c.querySelector(sel).offsetHeight));
       linesEl.style.setProperty('--lc-desc-h', max('.lc-desc') + 'px');
-      linesEl.style.setProperty('--lc-tags-h', max('.lc-tags') + 'px');
       // La altura del carrusel se ajusta a la tarjeta más alta, para mostrar "una a la vez" en vertical
       linesEl.style.height = Math.max(...cards.map(c => c.offsetHeight)) + 'px';
     };
     equalize();
     if (document.fonts) document.fonts.ready.then(equalize);
-    window.addEventListener('resize', () => { equalize(); centerOn(center); });
-    linesEl.addEventListener('click', e => { const c = e.target.closest('.line-card'); if (c) centerOn(cards.indexOf(c)); });
+    window.addEventListener('resize', () => { equalize(); centerOn(center, false); });
+    linesEl.addEventListener('click', e => {
+      const c = e.target.closest('.line-card'); if (!c) return;
+      const k = cards.indexOf(c);
+      centerOn(notes && k === center ? center + 1 : k);
+    });
     dots.forEach((d, i) => d.addEventListener('click', () => centerOn(i)));
     document.querySelector('.lines-arrow.prev')?.addEventListener('click', () => centerOn(center - 1));
     document.querySelector('.lines-arrow.next')?.addEventListener('click', () => centerOn(center + 1));
     markCenter();
+    const applyNotes = () => {
+      notes = notesMq.matches;
+      carousel.classList.toggle('notes', notes);
+      if (notes) { linesEl.scrollTop = 0; lay(); }
+      else cards.forEach(c => { c.style.removeProperty('--p'); c.classList.remove('stk', 'peel'); });
+      equalize();
+    };
+    notesMq.addEventListener('change', applyNotes);
+    applyNotes();
 
     const pick = e => {
       const b = e.target.closest('[data-l]'); if (!b) return;
