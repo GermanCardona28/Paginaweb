@@ -2211,3 +2211,7 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 .split-col .r-badges > div:hover { transform: none; box-shadow: none; border-color: color-mix(in srgb, var(--cobre) 34%, transparent); }
 .split-col .r-badges b { color: var(--azul); text-shadow: none; }
 .split-col .r-badges span { color: var(--ink-muted); text-shadow: none; }
+
+/* los carruseles de formación y centros ya no atrapan la rueda: la página baja aunque el cursor esté sobre la imagen
+   (se navegan con las flechas, los puntos y el avance automático) */
+.edu-viewport, .centers-viewport { overflow-y: hidden; overscroll-behavior-y: auto; }
