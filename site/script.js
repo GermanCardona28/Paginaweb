@@ -784,7 +784,7 @@
 
   /* ---- Inicio en zigzag: al llegar a cada sección su imagen entra desde su lado y el texto en cascada;
      con el mouse encima, la imagen se inclina y se desplaza un poco (profundidad). El panel de video de
-     Investigación alterna tres clips de las líneas de investigación ---- */
+     Investigación muestra el reel de la UTS ---- */
   const zz = document.querySelectorAll('.zz');
   if (zz.length) {
     const zzIo = new IntersectionObserver(es => es.forEach(e => {
@@ -810,8 +810,8 @@
       const clips = [...box.querySelectorAll('video')];
       let k = 0;
       const show = () => clips.forEach((v, j) => { v.classList.toggle('on', j === k); if (j === k) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
-      // el primer clip arranca cuando ya tiene fuente; luego cambia cada 8 s
-      const start = () => { if (!clips[0].src) return setTimeout(start, 300); show(); if (!reduce) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
+      // el primer clip arranca cuando ya tiene fuente; si hay varios, cambia cada 8 s
+      const start = () => { if (!clips[0].src) return setTimeout(start, 300); show(); if (!reduce && clips.length > 1) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
       start();
     });
   }
