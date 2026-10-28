@@ -627,8 +627,6 @@
     slides.forEach(s => io.observe(s));
   };
   initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
-  initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
-  initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
   /* ---- Logros UTS (inicio): los logros van en orden de crecimiento y cada uno trae su foto de fondo a pantalla
      completa, que entra barriendo sobre la anterior y se acerca despacio. La línea de tiempo 2015–2026 avanza hasta
@@ -807,6 +805,19 @@
       const start = () => { if (!clips[0].src) return setTimeout(start, 300); show(); if (!reduce) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
       start();
     });
+  }
+
+  /* ---- Centros (Logros UTS) y lugares (Territorio): todos a la vista; aparecen subiendo uno tras otro al llegar ---- */
+  const gridCards = document.querySelectorAll('.centers-slide, #routeTrack .route-slide');
+  if (gridCards.length) {
+    const gio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const sibs = [...e.target.parentElement.children];
+      e.target.style.transitionDelay = (sibs.indexOf(e.target) % 3) * 0.12 + 's';
+      e.target.classList.add('in');
+      gio.unobserve(e.target);
+    }), { threshold: .2 });
+    gridCards.forEach(c => gio.observe(c));
   }
 
   /* ---- Formación (inicio): las cuatro formaciones siempre visibles en una lista sobre la foto; la foto de cada

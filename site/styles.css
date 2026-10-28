@@ -2449,3 +2449,21 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 .lines-timer { position: absolute; left: 50%; bottom: -14px; width: min(220px, 50%); height: 3px; translate: -50% 0; border-radius: 3px; background: color-mix(in srgb, var(--cobre-claro) 22%, transparent); overflow: hidden; }
 .lines-timer::after { content: ""; position: absolute; inset: 0; background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; }
 .lines-carousel.ticking .lines-timer::after { animation: uniBar 8s linear forwards; }
+
+/* Logros UTS: los cuatro centros a la vista en una cuadrícula de 2 × 2, sin carrusel ni puntos */
+.centers-viewport { max-width: 980px !important; overflow: visible !important; height: auto !important; }
+.centers-track { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; transform: none !important; }
+.centers-slide { flex: none !important; height: auto !important; min-height: 200px; }
+@media (max-width: 640px) { .centers-track { grid-template-columns: 1fr; } }
+/* Territorio: los cinco lugares a la vista en un mosaico, sin carrusel ni puntos */
+#routeViewport { overflow: visible !important; height: auto !important; }
+#routeTrack { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; transform: none !important; }
+#routeTrack .route-slide { flex: none !important; height: auto !important; }
+#routeTrack .route-slide:first-child { grid-column: span 2; }
+.route .edu-card { min-height: clamp(220px, 24vw, 300px); }
+@media (max-width: 760px) { #routeTrack { grid-template-columns: 1fr 1fr; } #routeTrack .route-slide:first-child { grid-column: 1 / -1; } .route .edu-card { min-height: 200px; } }
+/* al llegar, cada tarjeta aparece subiendo, una tras otra */
+.js .centers-slide, .js #routeTrack .route-slide { opacity: 0; translate: 0 30px; transition: opacity .7s ease, translate .8s cubic-bezier(.2,.7,.2,1); }
+.js .centers-slide.in, .js #routeTrack .route-slide.in { opacity: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { .js .centers-slide, .js #routeTrack .route-slide { opacity: 1; translate: 0 0; transition: none; } }
+@media (max-width: 960px) { .home-sobre .edu-viewport { height: 36vh; } }
