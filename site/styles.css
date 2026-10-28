@@ -2415,3 +2415,37 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 :root[data-theme="light"] .home-inv .r-badges span { color: rgba(8,40,26,.6); }
 @media (max-width: 960px) { .home-inv .r-badges { display: flex; } }
 @media (max-width: 960px) { .home-inv .zz-media { height: 25vh; margin-top: 14px; } .home-inv .r-badges { margin-top: 14px; } }
+
+/* Formación (inicio) sin clics: las fotos cambian en el mismo lugar (sin scroll interno) y las cuatro
+   formaciones se leen siempre en una lista sobre la foto; la activa se resalta y una barra marca su tiempo */
+.home-sobre .edu-viewport { overflow: hidden !important; position: relative; height: min(62vh, 520px); }
+.home-sobre .edu-track { display: grid !important; height: 100%; }
+.home-sobre .edu-slide { grid-area: 1 / 1; height: 100% !important; min-height: 0 !important; opacity: 0; transition: opacity .9s ease; }
+.home-sobre .edu-slide.is-active { opacity: 1; }
+.home-sobre #eduTrack .edu-card b, .home-sobre #eduTrack .edu-card p { display: none; }
+.home-sobre .uni-carousel { position: relative; }
+.edu-list { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; list-style: none; margin: 0; padding: 22px 26px 24px; display: grid; gap: 4px; }
+.edu-list button { width: 100%; display: grid; grid-template-columns: 1fr; text-align: left; background: none; border: 0; padding: 8px 0 8px 18px; cursor: pointer; color: #fff; position: relative; opacity: .55; transition: opacity .4s; }
+.edu-list button::before { content: ""; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.edu-list b { font: 700 clamp(15px, 1.25vw, 18px)/1.25 var(--serif); }
+.edu-list span { font-size: 13px; color: rgba(255,255,255,.75); display: none; }
+.edu-list li.on button { opacity: 1; }
+.edu-list li.on button::before { background: var(--cobre-claro); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cobre-claro) 30%, transparent); }
+.edu-list li.on span { display: block; margin-top: 2px; }
+.edu-list button:hover { opacity: .9; }
+/* barra del tiempo que le queda a la formación activa */
+.edu-list li.on i { position: absolute; left: 18px; right: 0; bottom: 2px; height: 2px; background: rgba(255,255,255,.18); overflow: hidden; }
+.edu-list li.on i::after { content: ""; position: absolute; inset: 0; background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; }
+.edu-list.playing li.on i::after { animation: uniBar 8s linear forwards; }
+.home-sobre .uni-show::before { background: linear-gradient(0deg, rgba(4,14,9,.92) 0%, rgba(4,14,9,.6) 38%, rgba(4,14,9,0) 65%); }
+@media (max-width: 960px) {
+  .home-sobre .edu-viewport { height: 46vh; }
+  .edu-list { padding: 14px 16px 16px; gap: 0; }
+  .edu-list b { font-size: 14px; }
+  .edu-list button { padding-block: 5px; }
+}
+/* Investigación: barra que marca cuánto falta para que la línea pase sola a la siguiente */
+.lines-carousel { position: relative; }
+.lines-timer { position: absolute; left: 50%; bottom: -14px; width: min(220px, 50%); height: 3px; translate: -50% 0; border-radius: 3px; background: color-mix(in srgb, var(--cobre-claro) 22%, transparent); overflow: hidden; }
+.lines-timer::after { content: ""; position: absolute; inset: 0; background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; }
+.lines-carousel.ticking .lines-timer::after { animation: uniBar 8s linear forwards; }

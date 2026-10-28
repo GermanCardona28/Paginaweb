@@ -480,6 +480,28 @@
     notesMq.addEventListener('change', applyNotes);
     applyNotes();
 
+    // Avanza sola: cada 8 s (lo que dura el video de la línea) pasa a la siguiente, con una barra que marca el tiempo.
+    // Con el mouse encima se pausa; tocar una nota, flecha o punto solo reinicia la cuenta, no detiene el avance.
+    const AUTO_MS = 8000;
+    const timerBar = document.createElement('span');
+    timerBar.className = 'lines-timer';
+    timerBar.setAttribute('aria-hidden', 'true');
+    carousel.appendChild(timerBar);
+    let linesHover = false, linesOn = false, autoT = 0;
+    const loop = () => {
+      clearTimeout(autoT);
+      carousel.classList.remove('ticking'); void carousel.offsetWidth;
+      if (reduce || linesHover || !linesOn || document.hidden) return;
+      carousel.classList.add('ticking');
+      autoT = setTimeout(() => { centerOn(center + 1); loop(); }, AUTO_MS);
+    };
+    new IntersectionObserver(([e]) => { linesOn = e.isIntersecting; loop(); }, { threshold: .5 }).observe(carousel);
+    document.addEventListener('visibilitychange', loop);
+    carousel.addEventListener('mouseenter', () => { linesHover = true; loop(); });
+    carousel.addEventListener('mouseleave', () => { linesHover = false; loop(); });
+    carousel.addEventListener('click', () => setTimeout(loop, 0));
+    document.getElementById('linesDots')?.addEventListener('click', () => setTimeout(loop, 0));
+
     const pick = e => {
       const b = e.target.closest('[data-l]'); if (!b) return;
       current = b.dataset.l === current ? 'all' : b.dataset.l;
@@ -605,7 +627,6 @@
     slides.forEach(s => io.observe(s));
   };
   initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
-  initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
   initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
@@ -788,49 +809,50 @@
     });
   }
 
-  /* ---- Formación (inicio): cada tarjeta muestra fotos de su universidad como un video de 8 s.
-     Las fotos se cruzan con un acercamiento lento; al final de la vuelta se oscurece y el carrusel pasa
-     solo a la siguiente formación, hasta que la persona lo toque (entonces solo avanza a mano). ---- */
+  /* ---- Formación (inicio): las cuatro formaciones siempre visibles en una lista sobre la foto; la foto de cada
+     universidad pasa sola durante 8 s (se cruzan sus fotos con un acercamiento lento) y luego sigue la siguiente.
+     No hace falta tocar nada: con el mouse encima solo se pausa, y tocar un título lleva a esa formación ---- */
   const eduVp = document.getElementById('eduViewport');
   if (eduVp && eduVp.querySelector('.uni-show')) {
     const slides = [...eduVp.querySelectorAll('.edu-slide')];
     const CYCLE = 8000;
-    let active = -1, auto = !reduce, onScreen = false, timers = [];
+    let active = -1, paused = false, onScreen = false, timers = [];
+    // lista con las cuatro formaciones, construida a partir de las tarjetas
+    const list = document.createElement('ol');
+    list.className = 'edu-list';
+    list.innerHTML = slides.map((s, i) => `<li><button type="button" data-i="${i}"><b>${s.querySelector('b').textContent}</b><span>${s.querySelector('p').textContent}</span><i aria-hidden="true"></i></button></li>`).join('');
+    eduVp.closest('.uni-carousel').appendChild(list);
+    const items = [...list.querySelectorAll('li')];
     const paint = s => s && s.querySelectorAll('.uni-show i[data-bg]').forEach(i => { i.style.backgroundImage = `url(${i.dataset.bg})`; i.removeAttribute('data-bg'); });
     const stop = () => { timers.forEach(clearTimeout); timers = []; };
-    const goTo = i => { const t = slides[(i + slides.length) % slides.length]; eduVp.scrollTo({ top: t.offsetTop, behavior: reduce ? 'auto' : 'smooth' }); };
     const run = () => {
       stop();
       const s = slides[active]; if (!s) return;
       const imgs = [...s.querySelectorAll('.uni-show i')], per = CYCLE / imgs.length;
       s.style.setProperty('--kb', (per + 1200) / 1000 + 's');
-      s.classList.remove('fading', 'playing'); void s.offsetWidth;
+      s.classList.remove('fading', 'playing'); list.classList.remove('playing'); void s.offsetWidth;
       imgs.forEach((im, j) => im.classList.toggle('on', j === 0));
-      if (reduce || !onScreen || document.hidden) return;
-      s.classList.add('playing');
+      if (reduce || paused || !onScreen || document.hidden) return;
+      s.classList.add('playing'); list.classList.add('playing');
       imgs.forEach((im, j) => { if (j) timers.push(setTimeout(() => imgs.forEach((x, k) => x.classList.toggle('on', k === j)), per * j)); });
       timers.push(setTimeout(() => s.classList.add('fading'), CYCLE - 700));
-      timers.push(setTimeout(() => { if (auto) goTo(active + 1); else run(); }, CYCLE));
+      timers.push(setTimeout(() => setActive(active + 1), CYCLE));
     };
-    const setActive = i => {
-      if (i === active) return;
+    function setActive(i) {
+      i = (i + slides.length) % slides.length;
       active = i;
       slides.forEach((s, j) => { s.classList.toggle('is-active', j === i); if (j !== i) s.classList.remove('playing', 'fading'); });
+      items.forEach((it, j) => it.classList.toggle('on', j === i));
       paint(slides[i]); paint(slides[(i + 1) % slides.length]);
       run();
-    };
-    const slideIo = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > .6) setActive(slides.indexOf(e.target)); }), { root: eduVp, threshold: [.6] });
-    slides.forEach(s => slideIo.observe(s));
+    }
+    setActive(0);
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; run(); }, { threshold: .35 }).observe(eduVp);
     document.addEventListener('visibilitychange', run);
-    // al tocar el carrusel deja de avanzar solo (las fotos de la tarjeta siguen pasando); con el mouse encima, se pausa el avance
-    let touched = false;
-    const manual = () => { touched = true; auto = false; };
-    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(ev => eduVp.addEventListener(ev, manual, { passive: true }));
-    document.querySelectorAll('#eduDots [data-i]').forEach(d => d.addEventListener('click', manual));
-    document.querySelectorAll('.uni-arrow').forEach(b => b.addEventListener('click', () => { manual(); goTo(Math.max(active, 0) + Number(b.dataset.dir)); }));
-    eduVp.addEventListener('mouseenter', () => { auto = false; });
-    eduVp.addEventListener('mouseleave', () => { auto = !reduce && !touched; });
+    const box = eduVp.closest('.uni-carousel');
+    box.addEventListener('mouseenter', () => { paused = true; run(); });
+    box.addEventListener('mouseleave', () => { paused = false; run(); });
+    list.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) setActive(Number(b.dataset.i)); });
   }
 
 
