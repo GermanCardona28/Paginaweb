@@ -257,6 +257,30 @@
         gsap.to(o, { v: +el.dataset.count, duration: 1.8, ease: 'power2.out', onUpdate: () => setCount(el, o.v) }) });
     });
 
+    // Amigos de Lengerke: golpe de impacto estilo videojuego al llegar la sección (destello, sacudida, salto de escala)
+    const amigosArt = document.querySelector('.amigos-art');
+    const amigosWrap = document.querySelector('.amigos-section .wrap');
+    if (amigosArt) {
+      ScrollTrigger.create({ trigger: amigosArt, start: 'top 82%', once: true,
+        onEnter: () => {
+          amigosArt.classList.add('in');
+          if (amigosWrap) amigosWrap.classList.add('in');
+
+          const tl = gsap.timeline({ delay: .15 });
+          tl.fromTo('.amigos-art img', { scale: .8 }, { scale: 1, duration: .55, ease: 'back.out(2.6)' }, 0)
+            .fromTo('.amigos-flash', { opacity: 0 }, { opacity: .85, duration: .08, ease: 'none' }, 0)
+            .to('.amigos-flash', { opacity: 0, duration: .35, ease: 'power2.out' }, .08)
+            .to(amigosArt, { x: -9, duration: .045, ease: 'none' }, .05)
+            .to(amigosArt, { x: 8, duration: .045, ease: 'none' }, .095)
+            .to(amigosArt, { x: -6, duration: .045, ease: 'none' }, .14)
+            .to(amigosArt, { x: 4, duration: .045, ease: 'none' }, .185)
+            .to(amigosArt, { x: 0, duration: .05, ease: 'none' }, .23);
+
+          gsap.fromTo('.amigos-splat', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: .5, stagger: .06, ease: 'back.out(3)', delay: .2,
+            onComplete: () => gsap.to('.amigos-splat', { opacity: 0, duration: .6, delay: .4 }) });
+        } });
+    }
+
     // Cartas: entrada escalonada y trazo de íconos
     gsap.from('.card', { opacity: 0, y: 60, duration: .9, stagger: .12, ease: 'power3.out',
       scrollTrigger: { trigger: '.cards', start: 'top 80%', once: true, onEnter: () => document.querySelectorAll('.card').forEach(c => c.classList.add('in')) } });
