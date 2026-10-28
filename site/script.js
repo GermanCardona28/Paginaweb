@@ -606,12 +606,13 @@
 
     /* Avance automático: la línea de tiempo es el reloj. El tramo hasta el siguiente logro se llena como barra
        de progreso y al completarse pasa solo. Se pausa con el mouse encima y se detiene si la persona lo toca. */
+    let live = false;
     const DWELL = 7000, last = slides.length - 1;
     let auto = !reduce, onScreen = false, hover = false, timer = 0;
     const span = i => (last ? i / last : 1);
     function progress() {
       clearTimeout(timer);
-      if (!steps || current < 0) return;
+      if (live || !steps || current < 0) return;
       steps.classList.remove('timing');
       steps.style.setProperty('--lc-progress', span(current));
       if (!auto || hover || !onScreen || document.hidden) return;
@@ -633,6 +634,61 @@
     steps?.addEventListener('click', stopAuto);
     lcVp.closest('section')?.addEventListener('mouseenter', () => { hover = true; progress(); });
     lcVp.closest('section')?.addEventListener('mouseleave', () => { hover = false; progress(); });
+
+    /* Modo "viaje con el scroll" (pantallas grandes): la sección queda fija mientras se baja y el avance del scroll
+       recorre la línea de tiempo. Una luz viaja de punto a punto y los logros van pasando solos, sin atrapar la rueda. */
+    const sec = lcVp.closest('section');
+    const pinMq = matchMedia('(min-width: 861px) and (min-height: 600px)');
+    // todos los logros miden lo mismo, para que el siguiente no se asome debajo del actual
+    const equalize = () => {
+      slides.forEach(x => { x.style.height = ''; x.style.flex = ''; });
+      const hh = Math.max(...slides.map(x => x.offsetHeight));
+      slides.forEach(x => { x.style.height = hh + 'px'; x.style.flex = '0 0 ' + hh + 'px'; });
+      lcVp.style.height = hh + 'px';
+    };
+    equalize();
+    addEventListener('resize', equalize);
+    if (document.fonts) document.fonts.ready.then(equalize);
+    const EDGE = .08;
+    let liveIdx = -1;
+    const place = () => {
+      if (!live) return;
+      const r = sec.getBoundingClientRect();
+      const t = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+      const p = Math.max(0, Math.min(1, (t - EDGE) / (1 - 2 * EDGE)));
+      steps.style.setProperty('--lc-progress', p.toFixed(4));
+      const i = Math.round(p * last);
+      // el avance del scroll mueve todo a la vez: palabra gigante, textos, iconos flotantes y el edificio que gira
+      const seg = p * last, f = seg - Math.floor(seg);
+      sec.style.setProperty('--seg', seg.toFixed(3));
+      sec.style.setProperty('--hop', (p >= 1 ? 0 : Math.sin(Math.PI * f)).toFixed(3));
+      slides.forEach((x, k) => { const d = k - seg; x.style.opacity = Math.max(0, 1 - Math.abs(d) * 1.5).toFixed(3); x.style.translate = (d * 150).toFixed(1) + 'px 0'; });
+      if (i !== liveIdx) { liveIdx = i; sec.dataset.i = i; }
+    };
+    const apply = () => {
+      live = pinMq.matches && !reduce && !!steps;
+      sec.classList.toggle('lc-pinned', live);
+      if (steps) steps.classList.toggle('lc-live', live);
+      if (live) { auto = false; clearTimeout(timer); liveIdx = -1; place(); }
+      else {
+        slides.forEach(x => { x.style.opacity = ''; x.style.translate = ''; });
+        ['--seg', '--hop'].forEach(v => sec.style.removeProperty(v));
+        progress();
+      }
+    };
+    let pf = false;
+    const req = () => { if (!pf) { pf = true; requestAnimationFrame(() => { pf = false; place(); }); } };
+    addEventListener('scroll', req, { passive: true });
+    addEventListener('resize', req);
+    pinMq.addEventListener('change', apply);
+    steps?.addEventListener('click', e => {
+      if (!live) return;
+      const b = e.target.closest('.lc-step'); if (!b) return;
+      e.stopPropagation();
+      const t = EDGE + (1 - 2 * EDGE) * (Number(b.dataset.i) / last);
+      scrollTo({ top: sec.getBoundingClientRect().top + scrollY + t * (sec.offsetHeight - innerHeight), behavior: 'smooth' });
+    }, true);
+    apply();
   }
 
   /* ---- Inicio en zigzag: al llegar a cada sección su imagen entra desde su lado y el texto en cascada;
