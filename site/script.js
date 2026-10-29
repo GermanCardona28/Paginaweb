@@ -1232,14 +1232,6 @@
   fan.addEventListener('click', open);
 })();
 
-/* "Únete ahora" (Amigos de Lengerke) usa el mismo enlace de WhatsApp que el botón flotante, cuando ya esté conectado */
-(function () {
-  const cta = document.getElementById('amigosCta'), wa = document.getElementById('waFloat');
-  if (!cta || !wa) return;
-  const href = wa.getAttribute('href');
-  if (href && href !== '#') { cta.href = href; cta.target = '_blank'; cta.rel = 'noopener'; }
-})();
-
 /* Reconocimientos: al bajar, cada "+" gira y late para que se note que se puede tocar; al abrir un año, la pista se apaga */
 (function () {
   const acc = document.getElementById('porAnio');
