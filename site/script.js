@@ -224,7 +224,7 @@
     document.querySelectorAll('.card').forEach(c => c.classList.add('in'));
     document.querySelectorAll('.tl-line span').forEach(s => { s.style.transform = 'none'; });
     document.querySelectorAll('.growth-people .gp').forEach(g => { g.style.opacity = 1; g.style.transform = 'none'; });
-    document.querySelectorAll('.growth-viz, .growth-sedes').forEach(el => el.classList.add('in'));
+    document.querySelectorAll('.growth-sedes').forEach(el => el.classList.add('in'));
   } else {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -311,21 +311,31 @@
         scrollTrigger: { trigger: "#map", start: "top 80%", once: true } });
     }
 
-    // Crecimiento: aparecen los estudiantes de 2015; luego el año corre hasta 2026 mientras llegan
-    // los nuevos y el número sube; al final se resalta cuántos llegaron
+    // Crecimiento: la escena queda fija (sticky en CSS) y el scroll la recorre. Las de 2015 ya están;
+    // el año corre de 2015 a 2026, la línea de tiempo se llena y las nuevas caen encendidas una por una.
+    // Al final las de 2015 se atenúan y entra +9.077. Subiendo, todo retrocede.
     if (growthPeople) {
       const viz = document.querySelector('.growth-viz');
       const yearEl = document.getElementById('growthYear'), nEl = document.getElementById('growthN');
       const o = { y: 2015, n: gBefore };
       const paint = () => { yearEl.textContent = Math.round(o.y); nEl.textContent = Math.round(o.n).toLocaleString('es-CO'); };
       paint();
-      // las de 2015 entran como una ola suave; las nuevas caen a su puesto mientras corre el año
       gsap.set('.growth-people .gp-old', { opacity: 0, y: 8 });
-      gsap.set('.growth-people .gp-new', { opacity: 0, y: -18, scale: .7 });
-      gsap.timeline({ scrollTrigger: { trigger: viz, start: 'top 75%', once: true }, onComplete: () => viz.classList.add('in') })
-        .to('.growth-people .gp-old', { opacity: 1, y: 0, duration: .5, ease: 'power2.out', stagger: { grid: 'auto', from: 'start', amount: .7 } })
-        .to(o, { y: 2026, n: gAfter, duration: 2.2, ease: 'power1.inOut', onUpdate: paint }, '+=.2')
-        .to('.growth-people .gp-new', { opacity: 1, y: 0, scale: 1, duration: .45, ease: 'back.out(1.8)', stagger: { amount: 1.9 } }, '<.1');
+      gsap.set('.growth-people .gp-new', { opacity: 0, y: -26, scale: .5 });
+      gsap.set('.growth-plus', { opacity: 0, y: 24, scale: .85 });
+      gsap.set('#growthRail', { width: '0%' });
+      gsap.set(viz, { '--glow': .35 });
+      // las de 2015 entran como una ola al llegar a la escena
+      gsap.to('.growth-people .gp-old', { opacity: 1, y: 0, duration: .6, ease: 'power2.out', stagger: { grid: 'auto', from: 'start', amount: .8 },
+        scrollTrigger: { trigger: viz, start: 'top 80%', once: true } });
+      gsap.timeline({ scrollTrigger: { trigger: '#growthScene', start: 'top 84px', end: 'bottom bottom', scrub: .6 } })
+        .to(o, { y: 2026, n: gAfter, duration: 7, ease: 'none', onUpdate: paint }, .4)
+        .to('#growthRail', { width: '100%', duration: 7, ease: 'none' }, .4)
+        .to('.growth-people .gp-new', { opacity: 1, y: 0, scale: 1, duration: .7, ease: 'back.out(2.2)', stagger: { amount: 6.1 } }, .6)
+        .to(viz, { '--glow': 1, duration: 7, ease: 'none' }, .4)
+        .to('.growth-people .gp-old', { opacity: .28, duration: 1 }, 7.6)
+        .to('.growth-plus', { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)' }, 7.8)
+        .to({}, { duration: 1.2 });
     }
     gsap.utils.toArray('.growth-sedes').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 80%', once: true, onEnter: () => el.classList.add('in') }));
   }
