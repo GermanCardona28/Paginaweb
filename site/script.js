@@ -78,7 +78,7 @@
   if (menu) {
     const mq = matchMedia('(max-width: 760px)');
     const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-    // "logros" va antes que "sobre" porque su enlace es sobre-lengerke.html#logros
+    // "logros" va antes que "sobre" porque su enlace es sobre-lengerke#logros
     const ICONS = {
       'logros': '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3.4 4M16 6h3a3 3 0 0 1-3.4 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/>',
       'sobre': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>',
