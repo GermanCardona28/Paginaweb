@@ -2530,3 +2530,10 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 .route .blog-post-tag.natal { background: rgba(120,16,20,.8); color: #fff; }
 .route .blog-post-tag { align-self: flex-start; width: auto; padding: 4px 12px; border-radius: 999px; }
 @media (max-width: 860px) { .lc-year { font-size: 13px; padding: 3px 8px; flex: 0 0 auto; box-shadow: none; } .lc-steps { min-width: 0; } .lc-timeline { gap: 6px; } }
+
+/* Logros UTS: la palabra gigante más larga (Barrancabermeja) debe caber entera en la pantalla */
+.lc-wtrack span { font-size: clamp(60px, 9.2vw, 190px); }
+/* Reconocimientos: todos los "+" del mismo tamaño siempre */
+.yr-ico { transform: none; scale: 1; }
+/* Territorio: el avance automático controla el scroll; sin imanes que lo frenen (Safari) */
+.route .edu-viewport { scroll-snap-type: none; }

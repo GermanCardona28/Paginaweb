@@ -662,9 +662,9 @@
     if (autoMs && !reduce && slides.length > 1) {
       let seen = false, holdUntil = 0, cur = 0;
       new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: .4 }).observe(viewport);
-      const hold = () => { holdUntil = performance.now() + 10000; };
+      const hold = () => { holdUntil = performance.now() + 5000; };
       dots.forEach(d => d.addEventListener('click', hold));
-      ['wheel', 'touchstart', 'pointerdown'].forEach(ev => viewport.addEventListener(ev, hold, { passive: true }));
+      ['touchstart', 'pointerdown'].forEach(ev => viewport.addEventListener(ev, hold, { passive: true }));
       setInterval(() => {
         if (!seen || document.hidden || performance.now() < holdUntil) return;
         cur = Math.round(viewport.scrollTop / Math.max(1, slides[1].offsetTop - slides[0].offsetTop));
@@ -1109,20 +1109,15 @@
   const hint = [];
   icons.forEach((ico, i) => {
     const row = ico.closest('.yr');
-    // el año que ya viene abierto muestra "−": no se gira, para que no se vea torcido
-    if (row.classList.contains('open') || ico.closest('.yr-btn')?.getAttribute('aria-expanded') === 'true') return;
-    // giro ligado al scroll: mientras la fila cruza la pantalla el "+" crece hasta su tamaño (sin girar, para que nunca parezca una X)
-    const spin = gsap.fromTo(ico, { scale: .6 }, { scale: 1, ease: 'none',
-      scrollTrigger: { trigger: row, start: 'top 92%', end: 'top 45%', scrub: .6 } });
     // latido al entrar, escalonado
     const pop = ScrollTrigger.create({ trigger: row, start: 'top 88%', once: true,
       onEnter: () => { if (!row.classList.contains('open')) row.classList.add('yr-nudge'); setTimeout(() => row.classList.remove('yr-nudge'), 1600); } });
-    hint.push({ spin, pop, ico });
+    hint.push({ pop, ico });
   });
   // al primer clic, se acabó la pista: los iconos vuelven a su estado normal
   acc.addEventListener('click', e => {
     if (!e.target.closest('.yr-btn')) return;
-    hint.forEach(h => { h.spin.scrollTrigger && h.spin.scrollTrigger.kill(); h.spin.kill(); h.pop.kill(); gsap.set(h.ico, { clearProps: 'transform' }); });
+    hint.forEach(h => { h.pop.kill(); gsap.set(h.ico, { clearProps: 'transform' }); });
     acc.classList.add('yr-seen');
   }, { once: true });
 })();
