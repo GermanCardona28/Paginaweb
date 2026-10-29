@@ -2679,22 +2679,3 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
   .findings .finding small { margin: 10px 26px 14px; padding-top: 9px; min-height: 0; }
   .findings .finding:has(.f-ilus)::before { top: 16px; right: 16px; }
 }
-
-/* ===== Territorio: "Así ha crecido la comunidad UTS" cabe en una pantalla del computador. El título se acerca y la
-   escena fija toma solo el alto que queda debajo, así título y cuadro se ven juntos al llegar ===== */
-@media (min-width: 961px) {
-  .growth-head { margin-bottom: 18px; }
-  .growth-head .page-title { margin-top: 8px; margin-bottom: 14px; }
-  .js .growth-viz { height: calc(100svh - 340px); min-height: 400px; padding-block: 22px; row-gap: 14px; }
-  .js .growth-people { width: min(100%, calc((100svh - 500px) * 11 / 7)); }
-  .growth-year { font-size: clamp(60px, 7vw, 116px); }
-  .gv-count b { font-size: clamp(30px, 3vw, 44px); }
-  .growth-plus b { font-size: clamp(48px, 5.4vw, 84px); }
-}
-/* título y cuadro quedan fijos juntos mientras corre el año (en celular el envoltorio no cuenta y todo sigue igual) */
-.growth-pin { display: contents; }
-@media (min-width: 961px) {
-  .js .growth-pin { display: block; position: sticky; top: 84px; }
-  .js .growth-pin .growth-viz { position: relative; top: auto; }
-  .growth-pin .growth-head { padding-top: 8px; }
-}
