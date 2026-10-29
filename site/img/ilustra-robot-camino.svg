@@ -1,6 +1,7 @@
 <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de un robot con ruedas que sigue su camino hasta la meta">
   <rect width="400" height="225" fill="#CFEFDD"/>
   <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
+  <circle cx="200" cy="112" r="78" fill="#C6E9D5"/>
 
   <!-- camino marcado -->
   <path d="M96 176 C140 176, 136 112, 186 112 S238 150, 280 126 S300 72, 304 64" fill="none" stroke="#2E86AB" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
@@ -17,6 +18,8 @@
     <ellipse cx="0" cy="34" rx="40" ry="6" fill="#08281A" opacity=".12"/>
     <rect x="-34" y="-14" width="68" height="40" rx="10" fill="#0A5C30"/>
     <rect x="-22" y="-34" width="44" height="26" rx="8" fill="#00873A"/>
+    <path d="M-28 -6 h20" stroke="#F5F8F3" stroke-width="2.5" stroke-linecap="round" opacity=".3"/>
+    <path d="M-52 -4 h10 M-58 8 h14 M-52 20 h8" stroke="#0A5C30" stroke-width="3" stroke-linecap="round" opacity=".35"/>
     <circle cx="-9" cy="-21" r="5" fill="#F5F8F3"/>
     <circle cx="9" cy="-21" r="5" fill="#F5F8F3"/>
     <circle cx="-9" cy="-21" r="2" fill="#08281A"/>
@@ -36,4 +39,5 @@
     <circle cx="98" cy="88" r="2.5" opacity=".35"/>
     <circle cx="300" cy="170" r="3.5" opacity=".4"/>
   </g>
+  <path d="M330 186 v10 M325 191 h10" stroke="#2E86AB" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
 </svg>

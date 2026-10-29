@@ -165,13 +165,17 @@
     VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { speed: 600, scale: 1.02 });
   }
 
-  /* ---- Crecimiento (Territorio): pictograma de personas que se va llenando ---- */
+  /* ---- Crecimiento (Territorio): una figura por cada 400 estudiantes (77 = 7 filas de 11); las de 2015 en tono suave
+         y las que llegaron durante la rectoría en verde ---- */
   const growthPeople = document.getElementById('growthPeople');
+  const gBefore = growthPeople ? +growthPeople.dataset.before : 0;
+  const gAfter = growthPeople ? +growthPeople.dataset.after : 0;
   if (growthPeople) {
-    const total = 72;
+    const per = +growthPeople.dataset.per;
+    const old = Math.round(gBefore / per), total = Math.round(gAfter / per);
     for (let i = 0; i < total; i++) {
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('class', 'gp');
+      svg.setAttribute('class', i < old ? 'gp gp-old' : 'gp gp-new');
       svg.setAttribute('viewBox', '0 0 24 24');
       const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
       use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#gp-icon');
@@ -220,6 +224,7 @@
     document.querySelectorAll('.card').forEach(c => c.classList.add('in'));
     document.querySelectorAll('.tl-line span').forEach(s => { s.style.transform = 'none'; });
     document.querySelectorAll('.growth-people .gp').forEach(g => { g.style.opacity = 1; g.style.transform = 'none'; });
+    document.querySelectorAll('.growth-viz, .growth-sedes').forEach(el => el.classList.add('in'));
   } else {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -306,12 +311,21 @@
         scrollTrigger: { trigger: "#map", start: "top 80%", once: true } });
     }
 
-    // Crecimiento: el grupo de personas se va formando, primero pocas y luego muchas
+    // Crecimiento: aparecen los estudiantes de 2015; luego el año corre hasta 2026 mientras llegan
+    // los nuevos y el número sube; al final se resalta cuántos llegaron
     if (growthPeople) {
-      gsap.from('.growth-people .gp', { opacity: 0, scale: 0, duration: .5, ease: 'back.out(2)',
-        stagger: { each: .02, from: 'start' },
-        scrollTrigger: { trigger: '.growth-viz', start: 'top 80%', once: true } });
+      const viz = document.querySelector('.growth-viz');
+      const yearEl = document.getElementById('growthYear'), nEl = document.getElementById('growthN');
+      const o = { y: 2015, n: gBefore };
+      const paint = () => { yearEl.textContent = Math.round(o.y); nEl.textContent = Math.round(o.n).toLocaleString('es-CO'); };
+      paint();
+      gsap.set('.growth-people .gp', { opacity: 0, scale: 0 });
+      gsap.timeline({ scrollTrigger: { trigger: viz, start: 'top 75%', once: true }, onComplete: () => viz.classList.add('in') })
+        .to('.growth-people .gp-old', { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)', stagger: .012 })
+        .to(o, { y: 2026, n: gAfter, duration: 2.4, ease: 'none', onUpdate: paint }, '+=.3')
+        .to('.growth-people .gp-new', { opacity: 1, scale: 1, duration: .5, ease: 'back.out(2.4)', stagger: { amount: 2.1 } }, '<.15');
     }
+    gsap.utils.toArray('.growth-sedes').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 80%', once: true, onEnter: () => el.classList.add('in') }));
   }
 
   /* ---- Mapa interactivo (si la página todavía tiene el mapa) ---- */
@@ -833,7 +847,7 @@
 
   /* ---- Inicio en zigzag: al llegar a cada sección su imagen entra desde su lado y el texto en cascada;
      con el mouse encima, la imagen se inclina y se desplaza un poco (profundidad). El panel de video de
-     Investigación muestra el reel de la UTS ---- */
+     Investigación alterna tres clips de las líneas de investigación ---- */
   const zz = document.querySelectorAll('.zz');
   if (zz.length) {
     const zzIo = new IntersectionObserver(es => es.forEach(e => {

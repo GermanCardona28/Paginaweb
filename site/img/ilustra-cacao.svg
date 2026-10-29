@@ -1,11 +1,15 @@
 <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de una mazorca de cacao junto a una gráfica de energía que baja">
   <rect width="400" height="225" fill="#CFEFDD"/>
   <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
+  <circle cx="200" cy="112" r="78" fill="#C6E9D5"/>
 
   <!-- rama y hojas -->
   <path d="M100 48 C130 52, 150 64, 166 84" fill="none" stroke="#08281A" stroke-width="6" stroke-linecap="round"/>
   <path d="M120 52 C110 26, 132 14, 150 22 C150 40, 138 52, 120 52 Z" fill="#00873A"/>
   <path d="M120 52 L146 26" stroke="#0A5C30" stroke-width="2" stroke-linecap="round"/>
+  <path d="M146 66 C166 50, 186 58, 188 74 C170 82, 154 78, 146 66 Z" fill="#0A5C30"/>
+  <path d="M146 66 L184 72" stroke="#00873A" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="180" cy="196" rx="40" ry="5" fill="#08281A" opacity=".1"/>
 
   <!-- mazorca -->
   <g transform="translate(178,128) rotate(-18)">
@@ -35,4 +39,5 @@
     <circle cx="96" cy="168" r="2.5" opacity=".35"/>
     <circle cx="312" cy="70" r="3.5" opacity=".4"/>
   </g>
+  <path d="M84 112 v10 M79 117 h10" stroke="#2E86AB" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
 </svg>
