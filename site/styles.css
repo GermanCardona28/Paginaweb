@@ -2654,3 +2654,14 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 .nav:not(.solid) .theme-toggle { color: var(--ink); }
 .nav.solid .theme-toggle { color: var(--crema); }
 @media (max-width: 560px) { .tt-opt { width: 28px; height: 28px; } }
+
+/* ===== Amigos de Lengerke: la sección ocupa exactamente una pantalla, como las demás del inicio. El grafiti
+   se achica lo necesario para que el texto y el botón quepan sin bajar ===== */
+.amigos-section { height: 100vh; height: 100svh; min-height: 0; padding-block: 0; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.amigos-section .wrap { padding-block: 72px 24px; }
+.amigos-art { margin: 0 auto 18px; width: min(760px, 100%, calc((100svh - 330px) * 16 / 9)); }
+.amigos-kicker { margin-bottom: 10px; }
+@media (max-width: 760px) {
+  .amigos-section .wrap { padding-block: 64px 84px; }
+  .amigos-art { width: min(100%, calc((100svh - 420px) * 16 / 9)); }
+}
