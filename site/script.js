@@ -1,5 +1,6 @@
 (() => {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // con ?animar en el enlace se ven las animaciones aunque el equipo las tenga reducidas (para revisarlas)
+  const reduce = (window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]animar(?:[=&]|$)/.test(location.search));
   const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
   if (!reduce && hasGsap) document.documentElement.classList.add('js');
 
@@ -1050,7 +1051,7 @@
 /* Formación (inicio): escenas 01→04 (paisaje + Lengerke recortado) y resumen final con los cuatro estudios */
 (function () {
   const stage = document.getElementById('uniStage');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = (window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]animar(?:[=&]|$)/.test(location.search));
   const hasGsap = typeof gsap !== 'undefined';
   if (!stage || reduce || !hasGsap) return;
   const scenes = stage.querySelectorAll('.us-scene');
@@ -1130,7 +1131,7 @@
 (function () {
   const acc = document.getElementById('porAnio');
   if (!acc || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if ((window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]animar(?:[=&]|$)/.test(location.search))) return;
   const icons = [...acc.querySelectorAll('.yr-ico')];
   const hint = [];
   icons.forEach((ico, i) => {
