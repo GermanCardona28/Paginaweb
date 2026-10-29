@@ -67,6 +67,114 @@
     if (e.target.closest('a')) { menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }
   });
 
+  /* ---- Menú en el celular: barra fija abajo ("Menú" y "Súmate") que abre un panel desde abajo con las
+         secciones en tarjetas con ícono. Se cierra tocando fuera, arrastrándolo hacia abajo, con Esc o con el
+         botón atrás del teléfono. Se arma con los mismos enlaces del menú, así sirve igual en todas las páginas ---- */
+  if (menu) {
+    const mq = matchMedia('(max-width: 760px)');
+    const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+    // "logros" va antes que "sobre" porque su enlace es sobre-lengerke.html#logros
+    const ICONS = {
+      'logros': '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3.4 4M16 6h3a3 3 0 0 1-3.4 4M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z"/>',
+      'sobre': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>',
+      'investigacion': '<path d="M9.5 3h5M10.5 3v6.2L5.3 18a2 2 0 0 0 1.7 3h10a2 2 0 0 0 1.7-3l-5.2-8.8V3M7.6 15h8.8"/>',
+      'territorio': '<path d="M12 21s-7-6.2-7-11.2a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.6"/>',
+      'reconocimientos': '<circle cx="12" cy="9" r="6"/><path d="M8.6 14 7 21.5l5-2.8 5 2.8-1.6-7.5"/>',
+      'blog': '<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M7 9h6M7 12.5h10M7 16h7"/>'
+    };
+    const iconFor = href => ICONS[Object.keys(ICONS).find(k => href.includes(k)) || 'blog'];
+    const links = [...menu.querySelectorAll('a:not(.btn)')].filter(a => !a.closest('.social'));
+    const join = menu.querySelector('a.btn');
+    // la página actual, con o sin .html (el servidor puede quitarlo de la dirección)
+    const page = p => (p.split('#')[0].split('/').pop() || 'index').replace(/\.html$/, '');
+    const here = page(location.pathname);
+
+    const bar = document.createElement('div');
+    bar.className = 'mbar';
+    bar.innerHTML = `<button type="button" class="mbar-open" aria-controls="msheet" aria-expanded="false">${svg('<path d="M4 7h16M4 12h16M4 17h10"/>')}<span>Menú</span></button>`
+      + (join ? `<a class="mbar-join" href="${join.getAttribute('href')}">${join.textContent.trim()}</a>` : '');
+    const scrim = document.createElement('div');
+    scrim.className = 'mscrim';
+    const sheet = document.createElement('div');
+    sheet.className = 'msheet';
+    sheet.id = 'msheet';
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Menú');
+    sheet.inert = true;
+    sheet.innerHTML = '<span class="msheet-grab" aria-hidden="true"></span><nav class="msheet-grid" aria-label="Secciones">'
+      + links.map((a, i) => {
+        const href = a.getAttribute('href');
+        return `<a href="${href}" style="--i:${i}"${!href.startsWith('#') && page(href) === here ? ' aria-current="page"' : ''}>${svg(iconFor(href))}<b>${a.textContent.trim()}</b></a>`;
+      }).join('') + '</nav>'
+      + (join ? `<a class="msheet-join" href="${join.getAttribute('href')}">${join.textContent.trim()}</a>` : '');
+    const social = menu.querySelector('.nav-social');
+    if (social) { const s = social.cloneNode(true); s.className = 'msheet-social'; sheet.appendChild(s); }
+    document.body.append(scrim, sheet, bar);
+
+    const openBtn = bar.querySelector('.mbar-open');
+    const isOpen = () => sheet.classList.contains('open');
+    const open = () => {
+      sheet.inert = false;
+      sheet.classList.add('open'); scrim.classList.add('open');
+      document.documentElement.classList.add('msheet-on');
+      openBtn.setAttribute('aria-expanded', 'true');
+      if (lenis) lenis.stop();
+      history.pushState({ msheet: true }, '');
+      setTimeout(() => sheet.querySelector('.msheet-grid a').focus({ preventScroll: true }), 300);
+    };
+    // fromHistory: ya se salió de la entrada del historial (botón atrás o se navega a otra página)
+    const close = fromHistory => {
+      if (!isOpen()) return;
+      sheet.classList.remove('open'); scrim.classList.remove('open');
+      sheet.style.translate = '';
+      sheet.inert = true;
+      document.documentElement.classList.remove('msheet-on');
+      openBtn.setAttribute('aria-expanded', 'false');
+      if (lenis) lenis.start();
+      if (sheet.contains(document.activeElement) || document.activeElement === document.body) openBtn.focus({ preventScroll: true });
+      if (!fromHistory && history.state && history.state.msheet) history.back();
+    };
+    openBtn.addEventListener('click', () => (isOpen() ? close() : open()));
+    scrim.addEventListener('click', () => close());
+    addEventListener('popstate', () => close(true));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    sheet.addEventListener('click', e => {
+      if (!e.target.closest('a')) return;
+      if (history.state && history.state.msheet) history.replaceState(null, '');
+      close(true);
+    });
+    mq.addEventListener('change', () => { if (!mq.matches) close(); });
+
+    // arrastrar el panel hacia abajo para cerrarlo
+    let y0 = null, dy = 0;
+    sheet.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') { y0 = e.clientY; dy = 0; } });
+    sheet.addEventListener('pointermove', e => {
+      if (y0 === null) return;
+      dy = Math.max(0, e.clientY - y0);
+      if (dy > 6) { sheet.classList.add('dragging'); sheet.style.translate = `0 ${dy}px`; }
+    });
+    const endDrag = () => {
+      if (y0 === null) return;
+      y0 = null;
+      sheet.classList.remove('dragging');
+      if (dy > 80) close(); else sheet.style.translate = '';
+    };
+    sheet.addEventListener('pointerup', endDrag);
+    sheet.addEventListener('pointercancel', endDrag);
+    // un arrastre no cuenta como toque en una tarjeta
+    sheet.addEventListener('click', e => { if (dy > 6) { e.preventDefault(); e.stopImmediatePropagation(); dy = 0; } }, true);
+
+    // la barra se esconde al bajar por la página y vuelve al subir
+    let lastY = scrollY;
+    addEventListener('scroll', () => {
+      const y = scrollY;
+      if (Math.abs(y - lastY) < 6) return;
+      bar.classList.toggle('hide', y > lastY && y > 120);
+      lastY = y;
+    }, { passive: true });
+  }
+
   /* ---- Scroll suave (Lenis) ---- */
   // En el home (con secciones ancladas) el avance es del carrusel por secciones, no de Lenis: Lenis se queda apagado ahí
   // para que no compita por el control del scroll.
