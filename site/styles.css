@@ -2641,3 +2641,16 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
   .mbar, .msheet, .mscrim { transition: none; }
   .msheet.open .msheet-grid a { animation: none; }
 }
+
+/* ===== Apariencia: interruptor de sol y luna (reemplaza al engranaje). Se resalta el modo que está puesto ===== */
+.theme-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; cursor: pointer;
+  background: rgba(128,128,128,.14); border: 1px solid rgba(128,128,128,.28); color: inherit; transition: background .25s, border-color .25s; }
+.theme-toggle:hover { border-color: var(--cobre); }
+.theme-toggle:focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 2px; }
+.tt-opt { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; opacity: .55; transition: background .3s, color .3s, opacity .3s; }
+.tt-opt svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle:not(.is-dark) .tt-sun, .theme-toggle.is-dark .tt-moon { opacity: 1; background: var(--cobre); color: #fff; }
+.theme-toggle.is-dark .tt-moon svg { fill: currentColor; }
+.nav:not(.solid) .theme-toggle { color: var(--ink); }
+.nav.solid .theme-toggle { color: var(--crema); }
+@media (max-width: 560px) { .tt-opt { width: 28px; height: 28px; } }
