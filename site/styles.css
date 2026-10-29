@@ -744,16 +744,18 @@ body { overflow-x: clip; }
 .gs-note { margin: 18px 0 0; font-size: 12.5px; color: var(--ink-muted); }
 @media (prefers-reduced-motion: reduce) { .growth-plus, .gs-bar i { transition: none; } .growth-viz.in .gp-new { animation: none; } }
 .growth-stat { text-align: center; padding-left: clamp(16px, 3vw, 36px); border-left: 1px solid var(--arena); }
-.growth-compare { display: flex; align-items: center; justify-content: center; gap: clamp(10px, 2vw, 20px); }
+.growth-compare { display: flex; align-items: flex-start; justify-content: center; gap: clamp(10px, 2vw, 20px); }
 .growth-before b, .growth-n { display: block; font: 900 clamp(28px, 3.4vw, 40px)/1 var(--serif); white-space: nowrap; }
 .growth-before b { color: var(--ink-muted); }
 .growth-n { color: var(--azul-2); }
-.growth-arrow { font: 700 22px var(--sans); color: var(--cobre); }
-.growth-before span, .growth-after span { display: block; margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--ink-muted); max-width: 14ch; }
+.growth-arrow { font: 700 22px/1 var(--sans); color: var(--cobre); margin-top: .45em; }
+.growth-before span, .growth-after span { display: block; margin-top: 8px; font-size: 13px; line-height: 1.4; color: var(--ink-muted); max-width: 18ch; }
 .growth-pct { margin: 18px 0 0; display: inline-block; padding: 6px 16px; border-radius: 999px; background: var(--accent-surface); font: 700 14px var(--sans); color: var(--cobre); }
 @media (max-width: 760px) {
   .growth-viz { grid-template-columns: 1fr; }
   .growth-stat { border-left: 0; border-top: 1px solid var(--arena); padding-left: 0; padding-top: 20px; }
+  .growth-year { text-align: center; }
+  .growth-legend { justify-content: center; }
   .gs-bars li { grid-template-columns: 1fr 64px; gap: 6px 10px; }
   .gs-bar { grid-column: 1 / -1; grid-row: 2; }
 }
@@ -2428,9 +2430,12 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
 }
 
 /* Investigación: tarjetas con ilustración plana arriba, mismo estilo que las del blog */
-.research .finding .f-viz.f-ilus, .f-viz.f-ilus { display: block; height: auto; padding: 0; background: none; }
+.research .finding .f-viz.f-ilus, .f-viz.f-ilus { display: block; height: auto; padding: 0; margin: 10px 10px 0; border-radius: 14px; overflow: hidden; background: none; }
 .f-ilus img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .finding:hover .f-ilus img { transform: scale(1.04); }
+.finding .f-ilus + h4 { padding-top: 22px; }
+/* el número va en una pastilla sobre el dibujo, para que se lea */
+.finding:has(.f-ilus)::before { top: 20px; right: 20px; padding: 5px 9px; border-radius: 99px; background: rgba(245,248,243,.88); color: var(--cobre); font-size: 11px; }
 
 /* Formación (inicio): escenas una a una (paisaje + Lengerke recortado + estudio) y, al final, resumen con los cuatro estudios */
 .uni-stage { position: relative; height: min(62vh, 520px); border-radius: 22px; overflow: hidden; isolation: isolate; background: var(--surface); }

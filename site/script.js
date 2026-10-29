@@ -319,11 +319,13 @@
       const o = { y: 2015, n: gBefore };
       const paint = () => { yearEl.textContent = Math.round(o.y); nEl.textContent = Math.round(o.n).toLocaleString('es-CO'); };
       paint();
-      gsap.set('.growth-people .gp', { opacity: 0, scale: 0 });
+      // las de 2015 entran como una ola suave; las nuevas caen a su puesto mientras corre el año
+      gsap.set('.growth-people .gp-old', { opacity: 0, y: 8 });
+      gsap.set('.growth-people .gp-new', { opacity: 0, y: -18, scale: .7 });
       gsap.timeline({ scrollTrigger: { trigger: viz, start: 'top 75%', once: true }, onComplete: () => viz.classList.add('in') })
-        .to('.growth-people .gp-old', { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)', stagger: .012 })
-        .to(o, { y: 2026, n: gAfter, duration: 2.4, ease: 'none', onUpdate: paint }, '+=.3')
-        .to('.growth-people .gp-new', { opacity: 1, scale: 1, duration: .5, ease: 'back.out(2.4)', stagger: { amount: 2.1 } }, '<.15');
+        .to('.growth-people .gp-old', { opacity: 1, y: 0, duration: .5, ease: 'power2.out', stagger: { grid: 'auto', from: 'start', amount: .7 } })
+        .to(o, { y: 2026, n: gAfter, duration: 2.2, ease: 'power1.inOut', onUpdate: paint }, '+=.2')
+        .to('.growth-people .gp-new', { opacity: 1, y: 0, scale: 1, duration: .45, ease: 'back.out(1.8)', stagger: { amount: 1.9 } }, '<.1');
     }
     gsap.utils.toArray('.growth-sedes').forEach(el => ScrollTrigger.create({ trigger: el, start: 'top 80%', once: true, onEnter: () => el.classList.add('in') }));
   }

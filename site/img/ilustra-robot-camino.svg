@@ -2,6 +2,8 @@
   <rect width="400" height="225" fill="#CFEFDD"/>
   <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
   <circle cx="200" cy="112" r="78" fill="#C6E9D5"/>
+  <!-- encuadre: todo el dibujo centrado en la misma caja -->
+  <g transform="translate(200 112) scale(0.976) translate(-215.5 -111)">
 
   <!-- camino marcado -->
   <path d="M96 176 C140 176, 136 112, 186 112 S238 150, 280 126 S300 72, 304 64" fill="none" stroke="#2E86AB" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
@@ -40,4 +42,5 @@
     <circle cx="300" cy="170" r="3.5" opacity=".4"/>
   </g>
   <path d="M330 186 v10 M325 191 h10" stroke="#2E86AB" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
+  </g>
 </svg>

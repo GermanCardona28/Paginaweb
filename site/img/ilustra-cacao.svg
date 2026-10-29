@@ -2,6 +2,8 @@
   <rect width="400" height="225" fill="#CFEFDD"/>
   <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
   <circle cx="200" cy="112" r="78" fill="#C6E9D5"/>
+  <!-- encuadre: todo el dibujo centrado en la misma caja -->
+  <g transform="translate(200 112) scale(0.917) translate(-199.5 -110.5)">
 
   <!-- rama y hojas -->
   <path d="M100 48 C130 52, 150 64, 166 84" fill="none" stroke="#08281A" stroke-width="6" stroke-linecap="round"/>
@@ -40,4 +42,5 @@
     <circle cx="312" cy="70" r="3.5" opacity=".4"/>
   </g>
   <path d="M84 112 v10 M79 117 h10" stroke="#2E86AB" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
+  </g>
 </svg>
