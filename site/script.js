@@ -385,11 +385,11 @@
     const moreEl = document.getElementById('pubsMore');
     const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     // Cada línea es una tarjeta del carrusel: la que queda en el centro se resalta y muestra su ficha
-    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="lc-media" aria-hidden="true"><video muted playsinline preload="none" data-src="media/lineas/${l.id}.mp4"></video></span><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span></span></span></button>`).join('');
+    linesEl.innerHTML = LINES.map(l => `<button type="button" class="line-card" data-l="${l.id}"><span class="lc-media" aria-hidden="true" style="background-image:url(img/linea-${l.id}.jpg)"><video muted playsinline preload="none" poster="img/linea-${l.id}.jpg" data-src="media/lineas/${l.id}.mp4"></video></span><span class="r-ico" aria-hidden="true">${ICONS[l.id]}</span><b>${esc(l.name)}</b><span class="lc-body"><span class="lc-inner"><span class="lc-desc">${esc(l.desc)}</span></span></span></button>`).join('');
     chipsEl.innerHTML = Object.entries(CHIP_LABEL).map(([id, name]) => `<button type="button" class="chip" data-l="${id}" aria-pressed="false">${esc(name)}</button>`).join('');
     const render = () => {
       chipsEl.querySelectorAll('.chip').forEach(b => { const on = b.dataset.l === current; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
-      const list = PUBS.filter(p => current === 'all' || p.l === current);
+      const list = PUBS.filter(p => current === 'all' || p.l === current).sort((a, b) => b.y - a.y);
       const collapsed = current === 'all' && !expanded && list.length > PUB_LIMIT;
       if (moreEl) {
         moreEl.hidden = !(current === 'all' && list.length > PUB_LIMIT);
@@ -457,8 +457,20 @@
         lay();
         if (animate && !reduce && prev >= 0 && prev !== target) {
           const old = cards[prev];
-          old.classList.remove('peel'); void old.offsetWidth; old.classList.add('peel');
-          setTimeout(() => old.classList.remove('peel'), 760);
+          if (typeof gsap !== 'undefined') {
+            // despegue con GSAP: la nota se levanta por su borde pegado, gira hacia arriba y se desvanece; el resto de la pila sube suave
+            // (GSAP anima variables CSS; así no deja estilos sueltos en la tarjeta)
+            gsap.killTweensOf(old);
+            const vars = ['--px', '--py', '--pr', '--ps', '--po', '--pd'];
+            old.classList.add('peel', 'peel-js');
+            gsap.set(old, { '--px': '0px', '--py': '0px', '--pr': '0deg', '--ps': 1, '--po': 1, '--pd': 0 });
+            gsap.timeline({ onComplete: () => { old.classList.remove('peel', 'peel-js'); vars.forEach(v => old.style.removeProperty(v)); } })
+              .to(old, { '--px': '10px', '--py': '-22px', '--pr': '3deg', '--pd': .55, duration: .32, ease: 'power2.out' })
+              .to(old, { '--px': '150px', '--py': '-210px', '--pr': '16deg', '--ps': .9, '--po': 0, '--pd': 1, duration: .5, ease: 'power2.in' });
+          } else {
+            old.classList.remove('peel'); void old.offsetWidth; old.classList.add('peel');
+            setTimeout(() => old.classList.remove('peel'), 760);
+          }
         }
         target = -1;
         return;
@@ -467,6 +479,7 @@
       linesEl.scrollTo({ top: c.offsetTop - (linesEl.clientHeight - c.offsetHeight) / 2, behavior: reduce ? 'auto' : 'smooth' });
     };
     const markCenter = () => {
+      if (notes) return;
       const mid = linesEl.scrollTop + linesEl.clientHeight / 2;
       let best = 0;
       cards.forEach((c, i) => { if (Math.abs(c.offsetTop + c.offsetHeight / 2 - mid) < Math.abs(cards[best].offsetTop + cards[best].offsetHeight / 2 - mid)) best = i; });
@@ -501,7 +514,7 @@
     const applyNotes = () => {
       notes = notesMq.matches;
       carousel.classList.toggle('notes', notes);
-      if (notes) { linesEl.scrollTop = 0; lay(); }
+      if (notes) { linesEl.scrollTop = 0; center = -1; setCenter(0); lay(); }
       else cards.forEach(c => { c.style.removeProperty('--p'); c.classList.remove('stk', 'peel'); });
       equalize();
     };
@@ -604,7 +617,7 @@
   }
 
   /* ---- Mini-carruseles "una idea a la vez": navegados con scroll/swipe vertical o los puntos, sin avance automático ---- */
-  const initMiniCarousel = (viewportId, slideSelector, dotsId) => {
+  const initMiniCarousel = (viewportId, slideSelector, dotsId, autoMs = 0) => {
     const viewport = document.getElementById(viewportId);
     if (!viewport) return;
     const slides = [...viewport.querySelectorAll(slideSelector)];
@@ -620,8 +633,20 @@
     const goTo = i => {
       const target = (i + slides.length) % slides.length;
       // Solo se mueve el carrusel (scroll vertical del propio viewport); nunca la página
-      viewport.scrollTo({ top: slides[target].offsetTop, behavior: reduce ? 'auto' : 'smooth' });
+      const top = slides[target].offsetTop;
+      if (!autoMs || reduce) { viewport.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' }); return; }
+      // transición propia, corta y con curva suave (el scroll "smooth" del navegador es lento y a tirones)
+      cancelAnimationFrame(tw);
+      const from = viewport.scrollTop, dist = top - from, dur = Math.min(900, 520 + Math.abs(dist) / 12), t0 = performance.now();
+      viewport.style.scrollSnapType = 'none';
+      const step = now => {
+        const k = Math.min(1, (now - t0) / dur);
+        viewport.scrollTop = from + dist * (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+        if (k < 1) tw = requestAnimationFrame(step); else viewport.style.scrollSnapType = '';
+      };
+      tw = requestAnimationFrame(step);
     };
+    let tw = 0;
     const setActive = i => dots.forEach((d, j) => d.setAttribute('aria-selected', String(j === i)));
     dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.i))));
 
@@ -631,10 +656,25 @@
       });
     }, { root: viewport, threshold: [0, 0.6, 1] });
     slides.forEach(s => io.observe(s));
+
+    // Avance automático en vertical (solo si se pide): pasa solo mientras se ve; si la persona toca un punto,
+    // gira o arrastra, se pausa 10 s para que pueda leer
+    if (autoMs && !reduce && slides.length > 1) {
+      let seen = false, holdUntil = 0, cur = 0;
+      new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: .4 }).observe(viewport);
+      const hold = () => { holdUntil = performance.now() + 10000; };
+      dots.forEach(d => d.addEventListener('click', hold));
+      ['wheel', 'touchstart', 'pointerdown'].forEach(ev => viewport.addEventListener(ev, hold, { passive: true }));
+      setInterval(() => {
+        if (!seen || document.hidden || performance.now() < holdUntil) return;
+        cur = Math.round(viewport.scrollTop / Math.max(1, slides[1].offsetTop - slides[0].offsetTop));
+        goTo(cur + 1);
+      }, autoMs);
+    }
   };
   initMiniCarousel('lcViewport', '.lc-slide', 'lcDots');
   initMiniCarousel('eduViewport', '.edu-slide', 'eduDots');
-  initMiniCarousel('routeViewport', '.route-slide', 'routeDots');
+  initMiniCarousel('routeViewport', '.route-slide', 'routeDots', 4500);
   initMiniCarousel('centersViewport', '.centers-slide', 'centersDots');
 
   /* ---- Logros UTS (inicio): los logros van en orden de crecimiento y cada uno trae su foto de fondo a pantalla
@@ -713,7 +753,7 @@
     if (document.fonts) document.fonts.ready.then(equalize);
     /* Avance automático: cada lugar dura unos segundos y luego todo se mueve a la vez (edificio que gira, nombre
        gigante, texto y color). Se pausa con el mouse encima o fuera de pantalla; los puntos de la línea de tiempo también sirven. */
-    const DWELL_MS = 1800, MOVE_MS = 750, FIRST_MS = 600;
+    const DWELL_MS = 6000, MOVE_MS = 1100, FIRST_MS = 1500;
     let segNow = 0, liveIdx = -1, moving = 0, elapsed = 0;
     const ease = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     const render = seg => {
@@ -722,7 +762,7 @@
       steps.style.setProperty('--lc-progress', (last ? seg / last : 1).toFixed(4));
       sec.style.setProperty('--seg', seg.toFixed(3));
       sec.style.setProperty('--hop', (seg >= last ? 0 : Math.sin(Math.PI * f)).toFixed(3));
-      slides.forEach((x, k) => { const d = k - seg; x.style.opacity = Math.max(0, 1 - Math.abs(d) * 1.5).toFixed(3); x.style.translate = (d * 150).toFixed(1) + 'px 0'; });
+      slides.forEach((x, k) => { const d = k - seg; x.style.opacity = Math.max(0, 1 - Math.abs(d) * 1.5).toFixed(3); x.style.translate = '0 ' + (d * 90).toFixed(1) + 'px'; });
       const i = Math.max(0, Math.min(last, Math.round(seg)));
       if (i !== liveIdx) {
         liveIdx = i; sec.dataset.i = i; current = i;
@@ -743,6 +783,11 @@
       moving = requestAnimationFrame(step);
     };
     let liveTick = 0;
+    // al elegir un punto de la línea de tiempo se pausa el avance 10 s (o hasta que la persona siga haciendo scroll)
+    let held = false, holdUntil = 0;
+    const release = () => { if (held) holdUntil = 0; };
+    ['wheel', 'touchmove'].forEach(ev => addEventListener(ev, release, { passive: true }));
+    addEventListener('keydown', e => { if (['ArrowDown', 'PageDown', ' ', 'End'].includes(e.key)) release(); });
     // la sección se anima solo mientras se ve (sin pausar por el mouse: quien navega casi siempre lo tiene encima)
     let seen = false, wasOn = false;
     new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: .2 }).observe(sec);
@@ -751,6 +796,10 @@
       // al aparecer la sección, el primer cambio llega enseguida para que se note que se mueve
       if (seen && !wasOn) { wasOn = true; if (liveIdx === 0 && !moving) elapsed = DWELL_MS - FIRST_MS; }
       if (!seen) wasOn = false;
+      if (held) {
+        if (performance.now() < holdUntil) return;
+        held = false; elapsed = DWELL_MS - FIRST_MS;
+      }
       if (moving || !seen || document.hidden) return;
       elapsed += 100;
       if (elapsed >= DWELL_MS) goTo(liveIdx >= last ? 0 : liveIdx + 1);
@@ -777,7 +826,7 @@
       const b = e.target.closest('.lc-step'); if (!b) return;
       e.stopPropagation();
       goTo(Number(b.dataset.i), 1500);
-      elapsed = -3500;
+      held = true; holdUntil = performance.now() + 10000;
     }, true);
     apply();
   }
@@ -790,7 +839,7 @@
     const zzIo = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
       e.target.classList.add('in');
-      e.target.querySelectorAll('video[data-src]').forEach(v => { v.src = v.dataset.src; v.removeAttribute('data-src'); });
+      e.target.querySelectorAll('video[data-src]').forEach(v => { v.muted = true; v.setAttribute('muted', ''); v.preload = 'auto'; v.src = v.dataset.src; v.removeAttribute('data-src'); v.load(); });
     }), { threshold: .3 });
     zz.forEach(s => zzIo.observe(s));
     if (!reduce && matchMedia('(hover: hover)').matches) zz.forEach(sec => {
@@ -809,9 +858,19 @@
     document.querySelectorAll('.zz-video').forEach(box => {
       const clips = [...box.querySelectorAll('video')];
       let k = 0;
-      const show = () => clips.forEach((v, j) => { v.classList.toggle('on', j === k); if (j === k) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
-      // el primer clip arranca cuando ya tiene fuente; si hay varios, cambia cada 8 s
-      const start = () => { if (!clips[0].src) return setTimeout(start, 300); show(); if (!reduce && clips.length > 1) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
+      // Safari rechaza play() si el clip aún no está listo o si el modo ahorro de energía lo bloquea: se reintenta al estar listo y en la primera interacción
+      const tryPlay = v => {
+        v.muted = true; v.playsInline = true;
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {
+          const again = () => { if (v.classList.contains('on') && v.paused) v.play().catch(() => {}); };
+          v.addEventListener('canplay', again, { once: true });
+          ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(ev => window.addEventListener(ev, again, { once: true, passive: true }));
+        });
+      };
+      const show = () => clips.forEach((v, j) => { v.classList.toggle('on', j === k); if (j === k) { try { v.currentTime = 0; } catch (e) {} v.setAttribute('autoplay', ''); tryPlay(v); } else { v.removeAttribute('autoplay'); v.pause(); } });
+      // el primer clip arranca cuando ya tiene fuente; luego cambia cada 8 s
+      const start = () => { if (!clips[0].src) return setTimeout(start, 300); clips.forEach(v => { v.muted = true; }); show(); if (!reduce && clips.length > 1) setInterval(() => { k = (k + 1) % clips.length; show(); }, 8000); };
       start();
     });
   }
@@ -960,4 +1019,110 @@
       rows.forEach(o => set(o, o === r && open));
     });
   });
+})();
+
+/* Formación (inicio): escenas 01→04 (paisaje + Lengerke recortado) y resumen final con los cuatro estudios */
+(function () {
+  const stage = document.getElementById('uniStage');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined';
+  if (!stage || reduce || !hasGsap) return;
+  const scenes = stage.querySelectorAll('.us-scene');
+  const steps = stage.querySelectorAll('.us-step');
+  const summary = stage.querySelector('.us-summary');
+  const cards = stage.querySelectorAll('.us-list li');
+  stage.classList.add('js-stage');
+  stage.removeAttribute('role');
+  summary.setAttribute('aria-hidden', 'false');
+
+  const tl = gsap.timeline({ repeat: -1, paused: true });
+  const wipe = { clipPath: 'inset(0% 0% 0% 0%)', duration: .8, ease: 'power4.inOut' };
+  const from = { clipPath: 'inset(100% 0% 0% 0%)' };
+  let prev = summary;
+  scenes.forEach((sc, i) => {
+    sc.dataset.n = '0' + (i + 1);
+    const bg = sc.querySelector('.us-bg'), om = sc.querySelector('.us-omar'), copy = sc.querySelectorAll('.us-copy > *'), bar = sc.querySelector('.us-copy');
+    tl.addLabel('s' + i, i === 0 ? '>' : '>+2.5')
+      .set(sc, Object.assign({ autoAlpha: 1, zIndex: 30 }, from), 's' + i)
+      .set(steps[0].parentNode, { autoAlpha: 1 }, 's' + i)
+      .to(sc, wipe, 's' + i)
+      .fromTo(bg, { scale: 1.3, yPercent: 8 }, { scale: 1, yPercent: 0, duration: 3.2, ease: 'power2.out' }, 's' + i)
+      .fromTo(om, { yPercent: 45, scale: .9, autoAlpha: 0 }, { yPercent: 0, scale: 1, autoAlpha: 1, duration: .9, ease: 'back.out(1.3)' }, 's' + i + '+=.35')
+      .fromTo(copy, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: .55, stagger: .1, ease: 'power3.out' }, 's' + i + '+=.45');
+    tl.set(prev, { autoAlpha: 0, zIndex: 10 }, 's' + i + '+=.85');
+    prev = sc;
+  });
+  tl.addLabel('fin', '>+2.5')
+    .set(summary, Object.assign({ autoAlpha: 1, zIndex: 30 }, from), 'fin')
+    .set(steps[0].parentNode, { autoAlpha: 0 }, 'fin+=.4')
+    .to(summary, wipe, 'fin')
+    .fromTo(stage.querySelector('.us-head'), { y: -16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .45 }, 'fin+=.5')
+    .fromTo(cards, { y: 40, scale: .9, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: .55, stagger: .12, ease: 'back.out(1.6)' }, 'fin+=.55')
+    .set(prev, { autoAlpha: 0, zIndex: 10 }, 'fin+=.85')
+    .to({}, { duration: 5.5 });
+
+  const starts = [...scenes].map((_, i) => tl.labels['s' + i]);
+  tl.eventCallback('onUpdate', () => {
+    const tm = tl.time();
+    const act = tm >= tl.labels.fin ? -1 : starts.reduce((r, st, i) => (tm >= st ? i : r), 0);
+    steps.forEach((s, k) => s.classList.toggle('on', k === act));
+  });
+
+  /* seleccionar un estudio (clic / toque) congela la animación; al quitar el mouse sigue con el siguiente */
+  let vis = false, held = false, tapTimer;
+  const sync = () => (vis && !held ? tl.play() : tl.pause());
+  const hold = () => { held = true; clearTimeout(tapTimer); sync(); };
+  const release = () => { held = false; clearTimeout(tapTimer); sync(); };
+  const show = i => { tl.pause(); tl.seek(starts[i] + 1.7); tl.eventCallback("onUpdate")(); };
+  steps.forEach((b, i) => b.addEventListener('click', e => { e.stopPropagation(); hold(); show(i); }));
+  cards.forEach((li, i) => li.addEventListener('click', e => { e.stopPropagation(); hold(); show(i); }));
+  stage.addEventListener('click', e => { if (e.target.closest('.us-step, .us-list li')) return; if (held) release(); else hold(); });
+  stage.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') release(); });
+  stage.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') { clearTimeout(tapTimer); tapTimer = setTimeout(release, 6000); } });
+  new IntersectionObserver(([e]) => { vis = e.isIntersecting; sync(); }, { threshold: .1 }).observe(stage);
+})();
+
+/* Centros especializados: el primer paso del mouse (o foco / toque) abre el mazo y se queda abierto */
+(function () {
+  const fan = document.getElementById('centersFan');
+  if (!fan) return;
+  const open = () => fan.classList.add('open');
+  fan.addEventListener('pointerenter', open);
+  fan.addEventListener('focus', open);
+  fan.addEventListener('click', open);
+})();
+
+/* "Únete ahora" (Amigos de Lengerke) usa el mismo enlace de WhatsApp que el botón flotante, cuando ya esté conectado */
+(function () {
+  const cta = document.getElementById('amigosCta'), wa = document.getElementById('waFloat');
+  if (!cta || !wa) return;
+  const href = wa.getAttribute('href');
+  if (href && href !== '#') { cta.href = href; cta.target = '_blank'; cta.rel = 'noopener'; }
+})();
+
+/* Reconocimientos: al bajar, cada "+" gira y late para que se note que se puede tocar; al abrir un año, la pista se apaga */
+(function () {
+  const acc = document.getElementById('porAnio');
+  if (!acc || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const icons = [...acc.querySelectorAll('.yr-ico')];
+  const hint = [];
+  icons.forEach((ico, i) => {
+    const row = ico.closest('.yr');
+    // el año que ya viene abierto muestra "−": no se gira, para que no se vea torcido
+    if (row.classList.contains('open') || ico.closest('.yr-btn')?.getAttribute('aria-expanded') === 'true') return;
+    // giro ligado al scroll: mientras la fila cruza la pantalla el "+" crece hasta su tamaño (sin girar, para que nunca parezca una X)
+    const spin = gsap.fromTo(ico, { scale: .6 }, { scale: 1, ease: 'none',
+      scrollTrigger: { trigger: row, start: 'top 92%', end: 'top 45%', scrub: .6 } });
+    // latido al entrar, escalonado
+    const pop = ScrollTrigger.create({ trigger: row, start: 'top 88%', once: true,
+      onEnter: () => { if (!row.classList.contains('open')) row.classList.add('yr-nudge'); setTimeout(() => row.classList.remove('yr-nudge'), 1600); } });
+    hint.push({ spin, pop, ico });
+  });
+  // al primer clic, se acabó la pista: los iconos vuelven a su estado normal
+  acc.addEventListener('click', e => {
+    if (!e.target.closest('.yr-btn')) return;
+    hint.forEach(h => { h.spin.scrollTrigger && h.spin.scrollTrigger.kill(); h.spin.kill(); h.pop.kill(); gsap.set(h.ico, { clearProps: 'transform' }); });
+    acc.classList.add('yr-seen');
+  }, { once: true });
 })();
