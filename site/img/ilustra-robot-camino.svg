@@ -1,0 +1,39 @@
+<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de un robot con ruedas que sigue su camino hasta la meta">
+  <rect width="400" height="225" fill="#CFEFDD"/>
+  <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
+
+  <!-- camino marcado -->
+  <path d="M96 176 C140 176, 136 112, 186 112 S238 150, 280 126 S300 72, 304 64" fill="none" stroke="#2E86AB" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+
+  <!-- meta -->
+  <g transform="translate(304,64)">
+    <ellipse cx="0" cy="4" rx="14" ry="5" fill="#0A5C30" opacity=".25"/>
+    <line x1="0" y1="4" x2="0" y2="-38" stroke="#08281A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M2 -38 L30 -30 L2 -20 Z" fill="#2E86AB"/>
+  </g>
+
+  <!-- robot en el camino -->
+  <g transform="translate(186,112)">
+    <ellipse cx="0" cy="34" rx="40" ry="6" fill="#08281A" opacity=".12"/>
+    <rect x="-34" y="-14" width="68" height="40" rx="10" fill="#0A5C30"/>
+    <rect x="-22" y="-34" width="44" height="26" rx="8" fill="#00873A"/>
+    <circle cx="-9" cy="-21" r="5" fill="#F5F8F3"/>
+    <circle cx="9" cy="-21" r="5" fill="#F5F8F3"/>
+    <circle cx="-9" cy="-21" r="2" fill="#08281A"/>
+    <circle cx="9" cy="-21" r="2" fill="#08281A"/>
+    <line x1="0" y1="-34" x2="0" y2="-46" stroke="#08281A" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="-48" r="4" fill="#2E86AB"/>
+    <rect x="-20" y="0" width="40" height="8" rx="4" fill="#F5F8F3" opacity=".35"/>
+    <g fill="#08281A" stroke="#F5F8F3" stroke-width="3">
+      <circle cx="-20" cy="28" r="10"/>
+      <circle cx="20" cy="28" r="10"/>
+    </g>
+  </g>
+
+  <!-- acentos agrupados -->
+  <g fill="#0A5C30">
+    <circle cx="112" cy="70" r="4" opacity=".4"/>
+    <circle cx="98" cy="88" r="2.5" opacity=".35"/>
+    <circle cx="300" cy="170" r="3.5" opacity=".4"/>
+  </g>
+</svg>

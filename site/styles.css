@@ -2394,3 +2394,8 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
   70%  { transform: perspective(1100px) rotateX(68deg) translateY(-34px) scale(.98); opacity: .95; filter: drop-shadow(0 26px 22px rgba(0,0,0,.25)); }
   100% { transform: perspective(1100px) rotateX(96deg) translateY(-90px) scale(.9); opacity: 0; filter: drop-shadow(0 30px 24px rgba(0,0,0,.15)); }
 }
+
+/* Investigación: tarjetas con ilustración plana arriba, mismo estilo que las del blog */
+.research .finding .f-viz.f-ilus, .f-viz.f-ilus { display: block; height: auto; padding: 0; background: none; }
+.f-ilus img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.finding:hover .f-ilus img { transform: scale(1.04); }

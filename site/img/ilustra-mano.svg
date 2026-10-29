@@ -1,0 +1,37 @@
+<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de un antebrazo y una mano con el movimiento de la muñeca medido">
+  <rect width="400" height="225" fill="#CFEFDD"/>
+  <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
+
+  <!-- antebrazo -->
+  <path d="M84 150 L172 120 L180 144 L92 174 Z" fill="#0A5C30"/>
+  <path d="M84 150 L92 174" stroke="#08281A" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- mano, levemente girada en la muñeca -->
+  <g transform="translate(178,132) rotate(-28)">
+    <rect x="2" y="-20" width="64" height="40" rx="18" fill="#00873A"/>
+    <rect x="48" y="-20" width="44" height="11" rx="5.5" fill="#00873A"/>
+    <rect x="52" y="-8" width="48" height="11" rx="5.5" fill="#00873A"/>
+    <rect x="50" y="4" width="44" height="11" rx="5.5" fill="#00873A"/>
+    <rect x="44" y="15" width="34" height="10" rx="5" fill="#00873A"/>
+    <rect x="16" y="-38" width="12" height="34" rx="6" transform="rotate(-30 22 -20)" fill="#00873A"/>
+  </g>
+
+  <!-- muñeca: la articulación que se estudia -->
+  <circle cx="178" cy="132" r="11" fill="#F5F8F3" stroke="#08281A" stroke-width="3"/>
+  <path d="M246 35 A118 118 0 0 1 292 163" fill="none" stroke="#2E86AB" stroke-width="3" stroke-dasharray="3 8" stroke-linecap="round"/>
+  <path d="M281 155 L291 165 L297 152" fill="none" stroke="#2E86AB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- el modelo: una curva medida -->
+  <g transform="translate(96,40)">
+    <rect width="76" height="52" rx="8" fill="#F5F8F3"/>
+    <path d="M10 38 C22 38, 24 14, 38 14 S54 38, 66 30" fill="none" stroke="#2E86AB" stroke-width="3" stroke-linecap="round"/>
+    <line x1="10" y1="44" x2="66" y2="44" stroke="#9FB3A8" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- acentos agrupados -->
+  <g fill="#0A5C30">
+    <circle cx="190" cy="196" r="4" opacity=".4"/>
+    <circle cx="208" cy="204" r="2.5" opacity=".35"/>
+    <circle cx="314" cy="70" r="3.5" opacity=".4"/>
+  </g>
+</svg>
