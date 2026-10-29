@@ -2665,3 +2665,17 @@ main[data-snap] > section.lc-pinned { scroll-snap-align: start; }
   .amigos-section .wrap { padding-block: 64px 84px; }
   .amigos-art { width: min(100%, calc((100svh - 420px) * 16 / 9)); }
 }
+
+/* ===== Investigación: "Lo que han logrado sus trabajos" cabe en una pantalla del computador (título y las seis
+   tarjetas). Las ilustraciones quedan más bajas sin recortarse: su fondo es el mismo verde claro del recuadro ===== */
+@media (min-width: 961px) {
+  .research h3.sub { margin: 28px 0 14px; }
+  .findings { gap: 16px; }
+  .research .finding .f-viz.f-ilus, .findings .f-viz.f-ilus { height: clamp(96px, calc((100vh - 560px) / 2), 150px); background: #CFEFDD; }
+  .findings .f-ilus img { height: 100%; aspect-ratio: auto; object-fit: contain; }
+  .findings .finding .f-ilus + h4 { padding-top: 12px; }
+  .findings .finding h4 { font-size: 20px; }
+  .findings .finding p { padding-top: 4px; font-size: 14.5px; line-height: 1.45; height: auto; -webkit-line-clamp: 3; }
+  .findings .finding small { margin: 10px 26px 14px; padding-top: 9px; min-height: 0; }
+  .findings .finding:has(.f-ilus)::before { top: 16px; right: 16px; }
+}
