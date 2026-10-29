@@ -1,0 +1,27 @@
+<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración de una gráfica de barras ascendente con una lupa y un sello de verificación, sobre la rendición de cuentas">
+  <rect width="400" height="225" fill="#CFEFDD"/>
+  <circle cx="200" cy="112" r="104" fill="#BCE3CD"/>
+
+  <g transform="translate(140,170)">
+    <!-- base -->
+    <rect x="-90" y="0" width="200" height="4" fill="#08281A" opacity=".35"/>
+    <!-- barras ascendentes -->
+    <rect x="-80" y="-40" width="34" height="40" rx="3" fill="#0A5C30"/>
+    <rect x="-34" y="-62" width="34" height="62" rx="3" fill="#0A5C30"/>
+    <rect x="12" y="-90" width="34" height="90" rx="3" fill="#00873A"/>
+    <rect x="58" y="-116" width="34" height="116" rx="3" fill="#00873A"/>
+  </g>
+
+  <g transform="translate(248,78)">
+    <!-- lupa de verificación -->
+    <circle r="40" fill="#F5F8F3" stroke="#08281A" stroke-width="7"/>
+    <path d="M26 26 L46 46" stroke="#08281A" stroke-width="9" stroke-linecap="round"/>
+    <path d="M-16 1 L-4 15 L20 -14" fill="none" stroke="#2E86AB" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g fill="#0A5C30">
+    <circle cx="90" cy="48" r="4" opacity=".4"/>
+    <circle cx="76" cy="66" r="2.5" opacity=".35"/>
+    <circle cx="316" cy="60" r="3.5" opacity=".4"/>
+  </g>
+</svg>
